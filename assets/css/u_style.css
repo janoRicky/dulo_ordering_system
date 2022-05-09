@@ -1,0 +1,39 @@
+
+html, body {
+	margin: 0;
+	height: 100%;
+	overflow: auto;
+	font-family: Begum Medium, Brush Script MT, cursive;
+}
+
+
+.bi {
+  vertical-align: -.125em;
+  fill: currentColor;
+}
+
+
+
+
+/* 576 768 992 1200 */
+
+@media (min-width: 576px) {
+	.notice.n_all {
+		max-width: 65%;
+	}
+}
+@media (min-width: 768px) {
+	.notice.n_all {
+		max-width: 55%;
+	}
+}
+@media (min-width: 992px) {
+	.notice.n_all {
+		max-width: 45%;
+	}
+}
+@media (min-width: 1200px) {
+	.notice.n_all {
+		max-width: 35%;
+	}
+}
