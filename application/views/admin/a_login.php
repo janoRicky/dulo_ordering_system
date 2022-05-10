@@ -13,9 +13,14 @@ $template_header; // loads in the header of the page obtained from views/admin/t
 			<div class="row">
 				<div class="col-1 col-sm-2 col-md-3 col-lg-4"></div> 
 				<div class="col-10 col-sm-8 col-md-6 col-lg-4">
-					<div class="card text-center mt-5">
-						<div class="card-header">
-							<h3>LOG-IN</h3>
+					<div class="card text-center mt-5 bg-dark p-4">
+						<div class="row">
+							<div class="col-10 col-md-6 pt-4 mx-auto">
+								<img class="w-100" src="<?=base_url()?>assets/img/dulo-logo.png">
+							</div>
+							<div class="col-12 text-light pt-3">
+								<h3>ADMIN LOG-IN</h3>
+							</div>
 						</div>
 						<div class="card-body">
 							<?php if ($this->session->flashdata("login_alert")): ?>
@@ -27,14 +32,14 @@ $template_header; // loads in the header of the page obtained from views/admin/t
 							<?php endif; ?>
 							<?=form_open(base_url() . "admin/login", "method='POST'")?>
 								<div class="form-group">
-									<label for="inp_email">Email:</label>
-									<input type="email" class="form-control" name="inp_email" placeholder="*Email Address" required="">
+									<label for="inp_email" class="text-light">Email:</label>
+									<input type="email" class="form-control text-center" name="inp_email" placeholder="*Email Address" required="">
 								</div>
 								<div class="form-group">
-									<label for="inp_password">Password:</label>
-									<input type="password" class="form-control" name="inp_password" placeholder="*Password" required="">
+									<label for="inp_password" class="text-light">Password:</label>
+									<input type="password" class="form-control text-center" name="inp_password" placeholder="*Password" required="">
 								</div>
-								<button type="submit" class="btn btn-primary">
+								<button type="submit" class="btn btn-primary mt-3">
 									<i class="fa fa-sign-in" aria-hidden="true"></i> Sign-In
 								</button>
 							<?=form_close()?>

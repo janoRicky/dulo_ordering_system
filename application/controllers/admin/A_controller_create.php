@@ -18,9 +18,8 @@
 		$type_id = $this->input->post("inp_type_id");
 		$description = $this->input->post("inp_description");
 		$price = $this->input->post("inp_price");
-		$qty = $this->input->post("inp_qty");
 
-		if ($name == NULL || $type_id == NULL || $description == NULL || $price == NULL || $qty == NULL) {
+		if ($name == NULL || $type_id == NULL || $description == NULL || $price == NULL) {
 			$this->session->set_flashdata("alert", array("warning", "One or more inputs are empty."));
 		} else {
 			$img = NULL;
@@ -57,7 +56,6 @@
 				"type_id" => $type_id,
 				"description" => $description,
 				"price" => floatval($price),
-				"qty" => intval($qty),
 				"type" => "NORMAL",
 				"date_added" => date("Y-m-d H:i:s"),
 				"visibility" => "0",
@@ -147,13 +145,11 @@
 
 		for ($i = 1; $i < $items_no + 1; $i++) {
 			$prd_id = $this->input->post("item_". $i ."_id");
-			$prd_qty = $this->input->post("item_". $i ."_qty");
 			$prd_price = $this->input->post("item_". $i ."_price");
 
-			if ($prd_id != NULL && $prd_qty != NULL && $prd_price != NULL) {
+			if ($prd_id != NULL && $prd_price != NULL) {
 				$items[] = array(
 					"product_id" => $prd_id,
-					"qty" => $prd_qty,
 					"price" => $prd_price
 				);
 			}
@@ -228,8 +224,7 @@
 
 						foreach ($items as $row) {
 							$product_info = $this->Model_read->get_product_wid($row["product_id"])->row_array();
-							$data_product["qty"] = $product_info["qty"] - $row["qty"];
-							$this->Model_update->update_product($row["product_id"], $data_product);
+							// $this->Model_update->update_product($row["product_id"], $data_product);
 
 							$row["order_id"] = $item_id;
 							$row["type"] = "NORMAL";

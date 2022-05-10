@@ -23,7 +23,7 @@ $template_header;
 								<h2 class="font-weight-bold">Products <small class="text-muted">x<?=$tbl_products->num_rows()?></small></h2>
 							</div>
 							<div class="col-12 col-sm-6 text-end">
-								<button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal_new_product">New Product</button>
+								<button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal_new_product"><i class="fa fa-plus p-1" aria-hidden="true"></i> New Product</button>
 							</div>
 						</div>
 						<div class="row col-12 col-md-9 mx-auto">
@@ -36,7 +36,6 @@ $template_header;
 											<th>Name</th>
 											<th>Description</th>
 											<th>Type</th>
-											<th>Qty.</th>
 											<th>Visible</th>
 											<th>Featured</th>
 											<th>Action</th>
@@ -73,17 +72,14 @@ $template_header;
 													?>
 												</td>
 												<td>
-													<?=$row["qty"]?>
-												</td>
-												<td>
 													<?=($row["visibility"] == 1 ? "YES" : "NO")?>
 												</td>
 												<td>
 													<?=($row["featured"] != NULL ? $row["featured"] : "NO")?>
 												</td>
 												<td>
-													<button class="btn btn-primary btn-sm btn_featured" data-bs-toggle="modal" data-bs-target="#modal_featured" data-id="<?=$row['product_id']?>">Feature</button><br>
-													<button class="btn btn-primary btn-sm mt-1 btn_visibility" data-bs-toggle="modal" data-bs-target="#modal_visibility" data-id="<?=$row['product_id']?>">Visibility</button><br>
+													<button class="btn btn-success btn-sm btn_featured" data-bs-toggle="modal" data-bs-target="#modal_featured" data-id="<?=$row['product_id']?>">Feature</button><br>
+													<button class="btn btn-info btn-sm mt-1 btn_visibility" data-bs-toggle="modal" data-bs-target="#modal_visibility" data-id="<?=$row['product_id']?>">Visibility</button><br>
 													<a class="action_button" href="<?=base_url();?>admin/products_view?id=<?=$row['product_id']?>">
 														<i class="fa fa-eye p-1" aria-hidden="true"></i>
 													</a>
@@ -137,10 +133,6 @@ $template_header;
 						<div class="form-group">
 							<label>Price:</label>
 							<input type="number" class="form-control" name="inp_price" placeholder="*Price" autocomplete="off" required="" step="0.000001">
-						</div>
-						<div class="form-group">
-							<label>Quantity:</label>
-							<input type="number" class="form-control" name="inp_qty" placeholder="*Quantity" autocomplete="off" required="">
 						</div>
 					</div>
 					<div class="modal-footer">

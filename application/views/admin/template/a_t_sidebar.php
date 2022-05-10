@@ -23,9 +23,9 @@
 		<a href="accounts" class="list-group-item side_link py-3 px-4 admins">
 			<i class="fa fa-user-secret" aria-hidden="true"></i> Admin Accounts
 		</a>
-		<a href="config" class="list-group-item side_link py-3 px-4 config">
+		<!-- <a href="config" class="list-group-item side_link py-3 px-4 config">
 			<i class="fa fa-gear" aria-hidden="true"></i> Config
-		</a>
+		</a> -->
 	</div>
 	<div class="list-group mt-4" style="display: none;">
 		<a href="logout" class="list-group-item side_link py-3 px-4">

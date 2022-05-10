@@ -23,7 +23,7 @@ $template_header;
 								<h2 class="font-weight-bold">Types <small class="text-muted">x<?=$tbl_types->num_rows()?></small></h2>
 							</div>
 							<div class="col-12 col-sm-6 text-end">
-								<button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal_new_type">New Type</button>
+								<button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal_new_type"><i class="fa fa-plus p-1" aria-hidden="true"></i> New Type</button>
 							</div>
 						</div>
 						<div class="row col-12 col-md-9 mx-auto">
@@ -64,7 +64,7 @@ $template_header;
 													<?=($row["featured"] == 1 ? "YES" : "NO")?>
 												</td>
 												<td>
-													<button class="btn btn-primary btn-sm btn_featured" data-bs-toggle="modal" data-bs-target="#modal_featured" data-id="<?=$row['type_id']?>">Feature</button><br>
+													<!-- <button class="btn btn-primary btn-sm btn_featured" data-bs-toggle="modal" data-bs-target="#modal_featured" data-id="<?=$row['type_id']?>">Feature</button><br> -->
 													<a class="action_button" href="<?=base_url()?>admin/types_view?id=<?=$row['type_id']?>">
 														<i class="fa fa-eye p-1" aria-hidden="true"></i>
 													</a>

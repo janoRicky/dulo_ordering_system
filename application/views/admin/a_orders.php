@@ -23,7 +23,7 @@ $template_header;
 								<h2 class="font-weight-bold">Orders <small class="text-muted">x<?=$tbl_products->num_rows()?></small></h2>
 							</div>
 							<div class="col-12 col-sm-6 text-end">
-								<button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal_new_order">New Order</button>
+								<button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal_new_order"><i class="fa fa-plus p-1" aria-hidden="true"></i> New Order</button>
 							</div>
 						</div>
 						<div class="row col-12 col-md-9 mx-auto">

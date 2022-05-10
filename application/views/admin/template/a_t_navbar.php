@@ -14,10 +14,10 @@
 				<?=$this->session->userdata("admin_name")?>
 			</button>
 			<ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuButton2">
-				<li><a class="dropdown-item" href="#">Action</a></li>
-				<li><a class="dropdown-item" href="#">Another action</a></li>
+				<li><a class="dropdown-item text-light text-center" href="accounts_view?id=<?=$this->session->userdata("admin_id")?>">My Info</a></li>
+				<li><a class="dropdown-item text-light text-center" href="accounts_edit?id=<?=$this->session->userdata("admin_id")?>">Update Account</a></li>
 				<li><hr class="dropdown-divider"></li>
-				<li><a class="dropdown-item" href="logout">Logout</a></li>
+				<li><a class="dropdown-item text-light text-center" href="logout">Logout</a></li>
 			</ul>
 		</div>
 	</div>

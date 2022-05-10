@@ -17,7 +17,7 @@ $template_header;
 								<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 							</div>
 						<?php endif; ?>
-						<div class="row">
+						<div class="row py-3 col-12 col-md-9 mx-auto border-bottom mb-4">
 							<div class="col-12 col-sm-6 text-start">
 								<h2>View Product #<?=$row_info["product_id"]?></h2>
 							</div>
@@ -27,7 +27,7 @@ $template_header;
 								</a>
 							</div>
 						</div>
-						<div class="row view_container">
+						<div class="row col-12 col-md-9 mx-auto view_container">
 							<div class="col-12 col-md-3">
 								<img class="img-responsive img_view img_zoomable" src="<?php
 								if (!empty($row_info["img"])) {
@@ -39,12 +39,16 @@ $template_header;
 							</div>
 							<div class="col-12 col-md-9">
 								<div class="row mt-2">
-									<div class="col-12 col-md-6">
-										<label>Name:</label><br>
+									<div class="col-12 col-md-4">
+										<label>Name:</label>
+									</div>
+									<div class="col-12 col-md-8">
 										<?=$row_info["name"]?>
 									</div>
-									<div class="col-12 col-md-6">
-										<label>Type:</label><br>
+									<div class="col-12 col-md-4">
+										<label>Type:</label>
+									</div>
+									<div class="col-12 col-md-8">
 										<?php
 										if ($row_info["type_name"] != NULL) {
 											echo $row_info["type_name"];
@@ -53,20 +57,28 @@ $template_header;
 										}
 										?>
 									</div>
-									<div class="col-12">
-										<label>Description:</label><br>
+									<div class="col-12 col-md-4">
+										<label>Description:</label>
+									</div>
+									<div class="col-12 col-md-8">
 										<?=$row_info["description"]?>
 									</div>
-									<div class="col-12">
-										<label>Date Added:</label><br>
+									<div class="col-12 col-md-4">
+										<label>Date Added:</label>
+									</div>
+									<div class="col-12 col-md-8">
 										<?=date("Y-m-d / H:i:s A", strtotime($row_info["date_added"]))?>
 									</div>
-									<div class="col-12 col-md-6">
-										<label>Price:</label><br>
+									<div class="col-12 col-md-4">
+										<label>Price:</label>
+									</div>
+									<div class="col-12 col-md-8">
 										PHP <?=$row_info["price"]?>
 									</div>
-									<div class="col-12 col-md-6">
-										<label>Quantity:</label><br>
+									<div class="col-12 col-md-4">
+										<label>Quantity:</label>
+									</div>
+									<div class="col-12 col-md-8">
 										<?=$row_info["qty"]?>
 									</div>
 								</div>

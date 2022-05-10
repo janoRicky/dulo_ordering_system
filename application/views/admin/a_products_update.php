@@ -17,15 +17,15 @@ $template_header;
 								<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 							</div>
 						<?php endif; ?>
-						<div class="row">
+						<div class="row py-3 col-12 col-md-9 mx-auto mb-4">
 							<div class="col-12 text-start">
 								<h2>Update Product #<?=$row_info["product_id"]?></h2>
 							</div>
 							<div class="col-12">
-								<?=form_open(base_url() . "admin/product_update", "method='POST' enctype='multipart/form-data'")?>
+								<?=form_open(base_url() . "admin/product_update", "class='row' method='POST' enctype='multipart/form-data'")?>
 									<input id="update_inp_id" type="hidden" name="inp_id" value="<?=$row_info['product_id']?>">
-									<div class="form-group">
-										<label>Image:</label>
+									<div class="col-12">
+										<label class="float-start">Image:</label>
 										<input class="form-control mb-1" id="product_image" type="file" name="inp_img">
 										<img class="img-responsive img_view img_zoomable" id="image_preview" src="<?php
 										if (!empty($row_info["img"])) {
@@ -35,31 +35,31 @@ $template_header;
 										}
 										?>">
 									</div>
-									<div class="form-group">
-										<label>Name:</label>
+									<div class="col-12 col-md-6">
+										<label class="float-start">Name:</label>
 										<input type="text" class="form-control" name="inp_name" placeholder="*Name" value="<?=$row_info['name']?>" autocomplete="off" required="">
 									</div>
-									<div class="form-group">
-										<label>Description:</label>
+									<div class="col-12 col-md-6">
+										<label class="float-start">Description:</label>
 										<input type="text" class="form-control" name="inp_description" placeholder="*Description" value="<?=$row_info['description']?>" autocomplete="off" required="">
 									</div>
-									<div class="form-group">
-										<label>Type:</label>
+									<div class="col-12 col-md-6">
+										<label class="float-start">Type:</label>
 										<select name="inp_type_id" class="form-control">
 											<?php foreach ($tbl_types as $key => $val): ?>
 												<option value="<?=$key?>" <?=($row_info["type_id"] == $key ? "selected" : "")?>><?=$val?></option>
 											<?php endforeach; ?>
 										</select>
 									</div>
-									<div class="form-group">
-										<label>Price:</label>
+									<div class="col-12 col-md-6">
+										<label class="float-start">Price:</label>
 										<input type="number" class="form-control" name="inp_price" placeholder="*Price" value="<?=$row_info['price']?>" autocomplete="off" required="" step="0.000001">
 									</div>
-									<div class="form-group">
-										<label>Quantity:</label>
+									<div class="col-12 col-md-6">
+										<label class="float-start">Quantity:</label>
 										<input type="number" class="form-control" name="inp_qty" placeholder="*Quantity" value="<?=$row_info['qty']?>" autocomplete="off" required="">
 									</div>
-									<div class="form-group">
+									<div class="form-group mt-4">
 										<input type="submit" class="btn btn-primary" value="Update">
 									</div>
 								<?=form_close(); ?>
