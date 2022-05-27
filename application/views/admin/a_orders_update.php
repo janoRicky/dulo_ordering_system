@@ -10,22 +10,18 @@ $template_header;
 				<?php $this->load->view("admin/template/a_t_navbar", $nav); ?>
 				<div class="col-12 text-center">
 					<div class="container-fluid p-2 py-5 p-sm-5 justify-content-center">
-						<?php if ($this->session->flashdata("alert")): ?>
-							<?php $alert = $this->session->flashdata("alert"); ?>
-							<div class="alert alert-<?=$alert[0]?> alert-dismissible">
-								<?=$alert[1]?>
-								<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-							</div>
-						<?php endif; ?>
-						<div class="row">
+						
+						<div class="row py-3 col-12 col-md-9 mx-auto border-bottom mb-4 title_bar">
 							<div class="col-12 text-start">
 								<h2>Update Order #<?=$row_info["order_id"]?></h2>
 							</div>
+						</div>
+						<div class="row col-12 col-md-9 mx-auto">
 							<div class="col-12">
-								<?=form_open(base_url() . "admin/order_update", "method='POST'"); ?>
+								<?=form_open(base_url() . "admin/order_update", "class='row' method='POST'"); ?>
 									<input type="hidden" name="inp_id" value="<?=$row_info['order_id']?>">
 									<input id="inp_user_id" type="hidden" name="inp_user_id" value="<?=$row_info['user_id']?>">
-									<div class="form-group">
+									<div class="col-12 col-md-6 text-start pb-3">
 										<?php $user_info = $this->Model_read->get_user_acc_wid($row_info["user_id"])->row_array(); ?>
 										<label for="inp_user_acc">
 											<i id="user_acc_label" class="fa fa-check text-success" aria-hidden="true">[<?=$row_info["user_id"]?>]</i> User Account:
@@ -34,45 +30,37 @@ $template_header;
 											<input id="user_acc" type="text" class="form-control" name="inp_user_acc" placeholder="User" autocomplete="off" value="[<?=$user_info['user_id']?>] <?=$user_info['name_last']?>, <?=$user_info['name_first']?> <?=($user_info['email'] == NULL ? '(NO ACCOUNT)' : '('. $user_info['email'] .')')?>" data-bs-toggle="dropdown" required="">
 											<div class="dropdown-menu dropdown-menu-left user_dropdown w-100"></div>
 											<span class="input-group-append">
-												<button class="btn btn-secondary btn_clear_acc" type="button">
+												<button class="btn btn-danger btn_clear_acc" type="button">
 													<i class="fa fa-times" aria-hidden="true"></i>
 												</button>
 											</span>
 										</div>
 									</div>
-									<div class="form-group">
+									<div class="col-12 col-md-6 text-start pb-3">
 										<label for="inp_description">Description:</label>
-										<input type="text" class="form-control" name="inp_description" placeholder="*Description" autocomplete="off" value="<?=$row_info['description']?>" required="">
+										<textarea class="form-control" name="inp_description" placeholder="*Description" required=""><?=$row_info['description']?></textarea>
 									</div>
-									<div class="form-group">
+									<div class="col-12 col-md-3 text-start pb-3">
 										<label for="inp_date">Date:</label>
 										<input type="date" class="form-control" name="inp_date" autocomplete="off" value="<?=date('Y-m-d', strtotime($row_info['date_time']))?>" required="">
 									</div>
-									<div class="form-group">
+									<div class="col-12 col-md-3 text-start pb-3">
 										<label for="inp_time">Time:</label>
 										<input type="time" class="form-control" name="inp_time" autocomplete="off" value="<?=date('H:i', strtotime($row_info['date_time']))?>" required="">
 									</div>
-									<div class="form-group">
-										<label for="inp_zip_code">Zip Code:</label>
-										<input type="text" class="form-control" id="inp_zip_code" name="inp_zip_code" placeholder="*Zip Code" value="<?=$row_info['zip_code']?>" autocomplete="off" required="">
-									</div>
-									<div class="form-group">
-										<label for="inp_country">Country:</label>
-										<input type="text" class="form-control" id="inp_country" name="inp_country" placeholder="*Country" value="<?=$row_info['country']?>" autocomplete="off" required="">
-									</div>
-									<div class="form-group">
+									<div class="col-12 col-md-6 text-start pb-3">
 										<label for="inp_province">Province:</label>
 										<input type="text" class="form-control" id="inp_province" name="inp_province" placeholder="*Province" value="<?=$row_info['province']?>" autocomplete="off" required="">
 									</div>
-									<div class="form-group">
+									<div class="col-12 col-md-6 text-start pb-3">
 										<label for="inp_city">City:</label>
 										<input type="text" class="form-control" id="inp_city" name="inp_city" placeholder="*City" value="<?=$row_info['city']?>" autocomplete="off" required="">
 									</div>
-									<div class="form-group">
+									<div class="col-12 col-md-6 text-start pb-3">
 										<label for="inp_street">Street/Road:</label>
 										<input type="text" class="form-control" id="inp_street" name="inp_street" placeholder="*Street/Road" value="<?=$row_info['street']?>" autocomplete="off" required="">
 									</div>
-									<div class="form-group">
+									<div class="col-12 col-md-6 text-start pb-3">
 										<label for="inp_address">House Number/Floor/Bldg./etc.:</label>
 										<input type="text" class="form-control" id="inp_address" name="inp_address" placeholder="House Number/Floor/Bldg./etc." value="<?=$row_info['address']?>" autocomplete="off">
 									</div>

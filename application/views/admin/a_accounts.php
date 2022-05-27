@@ -11,16 +11,10 @@ $template_header;
 				<?php $this->load->view("admin/template/a_t_navbar", $nav); ?>
 				<div class="col-12 text-center">
 					<div class="container-fluid p-2 py-5 p-sm-5 justify-content-center">
-						<?php if ($this->session->flashdata("alert")): ?>
-							<?php $alert = $this->session->flashdata("alert"); ?>
-							<div class="alert alert-<?=$alert[0]?> alert-dismissible">
-								<?=$alert[1]?>
-								<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-							</div>
-						<?php endif; ?>
-						<div class="row py-3 col-12 col-md-9 mx-auto border-bottom mb-4">
+						
+						<div class="row py-3 col-12 col-md-9 mx-auto border-bottom mb-4 title_bar">
 							<div class="col-12 col-sm-6 text-start">
-								<h2 class="font-weight-bold">Accounts <small class="text-muted">x<?=$tbl_accounts->num_rows()?></small></h2>
+								<h2 class="fw-bold">Accounts <small class="text-muted">x<?=$tbl_accounts->num_rows()?></small></h2>
 							</div>
 							<div class="col-12 col-sm-6 text-end">
 								<button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal_new_account"><i class="fa fa-plus p-1" aria-hidden="true"></i> New Account</button>
@@ -51,12 +45,12 @@ $template_header;
 												</td>
 												<td>
 													<a class="action_button" href="<?=base_url();?>admin/accounts_view?id=<?=$row['admin_id']?>">
-														<i class="fa fa-eye p-1" aria-hidden="true"></i>
+														<i class="fa fa-eye fa-lg text-primary p-1" aria-hidden="true"></i>
 													</a>
 													<a class="action_button" href="<?=base_url();?>admin/accounts_edit?id=<?=$row['admin_id']?>">
-														<i class="fa fa-pencil p-1" aria-hidden="true"></i>
+														<i class="fa fa-pencil fa-lg text-warning p-1" aria-hidden="true"></i>
 													</a>
-													<i class="fa fa-trash p-1 btn_delete action_button" data-bs-toggle="modal" data-bs-target="#modal_delete_account" data-id="<?=$row['admin_id']?>" aria-hidden="true"></i>
+													<i class="fa fa-trash fa-lg text-danger p-1 btn_delete action_button" data-bs-toggle="modal" data-bs-target="#modal_delete_account" data-id="<?=$row['admin_id']?>" aria-hidden="true"></i>
 												</td>
 											</tr>
 										<?php endforeach; ?>

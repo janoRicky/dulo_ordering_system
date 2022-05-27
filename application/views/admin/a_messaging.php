@@ -16,16 +16,10 @@ $template_header;
 				<?php $this->load->view("admin/template/a_t_navbar", $nav); ?>
 				<div class="col-12 text-center">
 					<div class="container-fluid p-2 py-5 p-sm-5 justify-content-center">
-						<?php if ($this->session->flashdata("alert")): ?>
-							<?php $alert = $this->session->flashdata("alert"); ?>
-							<div class="alert alert-<?=$alert[0]?> alert-dismissible">
-								<?=$alert[1]?>
-								<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-							</div>
-						<?php endif; ?>
-						<div class="row py-3 col-12 col-md-9 mx-auto border-bottom mb-4">
+						
+						<div class="row py-3 col-12 col-md-9 mx-auto border-bottom mb-4 title_bar">
 							<div class="col-12 text-start">
-								<h2 class="font-weight-bold">Messages <small class="text-muted">x<?=$tbl_messages->num_rows()?></small></h2>
+								<h2 class="fw-bold">Messages <small class="text-muted">x<?=$tbl_messages->num_rows()?></small></h2>
 							</div>
 						</div>
 						
@@ -74,7 +68,7 @@ $template_header;
 												</td>
 												<td>
 													<a href="messaging_view?id=<?=$row["user_id"]?>">
-														<i class="fa fa-eye p-1" aria-hidden="true"></i>
+														<i class="fa fa-eye fa-lg text-primary p-1" aria-hidden="true"></i>
 													</a>
 												</td>
 											</tr>

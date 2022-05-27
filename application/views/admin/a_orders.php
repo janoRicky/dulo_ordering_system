@@ -11,16 +11,10 @@ $template_header;
 				<?php $this->load->view("admin/template/a_t_navbar", $nav); ?>
 				<div class="col-12 text-center">
 					<div class="container-fluid p-2 py-5 p-sm-5 justify-content-center">
-						<?php if ($this->session->flashdata("alert")): ?>
-							<?php $alert = $this->session->flashdata("alert"); ?>
-							<div class="alert alert-<?=$alert[0]?> alert-dismissible">
-								<?=$alert[1]?>
-								<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-							</div>
-						<?php endif; ?>
-						<div class="row pt-3 col-12 col-md-9 mx-auto border-bottom mb-4">
+						
+						<div class="row py-3 col-12 col-md-9 mx-auto border-bottom mb-4 title_bar">
 							<div class="col-12 col-sm-6 text-start">
-								<h2 class="font-weight-bold">Orders <small class="text-muted">x<?=$tbl_products->num_rows()?></small></h2>
+								<h2 class="fw-bold">Orders <small class="text-muted">x<?=$tbl_products->num_rows()?></small></h2>
 							</div>
 							<div class="col-12 col-sm-6 text-end">
 								<button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal_new_order"><i class="fa fa-plus p-1" aria-hidden="true"></i> New Order</button>
@@ -78,11 +72,11 @@ $template_header;
 													?>
 													<?php if ($user_info["email"] == NULL): ?>
 														<a href="<?=base_url();?>admin/users_view?id=<?=$row["user_id"]?>">
-															<i class="fa fa-eye p-1" aria-hidden="true"></i><?=$user_info["name_last"] .", ". $user_info["name_first"] ." ". $user_info["name_middle"] ." ". $user_info["name_extension"]?> [User #<?=$row["user_id"]?>]
+															<i class="fa fa-eye fa-lg text-primary p-1" aria-hidden="true"></i><?=$user_info["name_last"] .", ". $user_info["name_first"] ." ". $user_info["name_middle"] ." ". $user_info["name_extension"]?> [User #<?=$row["user_id"]?>]
 														</a>
 													<?php else: ?>
 														<a href="<?=base_url();?>admin/users_view?id=<?=$row["user_id"]?>">
-															<i class="fa fa-eye p-1" aria-hidden="true"></i><?=$user_info["email"]?> [User #<?=$row["user_id"]?>]
+															<i class="fa fa-eye fa-lg text-primary p-1" aria-hidden="true"></i><?=$user_info["email"]?> [User #<?=$row["user_id"]?>]
 														</a>
 													<?php endif; ?>
 												</td>
@@ -100,12 +94,12 @@ $template_header;
 												</td>
 												<td>
 													<a class="action_button" href="<?=base_url()?>admin/orders_view?id=<?=$row['order_id']?>">
-														<i class="fa fa-eye p-1" aria-hidden="true"></i>
+														<i class="fa fa-eye fa-lg text-primary p-1" aria-hidden="true"></i>
 													</a>
 													<a class="action_button" href="<?=base_url();?>admin/orders_edit?id=<?=$row['order_id']?>">
-														<i class="fa fa-pencil p-1" aria-hidden="true"></i>
+														<i class="fa fa-pencil fa-lg text-warning p-1" aria-hidden="true"></i>
 													</a>
-													<i class="fa fa-trash p-1 btn_delete action_button" data-bs-toggle="modal" data-bs-target="#modal_delete_order" data-id="<?=$row['order_id']?>" aria-hidden="true"></i>
+													<i class="fa fa-trash fa-lg text-danger p-1 btn_delete action_button" data-bs-toggle="modal" data-bs-target="#modal_delete_order" data-id="<?=$row['order_id']?>" aria-hidden="true"></i>
 												</td>
 											</tr>
 										<?php endforeach; ?>
@@ -188,14 +182,6 @@ $template_header;
 							<input type="time" class="form-control" name="inp_time" autocomplete="off" value="<?=date('H:i')?>" required="">
 						</div>
 						<div class="form-group">
-							<label for="inp_zip_code">Zip Code:</label>
-							<input type="text" class="form-control" id="inp_zip_code" name="inp_zip_code" placeholder="*Zip Code" autocomplete="off" required="">
-						</div>
-						<div class="form-group">
-							<label for="inp_country">Country:</label>
-							<input type="text" class="form-control" id="inp_country" name="inp_country" placeholder="*Country" autocomplete="off" required="">
-						</div>
-						<div class="form-group">
 							<label for="inp_province">Province:</label>
 							<input type="text" class="form-control" id="inp_province" name="inp_province" placeholder="*Province" autocomplete="off" required="">
 						</div>
@@ -244,7 +230,6 @@ $template_header;
 										<th>Img</th>
 										<th>Type</th>
 										<th>Price</th>
-										<th>Qty. (Stock)</th>
 										<th>Action</th>
 									</tr>
 								</thead>
@@ -274,9 +259,6 @@ $template_header;
 											</td>
 											<td class="price">
 												<?=$row["price"]?>
-											</td>
-											<td class="qty">
-												<?=$row["qty"]?>
 											</td>
 											<td>
 												<button class="btn btn-sm btn-primary btn_add_to_items" type="button" data-id="<?=$row['product_id']?>">Add</button>
@@ -369,42 +351,39 @@ $template_header;
 				var ctr = parseInt($("#items_no").val()) + 1;
 				var $product = $("#product_" + p_id);
 
-				if (parseInt($product.children(".qty").html()) > 0) {
-					var $description = $("<td>").append($("<input>").attr({
-						type: "hidden",
-						name: "item_" + ctr + "_id",
-						value: $.trim(p_id)
-					})).append($product.children(".name").html());
-					var $qty = $("<td>").append($("<input>").attr({
-						class: "item_qty",
-						type: "number",
-						name: "item_" + ctr + "_qty",
-						min: "1",
-						value: "1",
-						max: $.trim($product.children(".qty").html())
+				var $description = $("<td>").append($("<input>").attr({
+					type: "hidden",
+					name: "item_" + ctr + "_id",
+					value: $.trim(p_id)
+				})).append($product.children(".name").html());
+				var $qty = $("<td>").append($("<input>").attr({
+					class: "item_qty",
+					type: "number",
+					name: "item_" + ctr + "_qty",
+					min: "1",
+					value: "1",
+				}));
+				var $price = $("<td>").append($("<input>").attr({
+					type: "hidden",
+					name: "item_" + ctr + "_price",
+					value: $.trim($product.children(".price").html())
+				})).append($("<span>")).attr("class", "item_price");
+				var $action = $("<td>").append($("<button>").attr({
+					type: "button",
+					class: "btn btn-sm btn-primary btn_remove_item"
+				}).html("Remove"));
+
+				$("#total_info").before($("<tr>")
+					.append($description)
+					.append($qty)
+					.append($price)
+					.append($action).attr({
+						id: "item_" + ctr,
+						class: "item_product_" + p_id + " order_row"
 					}));
-					var $price = $("<td>").append($("<input>").attr({
-						type: "hidden",
-						name: "item_" + ctr + "_price",
-						value: $.trim($product.children(".price").html())
-					})).append($("<span>")).attr("class", "item_price");
-					var $action = $("<td>").append($("<button>").attr({
-						type: "button",
-						class: "btn btn-sm btn-primary btn_remove_item"
-					}).html("Remove"));
 
-					$("#total_info").before($("<tr>")
-						.append($description)
-						.append($qty)
-						.append($price)
-						.append($action).attr({
-							id: "item_" + ctr,
-							class: "item_product_" + p_id + " order_row"
-						}));
-
-					$("#items_no").val(ctr);
-					$(".item_product_" + p_id).find(".item_qty").trigger("change");
-				}
+				$("#items_no").val(ctr);
+				$(".item_product_" + p_id).find(".item_qty").trigger("change");
 			} else {
 				var item_qty = $item_product.find(".item_qty");
 				if (item_qty.val() < parseInt(item_qty.attr("max"))) {
@@ -482,8 +461,6 @@ $template_header;
 				.done(function(data) {
 					var u_info = $.parseJSON(data);
 					$(".user_email").val(u_info["email"]);
-					$("#inp_zip_code").val(u_info["zip_code"]);
-					$("#inp_country").val(u_info["country"]);
 					$("#inp_province").val(u_info["province"]);
 					$("#inp_city").val(u_info["city"]);
 					$("#inp_street").val(u_info["street"]);
@@ -523,8 +500,6 @@ $template_header;
 					$("#inp_gender").attr("disabled", true);
 					$("#inp_contact_num").val(u_info["contact_num"]).attr("disabled", true);
 
-					$("#inp_zip_code").val(u_info["zip_code"]);
-					$("#inp_country").val(u_info["country"]);
 					$("#inp_province").val(u_info["province"]);
 					$("#inp_city").val(u_info["city"]);
 					$("#inp_street").val(u_info["street"]);

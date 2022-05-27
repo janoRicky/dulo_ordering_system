@@ -56,6 +56,13 @@ html, body {
 	color: #0056b3;
 }
 
+.title_bar {
+	background-color: #2a2a2a;
+	border-radius: 0 0 20px 20px;
+	color: #fff;
+	padding: 0 20px;
+}
+
 .view_container label {
 	font-weight: bold;
 	font-size: 1.1rem;
@@ -137,10 +144,15 @@ form label {
 
 .img_view {
 	border: 0.2rem solid #000;
-	border-radius: 5%;
+	border-radius: 3%;
 	width: 100%;
 	max-width: 25rem;
 	max-height: 25rem;
+}
+.img_view:hover {
+	border-style: dotted;
+	-webkit-filter: blur(1px);
+  	filter: blur(1px);
 }
 .img_zoomable {
 	cursor: zoom-in;
@@ -163,6 +175,11 @@ form label {
 	max-height: 88%;
 	border: 0.15rem solid #000;
 }
+
+.img_update:hover {
+	cursor: pointer;
+}
+
 
 .email_dropdown a, .no_account_dropdown a {
 	cursor: pointer;

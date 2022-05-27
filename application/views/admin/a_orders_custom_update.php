@@ -11,13 +11,7 @@ $template_header;
 				<?php $this->load->view("admin/template/a_t_navbar", $nav); ?>
 				<div class="col-12 text-center">
 					<div class="container-fluid p-2 py-5 p-sm-5 justify-content-center">
-						<?php if ($this->session->flashdata("alert")): ?>
-							<?php $alert = $this->session->flashdata("alert"); ?>
-							<div class="alert alert-<?=$alert[0]?> alert-dismissible">
-								<?=$alert[1]?>
-								<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-							</div>
-						<?php endif; ?>
+						
 						<div class="row">
 							<div class="col-12 text-start">
 								<h2>Update Custom Order #<?=$row_info["order_id"]?></h2>
@@ -54,14 +48,6 @@ $template_header;
 										<input type="time" class="form-control" name="inp_time" autocomplete="off" value="<?=date('H:i', strtotime($row_info['date_time']))?>" required="">
 									</div>
 									<div class="form-group">
-										<label for="inp_zip_code">Zip Code:</label>
-										<input type="text" class="form-control" name="inp_zip_code" id="inp_zip_code" placeholder="*Zip Code" value="<?=$row_info['zip_code']?>" autocomplete="off" required="">
-									</div>
-									<div class="form-group">
-										<label for="inp_country">Country:</label>
-										<input type="text" class="form-control" name="inp_country" id="inp_country" placeholder="*Country" value="<?=$row_info['country']?>" autocomplete="off" required="">
-									</div>
-									<div class="form-group">
 										<label for="inp_province">Province:</label>
 										<input type="text" class="form-control" name="inp_province" id="inp_province" placeholder="*Province" value="<?=$row_info['province']?>" autocomplete="off" required="">
 									</div>
@@ -77,7 +63,7 @@ $template_header;
 										<label for="inp_address">House Number/Floor/Bldg./etc.:</label>
 										<input type="text" class="form-control" name="inp_address" id="inp_address" placeholder="House Number/Floor/Bldg./etc." value="<?=$row_info['address']?>" autocomplete="off">
 									</div>
-									<h4 class="pt-3 text-center font-weight-bold">&bull; Custom Product Details &bull;</h4>
+									<h4 class="pt-3 text-center fw-bold"> Custom Product Details </h4>
 									<input type="hidden" name="inp_product_id" value="<?=$product_info['custom_id']?>">
 									<div class="form-group">
 										<label for="inp_custom_description">Custom Description:</label>

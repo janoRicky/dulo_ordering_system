@@ -12,102 +12,100 @@ $template_header;
 	<div class="wrapper bg">
 		<?php $this->load->view("user/template/u_t_navbar"); ?>
 		<div class="container-fluid">
-			<div class="row mb-4 mt-4">
-				<div class="col-0 col-sm-1"></div>
-				<div class="col-12 col-sm-10 content pt-4">
-					<div class="row mt-4">
-						<div class="col-12 banner text-center">
-							<div class="banner_board">
-								<h5 class="font-weight-bold">&bull; My Orders <?=(!is_null($this->input->get("state")) ? "(". $states[$this->input->get("state")] .")" : "")?> &bull;</h5>
+			<div class="row my-4 justify-content-center">
+				<div class="col-12 col-md-10 col-lg-8 mb-5">
+					<div class="card shadow" style="border-radius: 15px;">
+						<div class="card-body p-0">
+							<div class="row m-0 p-0 justify-content-center pb-4 pt-2">
+								<div class="col-12">
+									<!-- <div class="row mt-4">
+										<div class="col-12 banner text-center">
+											<div class="banner_board">
+												<h5 class="fw-bold"> My Orders <?=(!is_null($this->input->get("state")) ? "(". $states[$this->input->get("state")] .")" : "")?> </h5>
+											</div>
+										</div>
+									</div> -->
+									<div class="row my-2 justify-content-center">
+										<class class="col-12 col-sm-10 justify-content-center text-center">
+											<a style="" class="btn py-2 px-4 m-0 fw-bold my_order_state" href="my_orders">ALL (<?=(isset($order_state_counts) ? array_sum($order_state_counts) : 0)?>)</a>
+											<a style="" class="btn py-2 px-4 m-0 fw-bold my_order_state" href="my_orders?state=0"><?=$states[0]?> (<?=(isset($order_state_counts[0]) ? $order_state_counts[0] : 0)?>)</a>
+											<a style="" class="btn py-2 px-4 m-0 fw-bold my_order_state" href="my_orders?state=1"><?=$states[1]?> (<?=(isset($order_state_counts[1]) ? $order_state_counts[1] : 0)?>)</a>
+											<a style="" class="btn py-2 px-4 m-0 fw-bold my_order_state" href="my_orders?state=2"><?=$states[2]?> (<?=(isset($order_state_counts[2]) ? $order_state_counts[2] : 0)?>)</a>
+											<a style="" class="btn py-2 px-4 m-0 fw-bold my_order_state" href="my_orders?state=3"><?=$states[3]?> (<?=(isset($order_state_counts[3]) ? $order_state_counts[3] : 0)?>)</a>
+											<a style="" class="btn py-2 px-4 m-0 fw-bold my_order_state" href="my_orders?state=4"><?=$states[4]?> (<?=(isset($order_state_counts[4]) ? $order_state_counts[4] : 0)?>)</a>
+											<a style="" class="btn py-2 px-4 m-0 fw-bold my_order_state" href="my_orders?state=5"><?=$states[5]?> (<?=(isset($order_state_counts[5]) ? $order_state_counts[5] : 0)?>)</a>
+											<a style="" class="btn py-2 px-4 m-0 fw-bold my_order_state" href="my_orders?state=6"><?=$states[6]?> (<?=(isset($order_state_counts[6]) ? $order_state_counts[6] : 0)?>)</a>
+										</class>
+									</div>
+								</div>
 							</div>
 						</div>
 					</div>
-					<div class="row my-4">
-						<div class="col-1 col-sm-2">
-							<a class="scroll left w-100">
-								<i class="fa fa-caret-left p-1 pull-right" aria-hidden="true"></i>
-							</a>
-						</div>
-						<class class="col-10 col-sm-8 nav_order justify-content-center">
-							<a href="my_orders">ALL (<?=(isset($order_state_counts) ? array_sum($order_state_counts) : 0)?>)</a>
-							<a href="my_orders?state=0"><?=$states[0]?> (<?=(isset($order_state_counts[0]) ? $order_state_counts[0] : 0)?>)</a>
-							<a href="my_orders?state=1"><?=$states[1]?> (<?=(isset($order_state_counts[1]) ? $order_state_counts[1] : 0)?>)</a>
-							<a href="my_orders?state=2"><?=$states[2]?> (<?=(isset($order_state_counts[2]) ? $order_state_counts[2] : 0)?>)</a>
-							<a href="my_orders?state=3"><?=$states[3]?> (<?=(isset($order_state_counts[3]) ? $order_state_counts[3] : 0)?>)</a>
-							<a href="my_orders?state=4"><?=$states[4]?> (<?=(isset($order_state_counts[4]) ? $order_state_counts[4] : 0)?>)</a>
-							<a href="my_orders?state=5"><?=$states[5]?> (<?=(isset($order_state_counts[5]) ? $order_state_counts[5] : 0)?>)</a>
-							<a href="my_orders?state=6"><?=$states[6]?> (<?=(isset($order_state_counts[6]) ? $order_state_counts[6] : 0)?>)</a>
-						</class>
-						<div class="col-1 col-sm-2">
-							<a class="scroll right w-100">
-								<i class="fa fa-caret-right p-1 pull-left" aria-hidden="true"></i>
-							</a>
-						</div>
-					</div>
-					<div class="row">
-						<div class="col-1"></div>
-						<div class="col-10 p-4">
-							<table id="table_my_orders" class="table">
-								<thead>
-									<tr>
-										<th></th>
-									</tr>
-								</thead>
-								<tbody>
-									<?php foreach ($my_orders->result_array() as $row): ?>
-										<tr>
-											<td>
-												<div class="row order">
-													<div class="col-12 col-sm-6 col-lg-3 border p-3">
-														<?=date("Y-m-d / H:i:s A", strtotime($row["date_time"]))?>
-													</div>
-													<div class="col-12 col-sm-6 col-lg-2 border p-3">
-														<?=($this->Model_read->is_order_custom($row["order_id"]) ? "<i class='fa fa-list-alt' aria-hidden='true'></i> CUSTOM ORDER" : "<i class='fa fa-list' aria-hidden='true'></i> NORMAL ORDER")?>
-													</div>
-													<div class="col-12 col-sm-12 col-lg-3 border p-3">
-														<?=$row["zip_code"] ." / ". $row["country"] ." / ". $row["province"] ." / ". $row["city"] ." / ". $row["street"] ." / ". $row["address"]?>
-													</div>
-													<div class="col-12 col-sm-6 col-lg-2 border p-3">
-														<?=$states[$row["state"]]?>
-													</div>
-													<div class="col-12 col-sm-6 col-lg-2 border p-3">
-														<?php if ($row["state"] == 1): ?>
-															<a href="my_order_payment?id=<?=$row["order_id"]?>">
-																<button class="button b_p">
-																	<i class="fa fa-money" aria-hidden="true"></i> Payment
-																</button>
-															</a>
-															<?php if ($this->Model_read->get_order_payments_adtl_worder_id($row["order_id"])->num_rows() > 0): ?>
-																<a href="my_order_payment_adtl?id=<?=$row["order_id"]?>">
-																	<button class="button b_p">
-																		<i class="fa fa-money" aria-hidden="true"></i> Adtl. Payment
+					<div class="card shadow mt-3" style="border-radius: 15px;">
+						<div class="card-body p-0">
+							<div class="row m-0 p-0 justify-content-center py-4">
+								<div class="col-12">
+									<div class="row justify-content-center">
+										<div class="col-10 p-4 table-responsive">
+											<table id="table_my_orders" class="table">
+												<thead>
+													<tr>
+														<th></th>
+														<th></th>
+														<th></th>
+														<th></th>
+													</tr>
+												</thead>
+												<tbody>
+													<?php foreach ($my_orders->result_array() as $row): ?>
+														<tr>
+															<td class="text-center">
+																<?=date("Y-m-d / H:i:s A", strtotime($row["date_time"]))?>
+															</td>
+															<td class="text-center">
+																<?=$row["province"] ." / ". $row["city"] ." / ". $row["street"] ." / ". $row["address"]?>
+															</td>
+															<td class="text-center">
+																<?=$states[$row["state"]]?>
+															</td>
+															<td class="text-center">
+																<?php if ($row["state"] == 1): ?>
+																	<a href="my_order_payment?id=<?=$row["order_id"]?>">
+																		<button class="btn fw-bold rounded-pill product_btn px-3 py-2">
+																			<i class="fa fa-money" aria-hidden="true"></i> Payment
+																		</button>
+																	</a>
+																	<?php if ($this->Model_read->get_order_payments_adtl_worder_id($row["order_id"])->num_rows() > 0): ?>
+																		<a href="my_order_payment_adtl?id=<?=$row["order_id"]?>">
+																			<button class="btn fw-bold rounded-pill product_btn px-3 py-2">
+																				<i class="fa fa-money" aria-hidden="true"></i> Adtl. Payment
+																			</button>
+																		</a>
+																	<?php endif; ?>
+																<?php elseif ($row["state"] == 4): ?>
+																	<a class="receive" href="order_receive?order_id=<?=$row['order_id']?>">
+																		<button class="btn fw-bold rounded-pill product_btn px-3 py-2">
+																			<i class="fa fa-check" aria-hidden="true"></i> Received
+																		</button>
+																	</a>
+																<?php endif; ?>
+																<a href="my_order_details?id=<?=$row["order_id"]?>">
+																	<button class="btn fw-bold rounded-pill product_btn px-3 py-2">
+																		<i class="fa fa-eye" aria-hidden="true"></i> Details
 																	</button>
 																</a>
-															<?php endif; ?>
-														<?php elseif ($row["state"] == 4): ?>
-															<a class="receive" href="order_receive?order_id=<?=$row['order_id']?>">
-																<button class="button b_p">
-																	<i class="fa fa-check" aria-hidden="true"></i> Received
-																</button>
-															</a>
-														<?php endif; ?>
-														<a href="my_order_details?id=<?=$row["order_id"]?>">
-															<button class="button b_p">
-																<i class="fa fa-eye" aria-hidden="true"></i> Details
-															</button>
-														</a>
-													</div>
-												</div>
-											</td>
-										</tr>
-									<?php endforeach; ?>
-								</tbody>
-							</table>
+															</td>
+														</tr>
+													<?php endforeach; ?>
+												</tbody>
+											</table>
+										</div>
+									</div>
+								</div>
+							</div>
 						</div>
-						<div class="col-1"></div>
 					</div>
 				</div>
-				<div class="col-0 col-sm-1"></div>
 			</div>
 		</div>
 		<?php $this->load->view("user/template/u_t_footer"); ?>

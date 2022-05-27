@@ -187,5 +187,5 @@ $route['admin/payment_delete'] = 'admin/A_controller_delete/delete_payment_tbp';
 
 
 // NOTES:
-// url of admin log-in is "http://localhost/angeliclay_system/admin"
-// url of admin dashboard is "http://localhost/angeliclay_system/admin/dashboard"
+// url of admin log-in is "http://localhost/dulo_system/admin"
+// url of admin dashboard is "http://localhost/dulo_system/admin/dashboard"

@@ -29,3 +29,13 @@
 
 	<?php date_default_timezone_set('Asia/Manila'); ?>
 </head>
+
+<?php if ($this->session->flashdata("alert")): ?>
+	<?php $alert = $this->session->flashdata("alert"); unset($_SESSION['alert']); ?>
+	<div style="position: fixed; top: 5rem; right: 1rem; z-index: 9999;">
+		<div id="alert" class="alert alert-<?=$alert[0]?> alert-dismissible mt-3">
+			<?=$alert[1]?>
+			<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+		</div>
+	</div>
+<?php endif; ?>

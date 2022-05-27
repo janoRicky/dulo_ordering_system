@@ -55,7 +55,8 @@ class Model_read extends CI_Model {
 		return $this->db->get_where("products", array("type_id" => $id));
 	}
 	public function get_products_featured() {
-		return $this->db->get_where("products", array("featured !=" => "NULL"));
+		return $this->db->get_where("products", array("status" => "1", "featured" => "1"));
+		// return $this->db->get_where("products", array("featured !=" => "NULL"));
 	}
 	public function get_product_featured_wno($no) {
 		return $this->db->get_where("products", array("featured" => $no));
@@ -133,6 +134,10 @@ class Model_read extends CI_Model {
 	}
 	public function get_order_payments_unpaid_worder_id($order_id) {
 		return $this->db->get_where("orders_payments", array("order_id" => $order_id, "type" => "1", "status" => "0"));
+	}
+
+	public function get_user_acc_wuid($uid) {
+		return $this->db->get_where("user_accounts", array("user_uid" => $uid));
 	}
 
 	public function get_user_accounts() {

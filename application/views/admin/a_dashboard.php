@@ -9,25 +9,19 @@ $template_header;
 			<div class="row">
 				<?php $this->load->view("admin/template/a_t_sidebar"); ?>
 				<?php $this->load->view("admin/template/a_t_navbar", $nav); ?>
-				<div class="col-12 text-center pt-3">
+				<div class="col-12 text-center">
 					<div class="container-fluid p-2 py-5 p-sm-5 justify-content-center">
-						<?php if ($this->session->flashdata("alert")): ?>
-							<?php $alert = $this->session->flashdata("alert"); ?>
-							<div class="alert alert-<?=$alert[0]?> alert-dismissible">
-								<?=$alert[1]?>
-								<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-							</div>
-						<?php endif; ?>
-						<div class="row">
-							<div class="col-12 border-bottom">
-								<h3 class="font-weight-bold" class="p-3">Welcome Admin <?=$this->session->userdata("admin_name")?>!</h3>
+						
+						<div class="row py-3 col-12 col-md-9 mx-auto mb-4 title_bar">
+							<div class="col-12">
+								<h3 class="fw-bold" class="p-3">Welcome Admin <?=$this->session->userdata("admin_name")?>!</h3>
 							</div>
 						</div>
-						<div class="row justify-content-center">
+						<div class="row col-12 col-md-9 mx-auto">
 							<div class="col-12 col-md-7 mt-2">
 								<div class="row">
 									<div class="col-12">
-										<h5 class="font-weight-bold">
+										<h5 class="fw-bold">
 											<i class="fa fa-calendar" aria-hidden="true"></i> Total New Orders This Month (<?=date("M")?>)
 										</h5>
 									</div>
@@ -39,7 +33,7 @@ $template_header;
 							<div class="col-12 col-md-3 mt-5">
 								<div class="card">
 									<a href="orders">
-										<h5 class="card-header font-weight-bold">
+										<h5 class="card-header fw-bold">
 											<i class="fa fa-list fa-lg" aria-hidden="true"></i> Current Orders
 										</h5>
 									</a>
@@ -48,14 +42,14 @@ $template_header;
 											<div class="col-12 my-2">
 												<a href="orders?state=0">
 													<div class="card text-center bg-info text-dark py-3 px-2">
-														<h6 class="my-auto font-weight-bold">PENDING (<?=$regular_count_0?>)</h6>
+														<h6 class="my-auto fw-bold">PENDING (<?=$regular_count_0?>)</h6>
 													</div>
 												</a>
 											</div>
 											<div class="col-12 my-2">
 												<a href="orders?state=1">
 													<div class="card text-center bg-warning text-dark py-3 px-2">
-														<h6 class="my-auto font-weight-bold">WAITING FOR PAYMENT (<?=$regular_count_1?>)</h6>
+														<h6 class="my-auto fw-bold">WAITING FOR PAYMENT (<?=$regular_count_1?>)</h6>
 													</div>
 												</a>
 											</div>

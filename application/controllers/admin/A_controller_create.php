@@ -1,7 +1,7 @@
 <?php 
  defined('BASEPATH') OR exit('No direct script access allowed');
 
- class A_controller_create extends CI_Controller {
+ class A_controller_create extends E_Core_Controller {
 
  	public function __construct() {
  		parent::__construct();
@@ -27,7 +27,7 @@
 			$product_folder = "product_". (intval($this->db->count_all("products")) + 1);
 
 			$config["upload_path"] = "./uploads/products/". $product_folder;
-			$config["allowed_types"] = "gif|jpg|png";
+			$config["allowed_types"] = "gif|jpg|jpeg|png";
 			$config["max_size"] = 5000;
 			$config["encrypt_name"] = TRUE;
 
@@ -40,6 +40,7 @@
 			}
 			if (!is_dir("uploads/products/". $product_folder)) {
 				mkdir("./uploads/products/". $product_folder, 0777, TRUE);
+				chmod("./uploads/products/". $product_folder, 0777);
 			}
 
 			if (isset($_FILES["inp_img"])) {
@@ -84,7 +85,7 @@
 			$type_folder = "type_". (intval($this->db->count_all("types")) + 1);
 
 			$config["upload_path"] = "./uploads/types/". $type_folder;
-			$config["allowed_types"] = "gif|jpg|png";
+			$config["allowed_types"] = "gif|jpg|jpeg|png";
 			$config["max_size"] = 5000;
 			$config["encrypt_name"] = TRUE;
 
@@ -98,6 +99,7 @@
 			}
 			if (!is_dir("uploads/types/". $type_folder)) {
 				mkdir("./uploads/types/". $type_folder, 0777, TRUE);
+				chmod("./uploads/types/". $type_folder, 0777);
 			}
 
 			if (isset($_FILES["inp_img"])) {
@@ -146,11 +148,13 @@
 		for ($i = 1; $i < $items_no + 1; $i++) {
 			$prd_id = $this->input->post("item_". $i ."_id");
 			$prd_price = $this->input->post("item_". $i ."_price");
+			$prd_qty = $this->input->post("item_". $i ."_qty");
 
 			if ($prd_id != NULL && $prd_price != NULL) {
 				$items[] = array(
 					"product_id" => $prd_id,
-					"price" => $prd_price
+					"price" => $prd_price,
+					"qty" => $prd_qty
 				);
 			}
 		}
@@ -181,7 +185,13 @@
 					if ($name_last == NULL || $name_first == NULL || $gender == NULL || $contact_num == NULL || $zip_code == NULL || $country == NULL || $province == NULL || $city == NULL || $street == NULL) {
 						$error = "One or more inputs are empty.";
 					} else {
+						do {
+							$uid = uniqid('', true);
+						} while ($this->Model_read->get_user_acc_wuid($uid)->num_rows() > 0);
+
 						$data = array(
+							"user_uid" => $uid,
+
 							"name_last" => $name_last,
 							"name_first" => $name_first,
 							"name_middle" => $name_middle,
@@ -289,7 +299,13 @@
 					if ($name_last == NULL || $name_first == NULL || $gender == NULL || $contact_num == NULL || $zip_code == NULL || $country == NULL || $province == NULL || $city == NULL || $street == NULL) {
 						$error = "One or more inputs are empty.";
 					} else {
+						do {
+							$uid = uniqid('', true);
+						} while ($this->Model_read->get_user_acc_wuid($uid)->num_rows() > 0);
+
 						$data = array(
+							"user_uid" => $uid,
+
 							"name_last" => $name_last,
 							"name_first" => $name_first,
 							"name_middle" => $name_middle,
@@ -335,7 +351,7 @@
 						$product_folder = "custom_". (intval($this->db->count_all("products_custom")) + 1);
 
 						$config["upload_path"] = "./uploads/custom/". $product_folder;
-						$config["allowed_types"] = "gif|jpg|png";
+						$config["allowed_types"] = "gif|jpg|jpeg|png";
 						$config["max_size"] = 5000;
 						$config["encrypt_name"] = TRUE;
 
@@ -404,7 +420,7 @@
 				$payment_folder = "order_". $order_id;
 
 				$config["upload_path"] = "./uploads/users/". $user_folder ."/payments/". $payment_folder;
-				$config["allowed_types"] = "gif|jpg|png";
+				$config["allowed_types"] = "gif|jpg|jpeg|png";
 				$config["max_size"] = 5000;
 				$config["encrypt_name"] = TRUE;
 
@@ -521,7 +537,13 @@
 			if ($this->Model_read->get_user_acc_wemail($new_email)->num_rows() > 0) {
 				$this->session->set_flashdata("alert", array("warning", "Email is aready registered."));
 			} else {
+				do {
+					$uid = uniqid('', true);
+				} while ($this->Model_read->get_user_acc_wuid($uid)->num_rows() > 0);
+
 				$data = array(
+					"user_uid" => $uid,
+					
 					"email" => $new_email,
 					"password" => $new_password,
 

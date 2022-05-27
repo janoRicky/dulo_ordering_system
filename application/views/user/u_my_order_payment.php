@@ -41,7 +41,7 @@ $template_header;
 					<div class="row mt-4">
 						<div class="col-12 banner text-center">
 							<div class="banner_board">
-								<h5 class="font-weight-bold">&bull; Custom Order Payment &bull;</h5>
+								<h5 class="fw-bold"> Custom Order Payment </h5>
 							</div>
 						</div>
 					</div>
@@ -50,7 +50,7 @@ $template_header;
 						<div class="col-10">
 							<div class="row mt-2">
 								<div class="col-4 col-md-3">
-									<h5 class="font-weight-bold">Date / Time: </h5>
+									<h5 class="fw-bold">Date / Time: </h5>
 								</div>
 								<div class="col-8 col-md-9">
 									<?=date("Y-m-d / H:i:s A", strtotime($my_order["date_time"]))?>
@@ -58,15 +58,15 @@ $template_header;
 							</div>
 							<div class="row mt-2">
 								<div class="col-4 col-md-3">
-									<h5 class="font-weight-bold">Full Address: </h5>
+									<h5 class="fw-bold">Full Address: </h5>
 								</div>
 								<div class="col-8 col-md-9">
-									<?=$my_order["zip_code"] ." / ". $my_order["country"] ." / ". $my_order["province"] ." / ". $my_order["city"] ." / ". $my_order["street"] ." / ". $my_order["address"]?>
+									<?=$my_order["province"] ." / ". $my_order["city"] ." / ". $my_order["street"] ." / ". $my_order["address"]?>
 								</div>
 							</div>
 							<div class="row mt-2">
 								<div class="col-4 col-md-3">
-									<h5 class="font-weight-bold">Order State: </h5>
+									<h5 class="fw-bold">Order State: </h5>
 								</div>
 								<div class="col-8 col-md-9">
 									<?=$states[$my_order["state"]]?>
@@ -78,7 +78,7 @@ $template_header;
 					<div class="row mt-4">
 						<div class="col-12 banner text-center">
 							<div class="banner_board">
-								<h5 class="font-weight-bold">&bull; Ordered Item/s Details &bull;</h5>
+								<h5 class="fw-bold"> Ordered Item/s Details </h5>
 							</div>
 						</div>
 					</div>
@@ -92,19 +92,19 @@ $template_header;
 								?>
 								<div class="row mt-2">
 									<div class="col-12">
-										<h5 class="font-weight-bold">Custom Description:</h5>
+										<h5 class="fw-bold">Custom Description:</h5>
 									</div>
 									<div class="col-12 custom_description">
 										<?=$product_info["description"]?>
 									</div>
 									<div class="col-3 col-sm-2">
-										<h5 class="font-weight-bold">Type:</h5>
+										<h5 class="fw-bold">Type:</h5>
 									</div>
 									<div class="col-9 col-sm-4">
 										<?=$types[$product_info["type_id"]]?>
 									</div>
 									<div class="col-3 col-sm-2">
-										<h5 class="font-weight-bold">Size:</h5>
+										<h5 class="fw-bold">Size:</h5>
 									</div>
 									<div class="col-9 col-sm-4">
 										<?=$product_info["size"]?>
@@ -112,7 +112,7 @@ $template_header;
 								</div>
 								<div class="row mt-1">
 									<div class="col-12">
-										<h5 class="font-weight-bold">Reference Images:</h5>
+										<h5 class="fw-bold">Reference Images:</h5>
 									</div>
 									<div class="row mt-1">
 										<?php $imgs = explode("/", $product_info["img"]); ?>
@@ -128,13 +128,13 @@ $template_header;
 								</div>
 								<div class="row mt-1">
 									<div class="col-3 col-sm-2">
-										<h5 class="font-weight-bold">Qty:</h5>
+										<h5 class="fw-bold">Qty:</h5>
 									</div>
 									<div class="col-9 col-sm-4">
 										<?=$order_item["qty"]?>
 									</div>
 									<div class="col-3 col-sm-2">
-										<h5 class="font-weight-bold">Price:</h5>
+										<h5 class="fw-bold">Price:</h5>
 									</div>
 									<div class="col-9 col-sm-4">
 										<?=$order_item["price"]?>
@@ -186,7 +186,7 @@ $template_header;
 					<div class="row mt-4">
 						<div class="col-12 banner text-center">
 							<div class="banner_board">
-								<h5 class="font-weight-bold">&bull; Payment Details &bull;</h5>
+								<h5 class="fw-bold"> Payment Details </h5>
 							</div>
 						</div>
 					</div>
@@ -200,7 +200,7 @@ $template_header;
 								</div>
 								<div class="row mt-2">
 									<div class="col-4 col-md-3">
-										<h5 class="font-weight-bold">Ref No: </h5>
+										<h5 class="fw-bold">Ref No: </h5>
 									</div>
 									<div class="col-8 col-md-9">
 										<input class="form-control" type="text" name="inp_ref_no" placeholder="*Ref No" autocomplete="off" required="">
@@ -208,7 +208,7 @@ $template_header;
 								</div>
 								<div class="row mt-2">
 									<div class="col-4 col-md-3">
-										<h5 class="font-weight-bold">Proof of Payment (Img / Screenshot): </h5>
+										<h5 class="fw-bold">Proof of Payment (Img / Screenshot): </h5>
 									</div>
 									<div class="col-8 col-md-9">
 										<div class="img_u_box">

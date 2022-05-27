@@ -1,7 +1,7 @@
 <?php 
  defined('BASEPATH') OR exit('No direct script access allowed');
 
- class U_controller_delete extends CI_Controller {
+ class U_controller_delete extends E_Core_Controller {
 
  	public function __construct() {
  		parent::__construct();

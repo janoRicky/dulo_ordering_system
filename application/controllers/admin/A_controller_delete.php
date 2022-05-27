@@ -1,7 +1,7 @@
 <?php 
  defined('BASEPATH') OR exit('No direct script access allowed');
 
- class A_controller_delete extends CI_Controller {
+ class A_controller_delete extends E_Core_Controller {
 
  	public function __construct() {
  		parent::__construct();
@@ -17,9 +17,20 @@
 		if ($id == NULL) {
 			$this->session->set_flashdata("alert", array("warning", "Something went wrong, please try again."));
 		} else {
-			if ($this->Model_read->get_product_wid($id)->num_rows() < 1) {
+			$row = $this->Model_read->get_product_wid($id);
+			if ($row->num_rows() < 1) {
 				$this->session->set_flashdata("alert", array("warning", "Product does not exist."));
 			} else {
+				$row_info = $row->row_array();
+
+				$dir = "./uploads/products/product_". $row_info["product_id"];
+				if (is_dir($dir)) {
+					foreach (scandir($dir) as $item) {
+					    unlink($dir."/".$item);
+					}
+					rmdir($dir);
+				}
+
 				if ($this->Model_delete->delete_product($id)) {
 					$this->session->set_flashdata("alert", array("success", "Product is successfully deleted."));
 				} else {
@@ -36,9 +47,19 @@
 		if ($id == NULL) {
 			$this->session->set_flashdata("alert", array("warning", "Something went wrong, please try again."));
 		} else {
-			if ($this->Model_read->get_type_wid($id)->num_rows() < 1) {
+			$row = $this->Model_read->get_type_wid($id);
+			if ($row->num_rows() < 1) {
 				$this->session->set_flashdata("alert", array("warning", "Type does not exist."));
 			} else {
+				$row_info = $row->row_array();
+
+				$dir = "./uploads/types/type_". $row_info["type_id"];
+				if (is_dir($dir)) {
+					foreach (scandir($dir) as $item) {
+					    unlink($dir."/".$item);
+					}
+					rmdir($dir);
+				}
 				
 				$products = $this->Model_read->get_product_wtype($id);
 				foreach ($products->result_array() as $row) {

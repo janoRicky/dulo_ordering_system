@@ -3,7 +3,7 @@ html, body {
 	margin: 0;
 	height: 100%;
 	overflow: auto;
-	font-family: Begum Medium, Brush Script MT, cursive;
+	/*font-family: Begum Medium, Brush Script MT, cursive;*/
 }
 
 
@@ -36,4 +36,82 @@ html, body {
 	.notice.n_all {
 		max-width: 35%;
 	}
+}
+
+
+
+
+.iframe-container{
+    position: relative;
+    width: 100%;
+    padding-bottom: 56.25%; /* Ratio 16:9 ( 100%/16*9 = 56.25% ) */
+}
+.iframe-container > *{
+    display: block;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    width: 100%;
+}
+
+.featured_type:hover, .featured_type.active {
+	background-color: rgba(0, 0, 0, 0.1);
+	border-radius: 1rem;
+}
+
+.wrapper {
+	background-color: #ececec;
+}
+
+
+
+.car-control {
+	background-color: #000;
+	color: #fff;
+	width: 73px;
+	height: 73px;
+	border-radius: 100%;
+}
+
+
+
+.product_btn {
+	background-color: #ffd500;
+}
+.product_btn:hover {
+	background-color: #fff819;
+}
+
+.product_img {
+	border-radius: 10px;
+}
+
+
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    /* display: none; <- Crashes Chrome on hover */
+    -webkit-appearance: none;
+    margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+}
+
+input[type=number] {
+    -moz-appearance:textfield; /* Firefox */
+}
+
+
+
+
+.my_order_state {
+	border-bottom: 2px solid #888888;
+	border-radius: 0;
+}
+.my_order_state:hover {
+	border-bottom: 2px solid #ffd500;
+	border-radius: 0;
 }

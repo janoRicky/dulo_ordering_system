@@ -6,3 +6,4 @@
 <!-- DATATABLES -->
 <script type="text/javascript" src="<?=base_url()?>assets/js/datatables.min.js"></script>
 
+<script type="text/javascript" src="<?=base_url()?>assets/js/user.js"></script>

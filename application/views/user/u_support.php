@@ -30,7 +30,7 @@ $template_header;
 					<div class="row mt-4">
 						<div class="col-12 banner text-center">
 							<div class="banner_board">
-								<h5 class="font-weight-bold">&bull; Customer Support &bull;</h5>
+								<h5 class="fw-bold"> Customer Support </h5>
 							</div>
 						</div>
 					</div>
@@ -96,7 +96,7 @@ $template_header;
 									<?=form_open(base_url() . "send_message", "method='POST'")?>
 										<input type="hidden" name="inp_user_id" value="<?=$user_id?>">
 										<textarea class="form-control" name="inp_message" placeholder="Your message here..." style="resize: none;" required=""></textarea>
-										<button class="btn btn-primary pull-right font-weight-bold px-2 py-1 mt-1" type="submit">
+										<button class="btn btn-primary pull-right fw-bold px-2 py-1 mt-1" type="submit">
 											Send <i class="fa fa-caret-right fa-lg" aria-hidden="true"></i>
 										</button>
 									<?=form_close()?>

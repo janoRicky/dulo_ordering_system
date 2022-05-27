@@ -1,7 +1,7 @@
 <?php 
  defined('BASEPATH') OR exit('No direct script access allowed');
 
- class U_controller_update extends CI_Controller {
+ class U_controller_update extends E_Core_Controller {
 
  	public function __construct() {
  		parent::__construct();
@@ -164,7 +164,7 @@
 	// 			$payment_folder = "order_". $order_id;
 
 	// 			$config["upload_path"] = "./uploads/users/". $user_folder ."/payments/". $payment_folder;
-	// 			$config["allowed_types"] = "gif|jpg|png";
+	// 			$config["allowed_types"] = "gif|jpg|jpeg|png";
 	// 			$config["max_size"] = 5000;
 	// 			$config["encrypt_name"] = TRUE;
 
@@ -205,7 +205,7 @@
 
 	// 				$this->email->set_newline("\r\n");
 	// 				$this->email->clear();
-	// 				$this->email->from("angeliclay.ordering@gmail.com");
+	// 				$this->email->from("dulo.ordering@gmail.com");
 	// 				$this->email->to($this->Model_read->get_config_wkey("alerts_email_send_to"));
 	// 				$this->email->subject("Payment for Custom Order has been made!");
 	// 				$this->email->message(

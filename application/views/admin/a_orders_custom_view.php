@@ -11,20 +11,14 @@ $template_header;
 				<?php $this->load->view("admin/template/a_t_navbar", $nav); ?>
 				<div class="col-12 text-center">
 					<div class="container-fluid p-2 py-5 p-sm-5 justify-content-center">
-						<?php if ($this->session->flashdata("alert")): ?>
-							<?php $alert = $this->session->flashdata("alert"); ?>
-							<div class="alert alert-<?=$alert[0]?> alert-dismissible">
-								<?=$alert[1]?>
-								<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-							</div>
-						<?php endif; ?>
+						
 						<div class="row">
 							<div class="col-12 col-sm-6 text-start">
 								<h2>View Custom Order #<?=$row_info["order_id"]?></h2>
 							</div>
 							<div class="col-12 col-sm-6 text-end">
 								<a class="btn btn-primary" href="<?=base_url();?>admin/orders_custom_edit?id=<?=$row_info['order_id']?>">
-									<i class="fa fa-pencil p-1" aria-hidden="true"></i> Update
+									<i class="fa fa-pencil fa-lg text-warning p-1" aria-hidden="true"></i> Update
 								</a>
 							</div>
 						</div>
@@ -38,12 +32,12 @@ $template_header;
 										<?php if ($user_info["email"] == NULL): ?>
 											<label>No Account:</label><br>
 											<a href="<?=base_url();?>admin/users_view?id=<?=$row_info["user_id"]?>">
-												<i class="fa fa-eye p-1" aria-hidden="true"></i><?=$user_info["name_last"] .", ". $user_info["name_first"] ." ". $user_info["name_middle"] ." ". $user_info["name_extension"]?> [User #<?=$row_info["user_id"]?>]
+												<i class="fa fa-eye fa-lg text-primary p-1" aria-hidden="true"></i><?=$user_info["name_last"] .", ". $user_info["name_first"] ." ". $user_info["name_middle"] ." ". $user_info["name_extension"]?> [User #<?=$row_info["user_id"]?>]
 											</a>
 										<?php else: ?>
 											<label>User Email:</label><br>
 											<a href="<?=base_url();?>admin/users_view?id=<?=$row_info["user_id"]?>">
-												<i class="fa fa-eye p-1" aria-hidden="true"></i><?=$user_info["email"]?> [User #<?=$row_info["user_id"]?>]
+												<i class="fa fa-eye fa-lg text-primary p-1" aria-hidden="true"></i><?=$user_info["email"]?> [User #<?=$row_info["user_id"]?>]
 											</a>
 										<?php endif; ?>
 									</div>
@@ -57,10 +51,10 @@ $template_header;
 									</div>
 									<div class="col-12">
 										<label>Full Address:</label><br>
-										<?=$row_info["zip_code"] ." / ". $row_info["country"] ." / ". $row_info["province"] ." / ". $row_info["city"] ." / ". $row_info["street"] ." / ". $row_info["address"]?>
+										<?=$row_info["province"] ." / ". $row_info["city"] ." / ". $row_info["street"] ." / ". $row_info["address"]?>
 									</div>
 									<div class="col-12">
-										<h4 class="pt-3 text-center font-weight-bold">&bull; Custom Product Details &bull;</h4>
+										<h4 class="pt-3 text-center fw-bold"> Custom Product Details </h4>
 									</div>
 									<?php if ($product_info["product_id"] != NULL): ?>
 										<div class="col-12">
@@ -126,7 +120,7 @@ $template_header;
 												<?php $total_payment = 0; ?>
 												<?php if ($tbl_payments->num_rows() < 1): ?>
 													<tr>
-														<td colspan="6" class="font-weight-bold">[ EMPTY ]</td>
+														<td colspan="6" class="fw-bold">[ EMPTY ]</td>
 													</tr>
 												<?php else: ?>
 													<?php foreach ($tbl_payments->result_array() as $row): ?>
@@ -156,7 +150,7 @@ $template_header;
 														</tr>
 													<?php endforeach; ?>
 													<tr>
-														<td class="font-weight-bold">Total</td>
+														<td class="fw-bold">Total</td>
 														<td></td>
 														<td></td>
 														<td></td>
@@ -186,7 +180,7 @@ $template_header;
 											<tbody>
 												<?php if ($tbl_payments_unpaid->num_rows() < 1): ?>
 													<tr>
-														<td colspan="4" class="font-weight-bold">[ EMPTY ]</td>
+														<td colspan="4" class="fw-bold">[ EMPTY ]</td>
 													</tr>
 												<?php else: ?>
 													<?php foreach ($tbl_payments_unpaid->result_array() as $row): ?>
@@ -197,7 +191,7 @@ $template_header;
 																PHP <span><?=number_format($row["amount"], 2)?></span>
 															</td>
 															<td>
-																<i class="fa fa-trash p-1 btn_delete_payment action_button" data-bs-toggle="modal" data-bs-target="#modal_delete_payment_tbp" data-id="<?=$row['payment_id']?>" aria-hidden="true"></i>
+																<i class="fa fa-trash fa-lg text-danger p-1 btn_delete_payment action_button" data-bs-toggle="modal" data-bs-target="#modal_delete_payment_tbp" data-id="<?=$row['payment_id']?>" aria-hidden="true"></i>
 															</td>
 														</tr>
 													<?php endforeach; ?>

@@ -35,7 +35,7 @@ $template_header;
 					<div class="row mt-4">
 						<div class="col-12 banner text-center">
 							<div class="banner_board">
-								<h5 class="font-weight-bold">&bull; Additional Payment/s &bull;</h5>
+								<h5 class="fw-bold"> Additional Payment/s </h5>
 							</div>
 						</div>
 					</div>
@@ -56,7 +56,7 @@ $template_header;
 											<tbody>
 												<?php if ($order_payments->num_rows() < 1): ?>
 													<tr>
-														<td class="text-center font-weight-bold" colspan="3">[ EMPTY ]</td>
+														<td class="text-center fw-bold" colspan="3">[ EMPTY ]</td>
 													</tr>
 												<?php else: ?>
 													<?php foreach ($order_payments->result_array() as $key => $row): ?>
@@ -84,7 +84,7 @@ $template_header;
 								<div class="col-12 col-md-7">
 									<?php if (!isset($payment_id)): ?>
 										<div class="row">
-											<div class="col-12 text-center font-weight-bold text-success">
+											<div class="col-12 text-center fw-bold text-success">
 												[ NO PAYMENTS TO BE MADE ]
 											</div>
 										</div>
@@ -93,14 +93,14 @@ $template_header;
 											<input type="hidden" name="inp_order_id" value="<?=$order_id?>" required="">
 											<input type="hidden" name="inp_payment_id" id="inp_payment_id" value="<?=$payment_id?>" required="">
 											<div class="row mt-2" style="border-bottom: 1px solid black;">
-												<h4 class="font-weight-bold">Payment for [ <span class="payment_desc text-success"><?=$payment_desc?></span> ]: </h4>
+												<h4 class="fw-bold">Payment for [ <span class="payment_desc text-success"><?=$payment_desc?></span> ]: </h4>
 											</div>
 											<div class="row mt-2">
 												<span>(Send Payment to GCash # 0999999999)</span>
 											</div>
 											<div class="row mt-2">
 												<div class="col-4 col-md-3">
-													<h5 class="font-weight-bold">Ref No: </h5>
+													<h5 class="fw-bold">Ref No: </h5>
 												</div>
 												<div class="col-8 col-md-9">
 													<input class="form-control" type="text" name="inp_ref_no" placeholder="*Ref No" autocomplete="off" required="">
@@ -108,7 +108,7 @@ $template_header;
 											</div>
 											<div class="row mt-2">
 												<div class="col-4 col-md-3">
-													<h5 class="font-weight-bold">Proof of Payment (Img / Screenshot): </h5>
+													<h5 class="fw-bold">Proof of Payment (Img / Screenshot): </h5>
 												</div>
 												<div class="col-8 col-md-9">
 													<div class="img_u_box">
@@ -131,7 +131,7 @@ $template_header;
 										<?=form_close()?>
 										<div class="row paid_already" <?=(!isset($paid_row) ? "style='display: none;'" : "")?>>
 											<div class="col-12 text-center">
-												<h2 class="font-weight-bold text-success py-4">[ ALREADY PAID ]</h2>
+												<h2 class="fw-bold text-success py-4">[ ALREADY PAID ]</h2>
 											</div>
 										</div>
 									<?php endif; ?>

@@ -11,16 +11,10 @@ $template_header;
 				<?php $this->load->view("admin/template/a_t_navbar", $nav); ?>
 				<div class="col-12 text-center">
 					<div class="container-fluid p-2 py-5 p-sm-5 justify-content-center">
-						<?php if ($this->session->flashdata("alert")): ?>
-							<?php $alert = $this->session->flashdata("alert"); ?>
-							<div class="alert alert-<?=$alert[0]?> alert-dismissible">
-								<?=$alert[1]?>
-								<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-							</div>
-						<?php endif; ?>
+						
 						<div class="row pt-3 pb-1">
 							<div class="col-12">
-								<h2 class="font-weight-bold">Config</h2>
+								<h2 class="fw-bold">Config</h2>
 							</div>
 						</div>
 						<div class="row">

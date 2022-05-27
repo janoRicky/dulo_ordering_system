@@ -13,21 +13,20 @@ $template_header; // loads in the header of the page obtained from views/admin/t
 			<div class="row">
 				<div class="col-1 col-sm-2 col-md-3 col-lg-4"></div> 
 				<div class="col-10 col-sm-8 col-md-6 col-lg-4">
-					<div class="card text-center mt-5 bg-dark p-4">
+					<div class="card text-center mt-5 bg-dark p-4" style="border-radius: 10rem;">
 						<div class="row">
 							<div class="col-10 col-md-6 pt-4 mx-auto">
 								<img class="w-100" src="<?=base_url()?>assets/img/dulo-logo.png">
 							</div>
 							<div class="col-12 text-light pt-3">
-								<h3>ADMIN LOG-IN</h3>
+								<h2 class="fw-bold">ADMIN LOG-IN</h2>
 							</div>
 						</div>
 						<div class="card-body">
-							<?php if ($this->session->flashdata("login_alert")): ?>
-								<?php $alert = $this->session->flashdata("login_alert"); ?>
-								<div class="alert alert-<?=$alert[0]?> alert-dismissible">
+							<?php if (!empty($alert)): ?>
+								<div class="alert alert-<?=$alert[0]?> alert-dismissible mt-3">
 									<?=$alert[1]?>
-									<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+									<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 								</div>
 							<?php endif; ?>
 							<?=form_open(base_url() . "admin/login", "method='POST'")?>
@@ -39,8 +38,8 @@ $template_header; // loads in the header of the page obtained from views/admin/t
 									<label for="inp_password" class="text-light">Password:</label>
 									<input type="password" class="form-control text-center" name="inp_password" placeholder="*Password" required="">
 								</div>
-								<button type="submit" class="btn btn-primary mt-3">
-									<i class="fa fa-sign-in" aria-hidden="true"></i> Sign-In
+								<button type="submit" class="btn btn-primary rounded-pill mt-3 fw-bold">
+									<h5><i class="fa fa-sign-in" aria-hidden="true"></i> Sign-In</h5>
 								</button>
 							<?=form_close()?>
 						</div>

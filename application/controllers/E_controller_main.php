@@ -1,7 +1,7 @@
 <?php 
  defined("BASEPATH") OR exit("No direct script access allowed");
 
- class E_controller_main extends CI_Controller {
+ class E_controller_main extends E_Core_Controller {
 
 	public function __construct() {
 		parent::__construct();
@@ -20,8 +20,8 @@
 		$head["title"] = "DULO By The A's - Ordering System";
 		$data["template_head"] = $this->load->view("user/template/u_t_head", $head);
 
-		// $data["tbl_products"] = $this->Model_read->get_products_featured();
-		// $data["tbl_types"] = $this->Model_read->get_types_featured();
+		$data["tbl_products"] = $this->Model_read->get_products_featured();
+		$data["tbl_types"] = $this->Model_read->get_types_featured();
 
 		$this->load->view("user/u_home", $data);
 	}
@@ -34,7 +34,7 @@
 
 		$page_no = (!is_null($page) && $page >= 0 ? ($page > $page_total-1 ? $page_total-1 : $page) : 0);
 
-		$head["title"] = "Products - Angeliclay Ordering System";
+		$head["title"] = "Products - Dulo By The A's";
 		$data["template_head"] = $this->load->view("user/template/u_t_head", $head);
 		$data["tbl_products"] = $this->Model_read->get_products_user_view($search, $type, $page_no);
 		foreach ($this->Model_read->get_types_featured_view()->result_array() as $row) {
@@ -46,12 +46,16 @@
 		$next_page = $this->Model_read->get_products_user_view($search, $type, $page_no + 1);
 		$data["page_limit"] = ($next_page->num_rows() > 0 ? FALSE : TRUE);
 
+		$data["tbl_types"] = $this->Model_read->get_types_featured();
+
+		$data["type"] = $type;
+
 		$this->load->view("user/u_products", $data);
 	}
 	public function view_u_product() {
 		$id = $this->input->get("id");
 
-		$head["title"] = "Product #$id - Angeliclay Ordering System";
+		$head["title"] = "Product #$id - Dulo By The A's";
 		$data["template_head"] = $this->load->view("user/template/u_t_head", $head);
 
 		$product = $this->Model_read->get_product_wid_user($id);
@@ -65,7 +69,7 @@
 		}
 	}
 	public function view_u_custom() {
-		$head["title"] = "Custom - Angeliclay Ordering System";
+		$head["title"] = "Custom - Dulo By The A's";
 		$data["template_head"] = $this->load->view("user/template/u_t_head", $head);
 
 		if (!$this->session->has_userdata("user_in")) {
@@ -87,7 +91,7 @@
 		}
 	}
 	public function view_u_cart() {
-		$head["title"] = "Cart - Angeliclay Ordering System";
+		$head["title"] = "Cart - Dulo By The A's";
 		$data["template_head"] = $this->load->view("user/template/u_t_head", $head);
 
 		if ($this->session->has_userdata("cart")) {
@@ -102,36 +106,39 @@
 		$this->load->view("user/u_cart", $data);
 	}
 	public function view_u_submit_order() {
-		$head["title"] = "Place Order - Angeliclay Ordering System";
+		$head["title"] = "Place Order - Dulo By The A's";
 		$data["template_head"] = $this->load->view("user/template/u_t_head", $head);
 
 		$grand_total = $this->input->post("grand_total");
+		$delivery_method = $this->input->post("delivery_method");
 
-		if (!$this->session->has_userdata("user_in")) {
-			$this->session->set_flashdata("notice", array("warning", "Please log-in first."));
-			redirect("login");
-		} else {
-			if (!isset($grand_total) || $grand_total <= 0){
+		// if (!$this->session->has_userdata("user_in")) {
+		// 	$this->session->set_flashdata("notice", array("warning", "Please log-in first."));
+		// 	redirect("cart");
+		// } else {
+			if (!isset($grand_total) || $grand_total <= 0 || !isset($delivery_method)){
 				$this->session->set_flashdata("notice", array("danger", "Something went wrong, please try again."));
 				redirect("cart");
 			} else {
 				$user_details = $this->Model_read->get_user_acc_wid($this->session->userdata("user_id"));
-				if ($user_details->num_rows() < 1) {
-					session_destroy();
-					redirect("home");
+				if ($user_details->num_rows() > 0) {
+					$user_details = $user_details->row_array();
 				} else {
-					$data["grand_total"] = $grand_total;
-					$data["account_details"] = $user_details->row_array();
-					$this->load->view("user/u_submit_order", $data);
+					$user_details = NULL;
 				}
+				$data["grand_total"] = $grand_total;
+				$data["delivery_method"] = $delivery_method;
+				$data["account_details"] = $user_details;
+				$data["no_account_uid"] = get_cookie("no_account_uid");
+				$this->load->view("user/u_submit_order", $data);
 			}
-		}
+		// }
 	}
 	public function view_u_login() {
 		if ($this->session->has_userdata("user_in")) {
 			redirect("home");
 		} else {
-			$head["title"] = "Login - Angeliclay Ordering System";
+			$head["title"] = "Login - Dulo By The A's";
 			$data["template_head"] = $this->load->view("user/template/u_t_head", $head);
 
 			$this->load->view("user/u_login", $data);
@@ -141,7 +148,7 @@
 		if ($this->session->has_userdata("user_in")) {
 			redirect("home");
 		} else {
-			$head["title"] = "Register - Angeliclay Ordering System";
+			$head["title"] = "Register - Dulo By The A's";
 			$data["template_head"] = $this->load->view("user/template/u_t_head", $head);
 
 			$this->load->view("user/u_register", $data);
@@ -150,11 +157,11 @@
 	public function user_logout() {
 		if ($this->session->has_userdata("user_in")) {
 			$this->session->unset_userdata(array("user_id", "user_name", "user_email", "user_in"));
-			redirect("login");
+			redirect("home");
 		}
 	}
 	public function view_u_account() {
-		$head["title"] = "Account - Angeliclay Ordering System";
+		$head["title"] = "Account - Dulo By The A's";
 		$data["template_head"] = $this->load->view("user/template/u_t_head", $head);
 
 		if (!$this->session->has_userdata("user_in")) {
@@ -186,7 +193,7 @@
 		}
 	}
 	public function view_u_account_details() {
-		$head["title"] = "Account Details - Angeliclay Ordering System";
+		$head["title"] = "Account Details - Dulo By The A's";
 		$data["template_head"] = $this->load->view("user/template/u_t_head", $head);
 
 		if (!$this->session->has_userdata("user_in")) {
@@ -207,7 +214,7 @@
 	public function view_u_my_orders() {
 		$state = ($this->input->get("state") != NULL ? $this->input->get("state") : "ALL");
 
-		$head["title"] = "My Orders - Angeliclay Ordering System";
+		$head["title"] = "My Orders - Dulo By The A's";
 		$data["template_head"] = $this->load->view("user/template/u_t_head", $head);
 
 		if (!$this->session->has_userdata("user_in")) {
@@ -234,7 +241,7 @@
 	public function view_u_my_order_details() {
 		$id = $this->input->get("id");
 
-		$head["title"] = "Order Details - Angeliclay Ordering System";
+		$head["title"] = "Order Details - Dulo By The A's";
 		$data["template_head"] = $this->load->view("user/template/u_t_head", $head);
 
 		$user_id = $this->session->userdata("user_id");
@@ -284,7 +291,7 @@
 	public function view_u_my_order_payment() {
 		$id = $this->input->get("id");
 
-		$head["title"] = "Order Payment - Angeliclay Ordering System";
+		$head["title"] = "Order Payment - Dulo By The A's";
 		$data["template_head"] = $this->load->view("user/template/u_t_head", $head);
 
 		$user_id = $this->session->userdata("user_id");
@@ -327,7 +334,7 @@
 	public function view_u_my_order_adtl_payment() {
 		$id = $this->input->get("id");
 
-		$head["title"] = "Order Adtl. Payment - Angeliclay Ordering System";
+		$head["title"] = "Order Adtl. Payment - Dulo By The A's";
 		$data["template_head"] = $this->load->view("user/template/u_t_head", $head);
 
 		$user_id = $this->session->userdata("user_id");
@@ -360,7 +367,7 @@
 		}
 	}
 	public function view_u_customer_support() {
-		$head["title"] = "Customer Support Chat - Angeliclay Ordering System";
+		$head["title"] = "Customer Support Chat - Dulo By The A's";
 		$data["template_head"] = $this->load->view("user/template/u_t_head", $head);
 
 		if (!$this->session->has_userdata("user_in")) {
@@ -404,8 +411,11 @@
 	public function view_a_login() {
 		// check if user is already logged in, if yes return to dashboard
 		if (!$this->session->has_userdata("admin_in")) {
-			$head["title"] = "Login - Angeliclay Ordering System";
+			$head["title"] = "Login - Dulo By The A's";
 			$data["template_head"] = $this->load->view("admin/template/a_t_head", $head);
+
+			$data["alert"] = $this->session->flashdata("login_alert");
+			unset($_SESSION['login_alert']);
 
 			$this->load->view("admin/a_login", $data);
 		} else {
@@ -415,7 +425,7 @@
 	public function view_a_dashboard() {
 		$this->admin_login_check();
 
-		$head["title"] = "Dashboard - Angeliclay Ordering System";
+		$head["title"] = "Dashboard - Dulo By The A's";
 		$data["template_head"] = $this->load->view("admin/template/a_t_head", $head);
 		$data["nav"] = array(array("text" => "Dashboard", "link" => "dashboard"));
 
@@ -434,7 +444,7 @@
 	public function view_a_products() {
 		$this->admin_login_check();
 
-		$head["title"] = "Products - Angeliclay Ordering System";
+		$head["title"] = "Products - Dulo By The A's";
 		$data["template_head"] = $this->load->view("admin/template/a_t_head", $head);
 		$data["nav"] = array(array("text" => "Products", "link" => "products"));
 
@@ -456,7 +466,7 @@
 			$this->session->set_flashdata("alert", array("warning", "Product ID does not exist."));
 			redirect("admin/products");
 		} else {
-			$head["title"] = "Products/View - Angeliclay Ordering System";
+			$head["title"] = "Products/View - Dulo By The A's";
 			$data["template_head"] = $this->load->view("admin/template/a_t_head", $head);
 			$data["nav"] = array(
 				array("text" => "Products", "link" => "products"),
@@ -482,7 +492,7 @@
 			$this->session->set_flashdata("alert", array("warning", "Product ID does not exist."));
 			redirect("admin/products");
 		} else {
-			$head["title"] = "Products/Edit - Angeliclay Ordering System";
+			$head["title"] = "Products/Edit - Dulo By The A's";
 			$data["template_head"] = $this->load->view("admin/template/a_t_head", $head);
 			$data["nav"] = array(
 				array("text" => "Products", "link" => "products"),
@@ -502,7 +512,7 @@
 	public function view_a_types() {
 		$this->admin_login_check();
 
-		$head["title"] = "Types - Angeliclay Ordering System";
+		$head["title"] = "Types - Dulo By The A's";
 		$data["template_head"] = $this->load->view("admin/template/a_t_head", $head);
 		$data["nav"] = array(array("text" => "Types", "link" => "types"));
 
@@ -521,7 +531,7 @@
 			$this->session->set_flashdata("alert", array("warning", "Type ID does not exist."));
 			redirect("admin/types");
 		} else {
-			$head["title"] = "Types/View - Angeliclay Ordering System";
+			$head["title"] = "Types/View - Dulo By The A's";
 			$data["template_head"] = $this->load->view("admin/template/a_t_head", $head);
 			$data["nav"] = array(
 				array("text" => "Types", "link" => "types"),
@@ -544,7 +554,7 @@
 			$this->session->set_flashdata("alert", array("warning", "Type ID does not exist."));
 			redirect("admin/types");
 		} else {
-			$head["title"] = "Types/Edit - Angeliclay Ordering System";
+			$head["title"] = "Types/Edit - Dulo By The A's";
 			$data["template_head"] = $this->load->view("admin/template/a_t_head", $head);
 			$data["nav"] = array(
 				array("text" => "Types", "link" => "types"),
@@ -563,7 +573,7 @@
 
 		$state = $this->input->get("state");
 
-		$head["title"] = "Orders - Angeliclay Ordering System";
+		$head["title"] = "Orders - Dulo By The A's";
 		$data["template_head"] = $this->load->view("admin/template/a_t_head", $head);
 		$data["nav"] = array(array("text" => "Orders", "link" => "orders"));
 
@@ -596,7 +606,7 @@
 			$this->session->set_flashdata("alert", array("warning", "Order ID does not exist."));
 			redirect("admin/orders");
 		} else {
-			$head["title"] = "Orders/View - Angeliclay Ordering System";
+			$head["title"] = "Orders/View - Dulo By The A's";
 			$data["template_head"] = $this->load->view("admin/template/a_t_head", $head);
 			$data["nav"] = array(
 				array("text" => "Orders", "link" => "orders"),
@@ -633,7 +643,7 @@
 			$this->session->set_flashdata("alert", array("warning", "Order ID does not exist."));
 			redirect("admin/orders");
 		} else {
-			$head["title"] = "Orders/Edit - Angeliclay Ordering System";
+			$head["title"] = "Orders/Edit - Dulo By The A's";
 			$data["template_head"] = $this->load->view("admin/template/a_t_head", $head);
 			$data["nav"] = array(
 				array("text" => "Orders", "link" => "orders"),
@@ -657,7 +667,7 @@
 
 		$state = $this->input->get("state");
 
-		$head["title"] = "Custom Orders - Angeliclay Ordering System";
+		$head["title"] = "Custom Orders - Dulo By The A's";
 		$data["template_head"] = $this->load->view("admin/template/a_t_head", $head);
 		$data["nav"] = array(array("text" => "Custom Orders", "link" => "orders_custom"));
 
@@ -689,7 +699,7 @@
 			$this->session->set_flashdata("alert", array("warning", "Order ID does not exist."));
 			redirect("admin/orders_custom");
 		} else {
-			$head["title"] = "Custom Orders/View - Angeliclay Ordering System";
+			$head["title"] = "Custom Orders/View - Dulo By The A's";
 			$data["template_head"] = $this->load->view("admin/template/a_t_head", $head);
 			$data["nav"] = array(
 				array("text" => "Custom Orders", "link" => "orders_custom"),
@@ -733,7 +743,7 @@
 			$this->session->set_flashdata("alert", array("warning", "Order ID does not exist."));
 			redirect("admin/orders_custom");
 		} else {
-			$head["title"] = "Custom Orders/Edit - Angeliclay Ordering System";
+			$head["title"] = "Custom Orders/Edit - Dulo By The A's";
 			$data["template_head"] = $this->load->view("admin/template/a_t_head", $head);
 			$data["nav"] = array(
 				array("text" => "Custom Orders", "link" => "orders_custom"),
@@ -755,7 +765,7 @@
 	public function view_a_users() {
 		$this->admin_login_check();
 
-		$head["title"] = "Users - Angeliclay Ordering System";
+		$head["title"] = "Users - Dulo By The A's";
 		$data["template_head"] = $this->load->view("admin/template/a_t_head", $head);
 		$data["nav"] = array(array("text" => "Users", "link" => "users"));
 
@@ -774,7 +784,7 @@
 			$this->session->set_flashdata("alert", array("warning", "User ID does not exist."));
 			redirect("admin/users");
 		} else {
-			$head["title"] = "Users/View - Angeliclay Ordering System";
+			$head["title"] = "Users/View - Dulo By The A's";
 			$data["template_head"] = $this->load->view("admin/template/a_t_head", $head);
 			$data["nav"] = array(
 				array("text" => "Users", "link" => "users"),
@@ -809,7 +819,7 @@
 			$this->session->set_flashdata("alert", array("warning", "User ID does not exist."));
 			redirect("admin/users");
 		} else {
-			$head["title"] = "Users/Edit - Angeliclay Ordering System";
+			$head["title"] = "Users/Edit - Dulo By The A's";
 			$data["template_head"] = $this->load->view("admin/template/a_t_head", $head);
 			$data["nav"] = array(
 				array("text" => "Users", "link" => "users"),
@@ -826,7 +836,7 @@
 	public function view_a_messaging() {
 		$this->admin_login_check();
 
-		$head["title"] = "Messaging - Angeliclay Ordering System";
+		$head["title"] = "Messaging - Dulo By The A's";
 		$data["template_head"] = $this->load->view("admin/template/a_t_head", $head);
 		$data["nav"] = array(array("text" => "Messaging", "link" => "messaging"));
 
@@ -846,7 +856,7 @@
 			$this->session->set_flashdata("alert", array("warning", "User ID does not exist."));
 			redirect("admin/users");
 		} else {
-			$head["title"] = "Messaging/View - Angeliclay Ordering System";
+			$head["title"] = "Messaging/View - Dulo By The A's";
 			$data["template_head"] = $this->load->view("admin/template/a_t_head", $head);
 			$data["nav"] = array(
 				array("text" => "Messaging", "link" => "messaging"),
@@ -867,7 +877,7 @@
 	public function view_a_accounts() {
 		$this->admin_login_check();
 
-		$head["title"] = "Accounts - Angeliclay Ordering System";
+		$head["title"] = "Accounts - Dulo By The A's";
 		$data["template_head"] = $this->load->view("admin/template/a_t_head", $head);
 		$data["nav"] = array(array("text" => "Accounts", "link" => "accounts"));
 
@@ -886,7 +896,7 @@
 			$this->session->set_flashdata("alert", array("warning", "Admin ID does not exist."));
 			redirect("admin/accounts");
 		} else {
-			$head["title"] = "Accounts/View - Angeliclay Ordering System";
+			$head["title"] = "Accounts/View - Dulo By The A's";
 			$data["template_head"] = $this->load->view("admin/template/a_t_head", $head);
 			$data["nav"] = array(
 				array("text" => "Accounts", "link" => "accounts"),
@@ -910,7 +920,7 @@
 			$this->session->set_flashdata("alert", array("warning", "Admin ID does not exist."));
 			redirect("admin/accounts");
 		} else {
-			$head["title"] = "Accounts/Edit - Angeliclay Ordering System";
+			$head["title"] = "Accounts/Edit - Dulo By The A's";
 			$data["template_head"] = $this->load->view("admin/template/a_t_head", $head);
 			$data["nav"] = array(
 				array("text" => "Accounts", "link" => "accounts"),
@@ -927,7 +937,7 @@
 	public function view_a_config() {
 		$this->admin_login_check();
 
-		$head["title"] = "Config - Angeliclay Ordering System";
+		$head["title"] = "Config - Dulo By The A's";
 		$data["template_head"] = $this->load->view("admin/template/a_t_head", $head);
 		$data["nav"] = array(array("text" => "Config", "link" => "config"));
 

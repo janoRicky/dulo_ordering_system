@@ -27,13 +27,7 @@ $template_header;
 				<?php $this->load->view("admin/template/a_t_navbar", $nav); ?>
 				<div class="col-12 text-center">
 					<div class="container-fluid p-2 py-5 p-sm-5 justify-content-center">
-						<?php if ($this->session->flashdata("alert")): ?>
-							<?php $alert = $this->session->flashdata("alert"); ?>
-							<div class="alert alert-<?=$alert[0]?> alert-dismissible">
-								<?=$alert[1]?>
-								<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-							</div>
-						<?php endif; ?>
+						
 						<div class="row view_container">
 							<div class="col-12 text-start">
 								<?php $user_info = $this->Model_read->get_user_acc_wid($row_info["user_id"])->row_array(); ?>
@@ -104,7 +98,7 @@ $template_header;
 										<?=form_open(base_url() . "admin/message_send", "method='POST'")?>
 											<input type="hidden" name="inp_user_id" value="<?=$row_info["user_id"]?>">
 											<textarea class="form-control" name="inp_message" placeholder="Your message here..." style="resize: none;" required=""></textarea>
-											<button class="btn btn-primary pull-right font-weight-bold px-2 py-1 mt-1" type="submit">
+											<button class="btn btn-primary pull-right fw-bold px-2 py-1 mt-1" type="submit">
 												Send <i class="fa fa-caret-right fa-lg" aria-hidden="true"></i>
 											</button>
 										<?=form_close()?>

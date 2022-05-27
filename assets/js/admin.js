@@ -36,4 +36,13 @@ $(document).ready(function () {
 	});
 
 	
+
+	$(".img_update").on("click", function() {
+		$("#product_image, #type_image").click();
+	});
+
+	$("#alert").fadeOut(350).fadeIn(350);
+	setTimeout(function() {
+		$("#alert").fadeOut(5000);
+	}, 5000);
 });

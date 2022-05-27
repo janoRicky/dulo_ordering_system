@@ -1,7 +1,7 @@
 <?php 
  defined('BASEPATH') OR exit('No direct script access allowed');
 
- class A_controller_update extends CI_Controller {
+ class A_controller_update extends E_Core_Controller {
 
  	public function __construct() {
  		parent::__construct();
@@ -20,9 +20,8 @@
 		$type_id = $this->input->post("inp_type_id");
 		$description = $this->input->post("inp_description");
 		$price = $this->input->post("inp_price");
-		$qty = $this->input->post("inp_qty");
 
-		if ($product_id == NULL || $name == NULL || $type_id == NULL || $description == NULL || $price == NULL || $qty == NULL) {
+		if ($product_id == NULL || $name == NULL || $type_id == NULL || $description == NULL || $price == NULL) {
 			$this->session->set_flashdata("alert", array("warning", "One or more inputs are empty."));
 		} else {
 			$row_info = $this->Model_read->get_product_wid($product_id)->row_array();
@@ -32,7 +31,7 @@
 			$product_folder = "product_". $product_id;
 
 			$config["upload_path"] = "./uploads/products/". $product_folder;
-			$config["allowed_types"] = "gif|jpg|png";
+			$config["allowed_types"] = "gif|jpg|jpeg|png";
 			$config["max_size"] = 5000;
 			$config["encrypt_name"] = TRUE;
 
@@ -78,20 +77,26 @@
 	}
 	public function edit_product_featured() {
 		$product_id = $this->input->post("inp_id");
-		$featured_no = $this->input->post("inp_featured_no");
+		// $featured_no = $this->input->post("inp_featured_no");
+		$submit = $this->input->post("inp_submit");
 
-		if ($product_id == NULL || $featured_no == NULL) {
+		if ($product_id == NULL || $submit == NULL) {
 			$this->session->set_flashdata("alert", array("warning", "One or more inputs are empty."));
 		} else {
+			$featured = ($submit == "Unfeature" ? 0 : 1);
 			$data = array(
-				"featured" => $featured_no
+				"featured" => $featured
 			);
-			$featured_prev = $this->Model_read->get_product_featured_wno($featured_no)->row_array();
-			$data_prev = array(
-				"featured" => NULL
-			);
+			// $data = array(
+			// 	"featured" => $featured_no
+			// );
+			// $featured_prev = $this->Model_read->get_product_featured_wno($featured_no)->row_array();
+			// $data_prev = array(
+			// 	"featured" => NULL
+			// );
 
-			if ($this->Model_update->update_product($featured_prev["product_id"], $data_prev) && $this->Model_update->update_product($product_id, $data)) {
+			// if ($this->Model_update->update_product($featured_prev["product_id"], $data_prev) && $this->Model_update->update_product($product_id, $data)) {
+			if ($this->Model_update->update_product($product_id, $data)) {
 				$this->session->set_flashdata("alert", array("success", "Product featured is successfully updated."));
 			} else {
 				$this->session->set_flashdata("alert", array("danger", "Something went wrong, please try again."));
@@ -137,7 +142,7 @@
 			$type_folder = "type_". $type_id;
 
 			$config["upload_path"] = "./uploads/types/". $type_folder;
-			$config["allowed_types"] = "gif|jpg|png";
+			$config["allowed_types"] = "gif|jpg|jpeg|png";
 			$config["max_size"] = 5000;
 			$config["encrypt_name"] = TRUE;
 
@@ -349,7 +354,7 @@
 					$product_folder = "custom_". $product_id;
 
 					$config["upload_path"] = "./uploads/". $product_folder;
-					$config["allowed_types"] = "gif|jpg|png";
+					$config["allowed_types"] = "gif|jpg|jpeg|png";
 					$config["max_size"] = 5000;
 					$config["encrypt_name"] = TRUE;
 
@@ -461,7 +466,7 @@
 							$product_folder = "product_". (intval($this->db->count_all("products")) + 1);
 
 							$config["upload_path"] = "./uploads/". $product_folder;
-							$config["allowed_types"] = "gif|jpg|png";
+							$config["allowed_types"] = "gif|jpg|jpeg|png";
 							$config["max_size"] = 5000;
 							$config["encrypt_name"] = TRUE;
 

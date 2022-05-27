@@ -11,28 +11,22 @@ $template_header;
 				<?php $this->load->view("admin/template/a_t_navbar", $nav); ?>
 				<div class="col-12 text-center">
 					<div class="container-fluid p-2 py-5 p-sm-5 justify-content-center">
-						<?php if ($this->session->flashdata("alert")): ?>
-							<?php $alert = $this->session->flashdata("alert"); ?>
-							<div class="alert alert-<?=$alert[0]?> alert-dismissible">
-								<?=$alert[1]?>
-								<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-							</div>
-						<?php endif; ?>
-						<div class="row">
+						
+						<div class="row py-3 col-12 col-md-9 mx-auto border-bottom mb-4 title_bar">
 							<div class="col-12 col-sm-6 text-start">
 								<h2>View User #<?=$row_info["user_id"]?> <?=($row_info["email"] == NULL ? "[NO ACCOUNT]" : "")?></h2>
 							</div>
 							<div class="col-12 col-sm-6 text-end">
 								<a class="btn btn-primary" href="<?=base_url();?>admin/users_edit?id=<?=$row_info['user_id']?>">
-									<i class="fa fa-pencil p-1" aria-hidden="true"></i> Update
+									<i class="fa fa-pencil fa-lg text-warning p-1" aria-hidden="true"></i> Update
 								</a>
 							</div>
 						</div>
-						<div class="row view_container">
+						<div class="row col-12 col-md-9 mx-auto view_container">
 							<?php if ($row_info["email"] != NULL): ?>
 								<div class="col-12 col-sm-6 text-end">
 									<a href="<?=base_url();?>admin/messaging_view?id=<?=$row_info['user_id']?>">
-										<button class="btn btn-primary font-weight-bold">
+										<button class="btn btn-primary fw-bold">
 											<i class="fa fa-comments-o p-1" aria-hidden="true"></i> Messaging
 										</button>
 									</a>
@@ -41,28 +35,46 @@ $template_header;
 							<div class="col-12">
 								<div class="row mt-2">
 									<?php if ($row_info["email"] != NULL): ?>
-										<div class="col-12 col-md-6">
-											<label>Email:</label><br>
-											<?=$row_info["email"]?>
-										</div>
-										<div class="col-12 col-md-6">
-									<?php else: ?>
-										<div class="col-12">
+										<div class="col-12 col-md-6 row border-0">
+											<div class="col-12 col-md-4">
+												<label>Email:</label>
+											</div>
+											<div class="col-12 col-md-8">
+												<?=$row_info["email"]?>
+											</div>
+										</div><br>
 									<?php endif; ?>
-										<label>Full Name:</label><br>
-										<?=$row_info["name_last"] .", ". $row_info["name_first"] ." ". $row_info["name_middle"] ." ". $row_info["name_extension"]?>
+									<div class="col-12 col-md-6 row border-0">
+										<div class="col-12 col-md-4">
+											<label>Full Name:</label>
+										</div>
+										<div class="col-12 col-md-8">
+											<?=$row_info["name_last"] .", ". $row_info["name_first"] ." ". $row_info["name_middle"] ." ". $row_info["name_extension"]?>
+										</div>
 									</div>
-									<div class="col-12 col-md-6">
-										<label>Gender:</label><br>
-										<?=$row_info["gender"]?>
+									<div class="col-12 col-md-6 row border-0">
+										<div class="col-12 col-md-4">
+											<label>Gender:</label>
+										</div>
+										<div class="col-12 col-md-8">
+											<?=strtoupper($row_info["gender"])?>
+										</div>
 									</div>
-									<div class="col-12 col-md-6">
-										<label>Contact #:</label><br>
-										<?=$row_info["contact_num"]?>
+									<div class="col-12 col-md-6 row border-0">
+										<div class="col-12 col-md-4">
+											<label>Contact #:</label>
+										</div>
+										<div class="col-12 col-md-8">
+											<?=$row_info["contact_num"]?>
+										</div>
 									</div>
-									<div class="col-12">
-										<label>Full Address:</label><br>
-										<?=$row_info["zip_code"] ." / ". $row_info["country"] ." / ". $row_info["province"] ." / ". $row_info["city"] ." / ". $row_info["street"] ." / ". $row_info["address"]?>
+									<div class="col-12 col-md-6 row border-0">
+										<div class="col-12 col-md-4">
+											<label>Full Address:</label>
+										</div>
+										<div class="col-12 col-md-8">
+											<?=$row_info["province"] ." / ". $row_info["city"] ." / ". $row_info["street"] ." / ". $row_info["address"]?>
+										</div>
 									</div>
 									<div class="col-12">
 										<label>User Orders:</label><br>

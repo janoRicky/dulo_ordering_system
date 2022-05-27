@@ -11,16 +11,10 @@ $template_header;
 				<?php $this->load->view("admin/template/a_t_navbar", $nav); ?>
 				<div class="col-12 text-center">
 					<div class="container-fluid p-2 py-5 p-sm-5 justify-content-center">
-						<?php if ($this->session->flashdata("alert")): ?>
-							<?php $alert = $this->session->flashdata("alert"); ?>
-							<div class="alert alert-<?=$alert[0]?> alert-dismissible">
-								<?=$alert[1]?>
-								<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-							</div>
-						<?php endif; ?>
+						
 						<div class="row pt-3 pb-1">
 							<div class="col-12 col-sm-6 text-start">
-								<h2 class="font-weight-bold">Custom Orders (<?=$tbl_orders_custom->num_rows()?>)</h2>
+								<h2 class="fw-bold">Custom Orders (<?=$tbl_orders_custom->num_rows()?>)</h2>
 							</div>
 							<div class="col-12 col-sm-6 text-end">
 								<button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal_new_account">New Custom Order</button>
@@ -72,11 +66,11 @@ $template_header;
 													?>
 													<?php if ($user_info["email"] == NULL): ?>
 														<a href="<?=base_url();?>admin/users_view?id=<?=$row["user_id"]?>">
-															<i class="fa fa-eye p-1" aria-hidden="true"></i><?=$user_info["name_last"] .", ". $user_info["name_first"] ." ". $user_info["name_middle"] ." ". $user_info["name_extension"]?> [User #<?=$row["user_id"]?>]
+															<i class="fa fa-eye fa-lg text-primary p-1" aria-hidden="true"></i><?=$user_info["name_last"] .", ". $user_info["name_first"] ." ". $user_info["name_middle"] ." ". $user_info["name_extension"]?> [User #<?=$row["user_id"]?>]
 														</a>
 													<?php else: ?>
 														<a href="<?=base_url();?>admin/users_view?id=<?=$row["user_id"]?>">
-															<i class="fa fa-eye p-1" aria-hidden="true"></i><?=$user_info["email"]?> [User #<?=$row["user_id"]?>]
+															<i class="fa fa-eye fa-lg text-primary p-1" aria-hidden="true"></i><?=$user_info["email"]?> [User #<?=$row["user_id"]?>]
 														</a>
 													<?php endif; ?>
 												</td>
@@ -97,12 +91,12 @@ $template_header;
 												</td>
 												<td>
 													<a class="action_button" href="<?=base_url()?>admin/orders_custom_view?id=<?=$row['order_id']?>">
-														<i class="fa fa-eye p-1" aria-hidden="true"></i>
+														<i class="fa fa-eye fa-lg text-primary p-1" aria-hidden="true"></i>
 													</a>
 													<a class="action_button" href="<?=base_url();?>admin/orders_custom_edit?id=<?=$row['order_id']?>">
-														<i class="fa fa-pencil p-1" aria-hidden="true"></i>
+														<i class="fa fa-pencil fa-lg text-warning p-1" aria-hidden="true"></i>
 													</a>
-													<i class="fa fa-trash p-1 btn_delete action_button" data-bs-toggle="modal" data-bs-target="#modal_delete_order" data-id="<?=$row['order_id']?>" aria-hidden="true"></i>
+													<i class="fa fa-trash fa-lg text-danger p-1 btn_delete action_button" data-bs-toggle="modal" data-bs-target="#modal_delete_order" data-id="<?=$row['order_id']?>" aria-hidden="true"></i>
 												</td>
 											</tr>
 										<?php endforeach; ?>
@@ -185,14 +179,6 @@ $template_header;
 							<input type="time" class="form-control" name="inp_time" autocomplete="off" value="<?=date('H:i')?>" required="">
 						</div>
 						<div class="form-group">
-							<label for="inp_zip_code">Zip Code:</label>
-							<input type="text" class="form-control" id="inp_zip_code" name="inp_zip_code" placeholder="*Zip Code" autocomplete="off" required="">
-						</div>
-						<div class="form-group">
-							<label for="inp_country">Country:</label>
-							<input type="text" class="form-control" id="inp_country" name="inp_country" placeholder="*Country" autocomplete="off" required="">
-						</div>
-						<div class="form-group">
 							<label for="inp_province">Province:</label>
 							<input type="text" class="form-control" id="inp_province" name="inp_province" placeholder="*Province" autocomplete="off" required="">
 						</div>
@@ -208,7 +194,7 @@ $template_header;
 							<label for="inp_address">House Number/Floor/Bldg./etc.:</label>
 							<input type="text" class="form-control" id="inp_address" name="inp_address" placeholder="House Number/Floor/Bldg./etc." autocomplete="off">
 						</div>
-						<h4 class="pt-3 text-center font-weight-bold">&bull; Custom Product Details &bull;</h4>
+						<h4 class="pt-3 text-center fw-bold"> Custom Product Details </h4>
 						<div class="form-group">
 							<label for="inp_custom_description">Custom Description:</label>
 							<textarea class="form-control" rows="5" style="resize: none;" name="inp_custom_description" placeholder="*" maxlength="2040" required=""></textarea>
@@ -409,8 +395,6 @@ $template_header;
 				.done(function(data) {
 					var u_info = $.parseJSON(data);
 					$(".user_email").val(u_info["email"]);
-					$("#inp_zip_code").val(u_info["zip_code"]);
-					$("#inp_country").val(u_info["country"]);
 					$("#inp_province").val(u_info["province"]);
 					$("#inp_city").val(u_info["city"]);
 					$("#inp_street").val(u_info["street"]);
@@ -450,8 +434,6 @@ $template_header;
 					$("#inp_gender").attr("disabled", true);
 					$("#inp_contact_num").val(u_info["contact_num"]).attr("disabled", true);
 
-					$("#inp_zip_code").val(u_info["zip_code"]);
-					$("#inp_country").val(u_info["country"]);
 					$("#inp_province").val(u_info["province"]);
 					$("#inp_city").val(u_info["city"]);
 					$("#inp_street").val(u_info["street"]);

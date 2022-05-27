@@ -11,16 +11,10 @@ $template_header;
 				<?php $this->load->view("admin/template/a_t_navbar", $nav); ?>
 				<div class="col-12 text-center">
 					<div class="col-12-fluid p-5">
-						<?php if ($this->session->flashdata("alert")): ?>
-							<?php $alert = $this->session->flashdata("alert"); ?>
-							<div class="alert alert-<?=$alert[0]?> alert-dismissible">
-								<?=$alert[1]?>
-								<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-							</div>
-						<?php endif; ?>
-						<div class="row py-3 col-12 col-md-9 mx-auto border-bottom mb-4">
+						
+						<div class="row py-3 col-12 col-md-9 mx-auto border-bottom mb-4 title_bar">
 							<div class="col-12 col-sm-6 text-start">
-								<h2 class="font-weight-bold">Users <small class="text-muted">x<?=$tbl_users->num_rows()?></small></h2>
+								<h2 class="fw-bold">Users <small class="text-muted">x<?=$tbl_users->num_rows()?></small></h2>
 							</div>
 							<div class="col-12 col-sm-6 text-end">
 								<button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal_new_account"><i class="fa fa-plus p-1" aria-hidden="true"></i> New User</button>
@@ -63,16 +57,16 @@ $template_header;
 													<?=$row["contact_num"]?>
 												</td>
 												<td>
-													<?=$row["zip_code"] ." / ". $row["country"] ." / ". $row["province"] ." / ". $row["city"] ." / ". $row["street"] ." / ". $row["address"]?>
+													<?=$row["province"] ." / ". $row["city"] ." / ". $row["street"] ." / ". $row["address"]?>
 												</td>
 												<td>
 													<a class="action_button" href="<?=base_url();?>admin/users_view?id=<?=$row['user_id']?>">
-														<i class="fa fa-eye p-1" aria-hidden="true"></i>
+														<i class="fa fa-eye fa-lg text-primary p-1" aria-hidden="true"></i>
 													</a>
 													<a class="action_button" href="<?=base_url();?>admin/users_edit?id=<?=$row['user_id']?>">
-														<i class="fa fa-pencil p-1" aria-hidden="true"></i>
+														<i class="fa fa-pencil fa-lg text-warning p-1" aria-hidden="true"></i>
 													</a>
-													<i class="fa fa-trash p-1 btn_delete action_button" data-bs-toggle="modal" data-bs-target="#modal_delete_user" data-id="<?=$row['user_id']?>" aria-hidden="true"></i>
+													<i class="fa fa-trash fa-lg text-danger p-1 btn_delete action_button" data-bs-toggle="modal" data-bs-target="#modal_delete_user" data-id="<?=$row['user_id']?>" aria-hidden="true"></i>
 												</td>
 											</tr>
 										<?php endforeach; ?>
@@ -133,14 +127,6 @@ $template_header;
 								<option value="female">Female</option>
 								<option value="other">Other</option>
 							</select>
-						</div>
-						<div class="form-group">
-							<label for="inp_zip_code">Zip Code:</label>
-							<input type="text" class="form-control" name="inp_zip_code" placeholder="*Zip Code" autocomplete="off" required="">
-						</div>
-						<div class="form-group">
-							<label for="inp_country">Country:</label>
-							<input type="text" class="form-control" name="inp_country" placeholder="*Country" autocomplete="off" required="">
 						</div>
 						<div class="form-group">
 							<label for="inp_province">Province:</label>

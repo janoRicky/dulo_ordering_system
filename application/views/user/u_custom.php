@@ -26,7 +26,7 @@ $template_header;
 					<div class="row mt-4">
 						<div class="col-12 banner text-center">
 							<div class="banner_board">
-								<h3 class="font-weight-bold">&bull; Custom Product Details &bull;</h3>
+								<h3 class="fw-bold"> Custom Product Details </h3>
 							</div>
 						</div>
 					</div>
@@ -38,7 +38,7 @@ $template_header;
 								<div class="col-10">
 									<div class="row mt-2">
 										<div class="col-12">
-											<h5 class="font-weight-bold">Description: </h5>
+											<h5 class="fw-bold">Description: </h5>
 										</div>
 										<div class="col-12">
 											<textarea class="form-control" rows="5" style="resize: none;" name="inp_description" placeholder="*e.g. based on [character], 2 pieces/copies, etc." maxlength="2040" required=""></textarea>
@@ -46,7 +46,7 @@ $template_header;
 									</div>
 									<div class="row mt-2">
 										<div class="col-12 col-sm-6">
-											<h5 class="font-weight-bold">Type: </h5>
+											<h5 class="fw-bold">Type: </h5>
 											<select class="form-control" name="inp_type_id" required="">
 												<?php foreach ($types as $key => $val): ?>
 													<option value="<?=$key?>"><?=$val?></option>
@@ -54,14 +54,14 @@ $template_header;
 											</select>
 										</div>
 										<div class="col-12 col-sm-6">
-											<h5 class="font-weight-bold">Size: </h5>
+											<h5 class="fw-bold">Size: </h5>
 											<input class="form-control" type="text" name="inp_size" placeholder="*e.g. 12cm" required="">
 										</div>
 									</div>
 									<div class="row mt-2">
 										<div class="col-12">
 											<input id="img_count" type="hidden" name="inp_img_count" value="0" required="">
-											<h5 class="font-weight-bold">Image Reference/s: </h5>
+											<h5 class="fw-bold">Image Reference/s: </h5>
 											<div class="img_container row">
 												<div class="col-12 col-sm-6 col-md-4 img_box mb-3">
 													<div class="img_u_box">
@@ -86,7 +86,7 @@ $template_header;
 					<div class="row mt-4 mb-4">
 						<div class="col-12 banner text-center">
 							<div class="banner_board">
-								<h3 class="font-weight-bold">&bull; Shipping Details &bull;</h3>
+								<h3 class="fw-bold"> Shipping Details </h3>
 							</div>
 						</div>
 					</div>
@@ -97,37 +97,25 @@ $template_header;
 								<div class="col-10">
 									<div class="row mt-2 align-items-center">
 										<div class="col-4 col-md-2 my-3">
-											<h5 class="font-weight-bold">Zip Code: </h5>
-										</div>
-										<div class="col-8 col-md-4">
-											<input class="form-control" type="text" name="inp_zip_code" placeholder="*Zip Code" value="<?=$account_details['zip_code']?>" required="" autocomplete="off">
-										</div>
-										<div class="col-4 col-md-2 my-3">
-											<h5 class="font-weight-bold">Country: </h5>
-										</div>
-										<div class="col-8 col-md-4">
-											<input class="form-control" type="text" name="inp_country" placeholder="*Country" value="<?=$account_details['country']?>" required="" autocomplete="off">
-										</div>
-										<div class="col-4 col-md-2 my-3">
-											<h5 class="font-weight-bold">Province: </h5>
+											<h5 class="fw-bold">Province: </h5>
 										</div>
 										<div class="col-8 col-md-4">
 											<input class="form-control" type="text" name="inp_province" placeholder="*Province" value="<?=$account_details['province']?>" required="" autocomplete="off">
 										</div>
 										<div class="col-4 col-md-2 my-3">
-											<h5 class="font-weight-bold">City: </h5>
+											<h5 class="fw-bold">City: </h5>
 										</div>
 										<div class="col-8 col-md-4">
 											<input class="form-control" type="text" name="inp_city" placeholder="*City" value="<?=$account_details['city']?>" autocomplet required=""e="off">
 										</div>
 										<div class="col-4 col-md-2 my-3">
-											<h5 class="font-weight-bold">Street / Road: </h5>
+											<h5 class="fw-bold">Street / Road: </h5>
 										</div>
 										<div class="col-8 col-md-4">
 											<input class="form-control" type="text" name="inp_street" placeholder="*Street/Road" value="<?=$account_details['street']?>" required="" autocomplete="off">
 										</div>
 										<div class="col-4 col-md-2 my-3">
-											<h5 class="font-weight-bold">House Number / Floor / Bldg. / etc.: </h5>
+											<h5 class="fw-bold">House Number / Floor / Bldg. / etc.: </h5>
 										</div>
 										<div class="col-8 col-md-4">
 											<input class="form-control" type="text" name="inp_address" placeholder="House Number/Floor/Bldg./etc." value="<?=$account_details['address']?>" autocomplete="off">

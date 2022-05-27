@@ -19,53 +19,67 @@ $template_header;
 				<?php $this->load->view("admin/template/a_t_navbar", $nav); ?>
 				<div class="col-12 text-center">
 					<div class="container-fluid p-2 py-5 p-sm-5 justify-content-center">
-						<?php if ($this->session->flashdata("alert")): ?>
-							<?php $alert = $this->session->flashdata("alert"); ?>
-							<div class="alert alert-<?=$alert[0]?> alert-dismissible">
-								<?=$alert[1]?>
-								<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-							</div>
-						<?php endif; ?>
-						<div class="row">
+						
+						<div class="row py-3 col-12 col-md-9 mx-auto border-bottom mb-4 title_bar">
 							<div class="col-12 col-sm-6 text-start">
 								<h2>View Order #<?=$row_info["order_id"]?></h2>
 							</div>
 							<div class="col-12 col-sm-6 text-end">
 								<a class="btn btn-primary" href="<?=base_url();?>admin/orders_edit?id=<?=$row_info['order_id']?>">
-									<i class="fa fa-pencil p-1" aria-hidden="true"></i> Update
+									<i class="fa fa-pencil fa-lg text-warning p-1" aria-hidden="true"></i> Update
 								</a>
 							</div>
 						</div>
-						<div class="row view_container">
+						<div class="row col-12 col-md-9 mx-auto view_container">
 							<div class="col-12">
 								<div class="row mt-2">
-									<div class="col-12">
+									<div class="col-12 col-md-6 row border-0">
 										<?php
 										$user_info = $this->Model_read->get_user_acc_wid($row_info["user_id"])->row_array();
 										?>
 										<?php if ($user_info["email"] == NULL): ?>
-											<label>No Account:</label><br>
-											<a href="<?=base_url();?>admin/users_view?id=<?=$row_info["user_id"]?>">
-												<i class="fa fa-eye p-1" aria-hidden="true"></i><?=$user_info["name_last"] .", ". $user_info["name_first"] ." ". $user_info["name_middle"] ." ". $user_info["name_extension"]?> [User #<?=$row_info["user_id"]?>]
-											</a>
+											<div class="col-12 col-md-4">
+												<label>No Account:</label><br>
+											</div>
+											<div class="col-12 col-md-8">
+												<a href="<?=base_url();?>admin/users_view?id=<?=$row_info["user_id"]?>">
+													<i class="fa fa-eye fa-lg text-primary p-1" aria-hidden="true"></i><?=$user_info["name_last"] .", ". $user_info["name_first"] ." ". $user_info["name_middle"] ." ". $user_info["name_extension"]?> [User #<?=$row_info["user_id"]?>]
+												</a>
+											</div>
 										<?php else: ?>
-											<label>User Email:</label><br>
-											<a href="<?=base_url();?>admin/users_view?id=<?=$row_info["user_id"]?>">
-												<i class="fa fa-eye p-1" aria-hidden="true"></i><?=$user_info["email"]?> [User #<?=$row_info["user_id"]?>]
-											</a>
+											<div class="col-12 col-md-4">
+												<label>User Email:</label><br>
+											</div>
+											<div class="col-12 col-md-8">
+													<a href="<?=base_url();?>admin/users_view?id=<?=$row_info["user_id"]?>">
+													<i class="fa fa-eye fa-lg text-primary p-1" aria-hidden="true"></i><?=$user_info["email"]?> [User #<?=$row_info["user_id"]?>]
+												</a>
+											</div>
 										<?php endif; ?>
 									</div>
-									<div class="col-12">
-										<label>Description:</label><br>
-										<?=$row_info["description"]?>
+									<div class="col-12 col-md-6 row border-0">
+										<div class="col-12 col-md-4">
+											<label>Description:</label>
+										</div>
+										<div class="col-12 col-md-8">
+											<?=$row_info["description"]?>
+										</div>
 									</div>
-									<div class="col-12">
-										<label>Date / Time:</label><br>
-										<?=date("Y-m-d / H:i:s A", strtotime($row_info["date_time"]))?>
+									<div class="col-12 col-md-6 row border-0">
+										<div class="col-12 col-md-4">
+											<label>Date / Time:</label>
+										</div>
+										<div class="col-12 col-md-8">
+											<?=date("Y-m-d / H:i:s A", strtotime($row_info["date_time"]))?>
+										</div>
 									</div>
-									<div class="col-12">
-										<label>Full Address:</label><br>
-										<?=$row_info["zip_code"] ." / ". $row_info["country"] ." / ". $row_info["province"] ." / ". $row_info["city"] ." / ". $row_info["street"] ." / ". $row_info["address"]?>
+									<div class="col-12 col-md-6 row border-0">
+										<div class="col-12 col-md-4">
+											<label>Full Address:</label>
+										</div>
+										<div class="col-12 col-md-8">
+											<?=$row_info["province"] ." / ". $row_info["city"] ." / ". $row_info["street"] ." / ". $row_info["address"]?>
+										</div>
 									</div>
 
 									<div class="col-12">
@@ -84,14 +98,14 @@ $template_header;
 												<?php $total_qty = 0; $total_price = 0; ?>
 												<?php if ($tbl_order_items->num_rows() < 1): ?>
 													<tr>
-														<td colspan="5" class="font-weight-bold">[ EMPTY ]</td>
+														<td colspan="5" class="fw-bold">[ EMPTY ]</td>
 													</tr>
 												<?php else: ?>
 													<?php foreach ($tbl_order_items->result_array() as $row): ?>
 														<tr>
 															<td>
 																<a href="<?=base_url();?>admin/products_view?id=<?=$row["product_id"]?>">
-																	<i class="fa fa-eye p-1" aria-hidden="true"></i> <?=$this->Model_read->get_product_wid($row["product_id"])->row_array()["name"]?>
+																	<i class="fa fa-eye fa-lg text-primary p-1" aria-hidden="true"></i> <?=$this->Model_read->get_product_wid($row["product_id"])->row_array()["name"]?>
 																</a>
 															</td>
 															<td><?=$row["qty"]?></td>
@@ -113,7 +127,7 @@ $template_header;
 												<?php endif; ?>
 											</tbody>
 											<tr>
-												<td class="font-weight-bold">Total</td>
+												<td class="fw-bold">Total</td>
 												<td id="total_qty">
 													<?=$total_qty?>
 												</td>
@@ -142,7 +156,7 @@ $template_header;
 												<?php $total_payment = 0; ?>
 												<?php if ($tbl_payments->num_rows() < 1): ?>
 													<tr>
-														<td colspan="6" class="font-weight-bold">[ EMPTY ]</td>
+														<td colspan="6" class="fw-bold">[ EMPTY ]</td>
 													</tr>
 												<?php else: ?>
 													<?php foreach ($tbl_payments->result_array() as $row): ?>
@@ -173,7 +187,7 @@ $template_header;
 														</tr>
 													<?php endforeach; ?>
 													<tr>
-														<td class="font-weight-bold">Total</td>
+														<td class="fw-bold">Total</td>
 														<td></td>
 														<td></td>
 														<td></td>
@@ -203,7 +217,7 @@ $template_header;
 											<tbody>
 												<?php if ($tbl_payments_unpaid->num_rows() < 1): ?>
 													<tr>
-														<td colspan="4" class="font-weight-bold">[ EMPTY ]</td>
+														<td colspan="4" class="fw-bold">[ EMPTY ]</td>
 													</tr>
 												<?php else: ?>
 													<?php foreach ($tbl_payments_unpaid->result_array() as $row): ?>
@@ -214,7 +228,7 @@ $template_header;
 																PHP <span><?=number_format($row["amount"], 2)?></span>
 															</td>
 															<td>
-																<i class="fa fa-trash p-1 btn_delete_payment action_button" data-bs-toggle="modal" data-bs-target="#modal_delete_payment_tbp" data-id="<?=$row['payment_id']?>" aria-hidden="true"></i>
+																<i class="fa fa-trash fa-lg text-danger p-1 btn_delete_payment action_button" data-bs-toggle="modal" data-bs-target="#modal_delete_payment_tbp" data-id="<?=$row['payment_id']?>" aria-hidden="true"></i>
 															</td>
 														</tr>
 													<?php endforeach; ?>

@@ -10,24 +10,20 @@ $template_header;
 				<?php $this->load->view("admin/template/a_t_navbar", $nav); ?>
 				<div class="col-12 text-center">
 					<div class="container-fluid p-2 py-5 p-sm-5 justify-content-center">
-						<?php if ($this->session->flashdata("alert")): ?>
-							<?php $alert = $this->session->flashdata("alert"); ?>
-							<div class="alert alert-<?=$alert[0]?> alert-dismissible">
-								<?=$alert[1]?>
-								<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-							</div>
-						<?php endif; ?>
-						<div class="row py-3 col-12 col-md-9 mx-auto mb-4">
+						
+						<div class="row py-3 col-12 col-md-9 mx-auto border-bottom mb-4 title_bar">
 							<div class="col-12 text-start">
 								<h2>Update Product #<?=$row_info["product_id"]?></h2>
 							</div>
+						</div>
+						<div class="row col-12 col-md-9 mx-auto">
 							<div class="col-12">
 								<?=form_open(base_url() . "admin/product_update", "class='row' method='POST' enctype='multipart/form-data'")?>
 									<input id="update_inp_id" type="hidden" name="inp_id" value="<?=$row_info['product_id']?>">
-									<div class="col-12">
+									<div class="col-12 col-md-6">
 										<label class="float-start">Image:</label>
-										<input class="form-control mb-1" id="product_image" type="file" name="inp_img">
-										<img class="img-responsive img_view img_zoomable" id="image_preview" src="<?php
+										<input class="form-control mb-1 d-none" id="product_image" type="file" name="inp_img">
+										<img class="img-responsive img_view img_update" id="image_preview" src="<?php
 										if (!empty($row_info["img"])) {
 											echo base_url(). 'uploads/products/product_'. $row_info["product_id"] .'/'. $row_info["img"];
 										} else {
@@ -36,28 +32,26 @@ $template_header;
 										?>">
 									</div>
 									<div class="col-12 col-md-6">
-										<label class="float-start">Name:</label>
-										<input type="text" class="form-control" name="inp_name" placeholder="*Name" value="<?=$row_info['name']?>" autocomplete="off" required="">
-									</div>
-									<div class="col-12 col-md-6">
-										<label class="float-start">Description:</label>
-										<input type="text" class="form-control" name="inp_description" placeholder="*Description" value="<?=$row_info['description']?>" autocomplete="off" required="">
-									</div>
-									<div class="col-12 col-md-6">
-										<label class="float-start">Type:</label>
-										<select name="inp_type_id" class="form-control">
-											<?php foreach ($tbl_types as $key => $val): ?>
-												<option value="<?=$key?>" <?=($row_info["type_id"] == $key ? "selected" : "")?>><?=$val?></option>
-											<?php endforeach; ?>
-										</select>
-									</div>
-									<div class="col-12 col-md-6">
-										<label class="float-start">Price:</label>
-										<input type="number" class="form-control" name="inp_price" placeholder="*Price" value="<?=$row_info['price']?>" autocomplete="off" required="" step="0.000001">
-									</div>
-									<div class="col-12 col-md-6">
-										<label class="float-start">Quantity:</label>
-										<input type="number" class="form-control" name="inp_qty" placeholder="*Quantity" value="<?=$row_info['qty']?>" autocomplete="off" required="">
+										<div class="col-12 text-start pb-3">
+											<label class="float-start">Name:</label>
+											<input type="text" class="form-control" name="inp_name" placeholder="*Name" value="<?=$row_info['name']?>" autocomplete="off" required="">
+										</div>
+										<div class="col-12 text-start pb-3">
+											<label class="float-start">Description:</label>
+											<textarea class="form-control" name="inp_description" required=""><?=$row_info['description']?></textarea>
+										</div>
+										<div class="col-12 text-start pb-3">
+											<label class="float-start">Type:</label>
+											<select name="inp_type_id" class="form-control">
+												<?php foreach ($tbl_types as $key => $val): ?>
+													<option value="<?=$key?>" <?=($row_info["type_id"] == $key ? "selected" : "")?>><?=$val?></option>
+												<?php endforeach; ?>
+											</select>
+										</div>
+										<div class="col-12 text-start pb-3">
+											<label class="float-start">Price:</label>
+											<input type="number" class="form-control" name="inp_price" placeholder="*Price" value="<?=$row_info['price']?>" autocomplete="off" required="" step="0.000001">
+										</div>
 									</div>
 									<div class="form-group mt-4">
 										<input type="submit" class="btn btn-primary" value="Update">

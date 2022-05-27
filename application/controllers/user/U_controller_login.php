@@ -1,7 +1,7 @@
 <?php 
  defined("BASEPATH") OR exit("No direct script access allowed");
 
- class U_controller_login extends CI_Controller {
+ class U_controller_login extends E_Core_Controller {
 
  	public function __construct() {
  		parent::__construct();
@@ -22,6 +22,7 @@
 				if (password_verify($password, $account_info["password"])) {
 					$data = array(
 						"user_id" => $account_info["user_id"],
+						"user_uid" => $account_info["user_uid"],
 						"user_name" => ucwords($account_info["name_first"] ." ". $account_info["name_last"]),
 						"user_email" => $account_info["email"],
 						"user_in" => TRUE
@@ -34,6 +35,6 @@
 				}
 			}
 		}
-		redirect("login");
+		redirect("home");
 	}
 }

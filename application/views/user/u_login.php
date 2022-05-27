@@ -13,7 +13,7 @@ $template_header;
 					<div class="row mt-4">
 						<div class="col-12 banner text-center">
 							<div class="banner_board">
-								<h5 class="font-weight-bold">&bull; Log-In &bull;</h5>
+								<h5 class="fw-bold"> Log-In </h5>
 							</div>
 						</div>
 					</div>
@@ -22,11 +22,11 @@ $template_header;
 						<div class="col-10 col-sm-6 text-center">
 							<?=form_open(base_url() . "login_verify", "method='POST'")?>
 								<div class="form-group">
-									<h5 class="font-weight-bold" for="inp_email">Email:</h5>
+									<h5 class="fw-bold" for="inp_email">Email:</h5>
 									<input type="email" class="form-control" name="inp_email" placeholder="*Email Address" required="">
 								</div>
 								<div class="form-group">
-									<h5 class="font-weight-bold" for="inp_password">Password:</h5>
+									<h5 class="fw-bold" for="inp_password">Password:</h5>
 									<input type="password" class="form-control" name="inp_password" placeholder="*Password" required="">
 								</div>
 								<button class="button b_p b_lg" type="submit">
