@@ -3,6 +3,7 @@
 $template_header;
 ?>
 <body>
+	<?php $this->load->view("user/template/u_t_api_scripts"); ?>
 	<div class="wrapper bg">
 		<?php $this->load->view("user/template/u_t_navbar"); ?>
 		<div class="container-fluid">

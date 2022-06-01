@@ -38,7 +38,7 @@ $template_header;
 										</div>
 										<div class="col-12 text-start pb-3">
 											<label class="float-start">Description:</label>
-											<textarea class="form-control" name="inp_description" required=""><?=$row_info['description']?></textarea>
+											<textarea class="form-control" name="inp_description" rows="5" required=""><?=$row_info['description']?></textarea>
 										</div>
 										<div class="col-12 text-start pb-3">
 											<label class="float-start">Type:</label>

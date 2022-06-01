@@ -105,113 +105,111 @@
 			$this->session->set_flashdata("notice", array("warning", "Address inputs are empty."));
 		} else {
 			$user = $this->Model_read->get_user_acc_wid($user_id);
-			if ($user->num_rows() < 1 && $user_id != 0) {
+			if ($user->num_rows() < 1) {
 				$this->session->set_flashdata("notice", array("warning", "User does not exist."));
 				redirect("home");
 			} else {
-				$cookie_uid = get_cookie("no_account_uid");
-				$error = NULL;
-				if ($user_id == 0 && $cookie_uid != NULL) {
-					$user = $this->Model_read->get_user_acc_wuid($cookie_uid);
-					$user_info = $user->row_array();
 
-					$user_id = $user_info["user_id"];
-					$user_uid = $user_info["user_uid"];
+			    $user_info = $user->row_array();
 
-				} elseif ($user_id == 0 && $cookie_uid == NULL) {
-					$name_last = $this->input->post("inp_name_last");
-					$name_first = $this->input->post("inp_name_first");
-					$name_middle = $this->input->post("inp_name_middle");
-					$name_extension = $this->input->post("inp_name_extension");
-					$gender = $this->input->post("inp_gender");
+				$data_items = array();
+				foreach ($items as $id => $qty) {
+					if ($id != NULL && $qty != NULL) {
+						$p_details = $this->Model_read->get_product_wid_user($id)->row_array();
 
-					$contact_num = $this->input->post("inp_contact_num");
-
-					// $zip_code = $this->input->post("inp_zip_code");
-					// $country = $this->input->post("inp_country");
-					$province = $this->input->post("inp_province");
-					$city = $this->input->post("inp_city");
-					$street = $this->input->post("inp_street");
-					$address = $this->input->post("inp_address");
-
-					if ($name_last == NULL || $name_first == NULL || $gender == NULL || $contact_num == NULL) {
-						$error = "One or more inputs are empty.";
-					} elseif (($province == NULL || $city == NULL || $street == NULL) && $ref_no != "payment_on_pickup") {
-						$error = "Address inputs are empty.";
-					} else {
-						do {
-							$user_uid = uniqid('', true);
-						} while ($this->Model_read->get_user_acc_wuid($user_uid)->num_rows() > 0);
-
-						$data = array(
-							"user_uid" => $user_uid,
-
-							"name_last" => $name_last,
-							"name_first" => $name_first,
-							"name_middle" => $name_middle,
-							"name_extension" => $name_extension,
-							"gender" => $gender,
-							"contact_num" => $contact_num,
-
-							// "zip_code" => $zip_code,
-							// "country" => $country,
-							"province" => $province,
-							"city" => $city,
-							"street" => $street,
-							"address" => $address,
-
-							"status" => "1"
+						$data_items[] = array(
+							"product_id" => $id,
+							"qty" => $qty,
+							"price" => $p_details["price"],
+							"type" => "NORMAL"
 						);
-						if ($this->Model_create->create_user_account($data)) {
-							$user_id = $this->db->insert_id();
-							$data["email"] = "";
-							$user_info = $data;
-
-							set_cookie('no_account_uid', $user_uid, 2147483647);
-						} else {
-							$error = "Something went wrong, please try again. [3]";
-						}
 					}
 				}
 
-				if ($error == NULL) {
-					$data_items = array();
-					foreach ($items as $id => $qty) {
-						if ($id != NULL && $qty != NULL) {
-							$p_details = $this->Model_read->get_product_wid_user($id)->row_array();
+				$data = array(
+					"user_id" => $user_id,
+					"date_time" => $date_time,
+					// "zip_code" => $zip_code,
+					// "country" => $country,
+					"province" => $province,
+					"city" => $city,
+					"street" => $street,
+					"address" => $address,
+					"state" => "0",
+					"status" => "1"
+				);
+				if ($this->Model_create->create_order($data)) {
+					$order_id = $this->db->insert_id();
 
-							$data_items[] = array(
-								"product_id" => $id,
-								"qty" => $qty,
-								"price" => $p_details["price"],
-								"type" => "NORMAL"
-							);
-						}
+					foreach ($data_items as $row) {
+						$row["order_id"] = $order_id;
+						$this->Model_create->create_order_item($row);
 					}
 
-					$data = array(
-						"user_id" => $user_id,
-						"date_time" => $date_time,
-						// "zip_code" => $zip_code,
-						// "country" => $country,
-						"province" => $province,
-						"city" => $city,
-						"street" => $street,
-						"address" => $address,
-						"state" => "0",
-						"status" => "1"
-					);
-					if ($this->Model_create->create_order($data)) {
-						$order_id = $this->db->insert_id();
+					$this->session->unset_userdata("cart");
 
-						foreach ($data_items as $row) {
-							$row["order_id"] = $order_id;
-							$this->Model_create->create_order_item($row);
+					if ($ref_no == "payment_on_pickup") {
+						$this->email->set_newline("\r\n");
+						$this->email->clear();
+						$this->email->from("dulo.ordering@gmail.com");
+						$this->email->to($this->Model_read->get_config_wkey("alerts_email_send_to"));
+						$this->email->subject("New Order!");
+						$this->email->message(
+							"A new order has been placed by ". $user_info["email"] ."[user #". $user_id ."] at ". $date_time
+						);
+						$this->email->send();
+
+						$this->session->set_flashdata("notice", array("success", "Order is successfully added."));
+						
+						redirect("my_orders");
+					} else {
+						// insert order payment
+						$img = NULL;
+
+						$user_folder = "user_". $user_id;
+						$payment_folder = "order_". $order_id;
+
+						$config["upload_path"] = "./uploads/users/". $user_folder ."/payments/". $payment_folder;
+						$config["allowed_types"] = "gif|jpg|jpeg|png";
+						$config["max_size"] = 5000;
+						$config["encrypt_name"] = TRUE;
+
+						$this->load->library("upload", $config);
+						if (!is_dir("uploads")) {
+							mkdir("./uploads", 0777, TRUE);
+						}
+						if (!is_dir("uploads/users")) {
+							mkdir("./uploads/users", 0777, TRUE);
+						}
+						if (!is_dir("uploads/users/". $user_folder)) {
+							mkdir("./uploads/users/". $user_folder, 0777, TRUE);
+						}
+						if (!is_dir("uploads/users/". $user_folder ."/payments")) {
+							mkdir("./uploads/users/". $user_folder ."/payments", 0777, TRUE);
+						}
+						if (!is_dir("uploads/users/". $user_folder ."/payments/". $payment_folder)) {
+							mkdir("./uploads/users/". $user_folder ."/payments/". $payment_folder, 0777, TRUE);
 						}
 
-						$this->session->unset_userdata("cart");
+						if (isset($_FILES["inp_img"])) {
+							if (!$this->upload->do_upload("inp_img")) {
+								$this->session->set_flashdata("notice", array("warning", $this->upload->display_errors()));
+							} else {
+								$img = $this->upload->data("file_name");
+							}
+						}
 
-						if ($ref_no == "payment_on_pickup") {
+						$data = array(
+							"order_id" => $order_id,
+							"ref_no" => $ref_no,
+							"img" => $img,
+							"date_time" => $date_time,
+							"type" => "0",
+							"status" => "1"
+						);
+
+						if ($this->Model_create->create_order_payment($data)) {
+
 							$this->email->set_newline("\r\n");
 							$this->email->clear();
 							$this->email->from("dulo.ordering@gmail.com");
@@ -226,73 +224,11 @@
 							
 							redirect("my_orders");
 						} else {
-							// insert order payment
-							$img = NULL;
-
-							$user_folder = "user_". $user_id;
-							$payment_folder = "order_". $order_id;
-
-							$config["upload_path"] = "./uploads/users/". $user_folder ."/payments/". $payment_folder;
-							$config["allowed_types"] = "gif|jpg|jpeg|png";
-							$config["max_size"] = 5000;
-							$config["encrypt_name"] = TRUE;
-
-							$this->load->library("upload", $config);
-							if (!is_dir("uploads")) {
-								mkdir("./uploads", 0777, TRUE);
-							}
-							if (!is_dir("uploads/users")) {
-								mkdir("./uploads/users", 0777, TRUE);
-							}
-							if (!is_dir("uploads/users/". $user_folder)) {
-								mkdir("./uploads/users/". $user_folder, 0777, TRUE);
-							}
-							if (!is_dir("uploads/users/". $user_folder ."/payments")) {
-								mkdir("./uploads/users/". $user_folder ."/payments", 0777, TRUE);
-							}
-							if (!is_dir("uploads/users/". $user_folder ."/payments/". $payment_folder)) {
-								mkdir("./uploads/users/". $user_folder ."/payments/". $payment_folder, 0777, TRUE);
-							}
-
-							if (isset($_FILES["inp_img"])) {
-								if (!$this->upload->do_upload("inp_img")) {
-									$this->session->set_flashdata("notice", array("warning", $this->upload->display_errors()));
-								} else {
-									$img = $this->upload->data("file_name");
-								}
-							}
-
-							$data = array(
-								"order_id" => $order_id,
-								"ref_no" => $ref_no,
-								"img" => $img,
-								"date_time" => $date_time,
-								"type" => "0",
-								"status" => "1"
-							);
-
-							if ($this->Model_create->create_order_payment($data)) {
-
-								$this->email->set_newline("\r\n");
-								$this->email->clear();
-								$this->email->from("dulo.ordering@gmail.com");
-								$this->email->to($this->Model_read->get_config_wkey("alerts_email_send_to"));
-								$this->email->subject("New Order!");
-								$this->email->message(
-									"A new order has been placed by ". $user_info["email"] ."[user #". $user_id ."] at ". $date_time
-								);
-								$this->email->send();
-
-								$this->session->set_flashdata("notice", array("success", "Order is successfully added."));
-								
-								redirect("my_orders");
-							} else {
-								$this->session->set_flashdata("notice", array("danger", "Something went wrong, please try again. [0]"));
-							}
+							$this->session->set_flashdata("notice", array("danger", "Something went wrong, please try again. [0]"));
 						}
-					} else {
-						$this->session->set_flashdata("notice", array("danger", "Something went wrong, please try again. [1]"));
 					}
+				} else {
+					$this->session->set_flashdata("notice", array("danger", "Something went wrong, please try again. [1]"));
 				}
 			}
 		}

@@ -16,6 +16,24 @@
 		redirect("home");
 	}
 
+	public function view_u_privacy_policy() {
+		$head["title"] = "DULO By The A's - Ordering System";
+		$data["template_head"] = $this->load->view("user/template/u_t_head", $head);
+
+		$this->load->view("user/u_privacy_policy", $data);
+	}
+	public function view_u_terms_of_service() {
+		$head["title"] = "DULO By The A's - Ordering System";
+		$data["template_head"] = $this->load->view("user/template/u_t_head", $head);
+
+		$this->load->view("user/u_terms_of_service", $data);
+	}
+	public function view_u_data_deletion() {
+		$head["title"] = "DULO By The A's - Ordering System";
+		$data["template_head"] = $this->load->view("user/template/u_t_head", $head);
+
+		$this->load->view("user/u_data_deletion", $data);
+	}
 	public function view_u_home() {
 		$head["title"] = "DULO By The A's - Ordering System";
 		$data["template_head"] = $this->load->view("user/template/u_t_head", $head);
@@ -112,10 +130,10 @@
 		$grand_total = $this->input->post("grand_total");
 		$delivery_method = $this->input->post("delivery_method");
 
-		// if (!$this->session->has_userdata("user_in")) {
-		// 	$this->session->set_flashdata("notice", array("warning", "Please log-in first."));
-		// 	redirect("cart");
-		// } else {
+		if (!$this->session->has_userdata("user_in")) {
+			$this->session->set_flashdata("notice", array("warning", "Please log-in first."));
+			redirect("cart");
+		} else {
 			if (!isset($grand_total) || $grand_total <= 0 || !isset($delivery_method)){
 				$this->session->set_flashdata("notice", array("danger", "Something went wrong, please try again."));
 				redirect("cart");
@@ -132,7 +150,7 @@
 				$data["no_account_uid"] = get_cookie("no_account_uid");
 				$this->load->view("user/u_submit_order", $data);
 			}
-		// }
+		}
 	}
 	public function view_u_login() {
 		if ($this->session->has_userdata("user_in")) {
@@ -156,9 +174,9 @@
 	}
 	public function user_logout() {
 		if ($this->session->has_userdata("user_in")) {
-			$this->session->unset_userdata(array("user_id", "user_name", "user_email", "user_in"));
-			redirect("home");
+			$this->session->unset_userdata(array("user_id", "user_uid", "user_name", "user_email", "user_in"));
 		}
+		redirect("home");
 	}
 	public function view_u_account() {
 		$head["title"] = "Account - Dulo By The A's";

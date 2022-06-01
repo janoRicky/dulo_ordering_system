@@ -65,6 +65,9 @@ $route['custom'] = 'E_controller_main/view_u_custom';
 $route['cart'] = 'E_controller_main/view_u_cart';
 $route['login'] = 'E_controller_main/view_u_login';
 $route['register'] = 'E_controller_main/view_u_register';
+$route['privacy_policy'] = 'E_controller_main/view_u_privacy_policy';
+$route['terms_of_service'] = 'E_controller_main/view_u_terms_of_service';
+$route['data_deletion'] = 'E_controller_main/view_u_data_deletion';
 
 $route['account'] = 'E_controller_main/view_u_account';
 $route['account_details'] = 'E_controller_main/view_u_account_details';
@@ -186,6 +189,11 @@ $route['admin/acc_delete'] = 'admin/A_controller_delete/delete_admin_account';
 $route['admin/payment_delete'] = 'admin/A_controller_delete/delete_payment_tbp';
 
 
-// NOTES:
-// url of admin log-in is "http://localhost/dulo_system/admin"
-// url of admin dashboard is "http://localhost/dulo_system/admin/dashboard"
+
+
+
+// - CREATE
+$route['login_with_fb'] = 'user/U_controller_facebook/login_with_facebook';
+
+
+

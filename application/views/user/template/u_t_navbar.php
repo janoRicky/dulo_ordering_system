@@ -24,11 +24,11 @@
 						<li class="p-2 ps-4">
 							<?php if ($this->session->userdata("user_in")): ?>
 								<a class="text-decoration-none text-light fw-bold" href="account">My Account</a>
-								<span class="mx-2">|</span>
-								<a class="text-decoration-none text-light fw-bold" href="logout">Logout</a>
+								<span class="mx-2"><i class="nav-icon mdi mdi-circle text-success"></i></span>
+								<a id="logout" class="text-decoration-none text-light fw-bold" href="#">Logout</a>
 							<?php else: ?>
 								<a class="text-decoration-none text-light fw-bold" href="#" data-bs-toggle="modal" data-bs-target="#modal_sign_up">Sign-Up</a>
-								<span class="mx-2">|</span>
+								<span class="mx-2"><i class="nav-icon mdi mdi-circle text-danger"></i></span>
 								<a class="text-decoration-none text-light fw-bold" href="#" data-bs-toggle="modal" data-bs-target="#modal_sign_in">Log In</a>
 							<?php endif; ?>
 						</li>
@@ -56,54 +56,6 @@
 		</div>
 	</div>
 </header>
-<!-- <div class="container-fluid navbar_">
-	<div class="row p-4">
-		<div class="col-12 text-center">
-			<a class="nav_title" href="home">
-				<h1>dulo</h1>
-			</a>
-		</div>
-	</div>
-	<div class="row p-3 mt-2 nav_link_bar">
-		<nav class="col-12">
-			<ul class="nav justify-content-center">
-				<li class="nav-item px-4">
-					<a class="nav-link nav_link <?=(uri_string() == 'home' ? 'active' : '')?>" href="home">
-						<i class="fa fa-home" aria-hidden="true"></i> Home
-					</a>
-				</li>
-				<li class="nav-item px-4">
-					<a class="nav-link nav_link <?=(uri_string() == 'products' ? 'active' : '')?>" href="products">
-						<i class="fa fa-shopping-bag" aria-hidden="true"></i> Products
-					</a>
-				</li>
-				<li class="nav-item px-4">
-					<a class="nav-link nav_link <?=(uri_string() == 'cart' ? 'active' : '')?>" href="cart">
-						<i class="fa fa-shopping-cart" aria-hidden="true"></i> Cart (<?=($this->session->has_userdata("cart") ? count($this->session->userdata("cart")) : "0")?>)
-					</a>
-				</li>
-				<?php if ($this->session->userdata("user_in")): ?>
-					<li class="nav-item px-4">
-						<a class="nav-link nav_link dropdown-toggle <?=(uri_string() == 'account' || uri_string() == 'my_orders' ? 'active' : '')?>" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
-							
-						</a>
-						<div class="dropdown-menu dropdown_menu dropdown-menu-right">
-							
-						</div>
-					</li>
-				<?php else: ?>
-					<li class="nav-item px-4">
-						<a class="nav-link nav_link" href="login">
-							<i class="fa fa-sign-in" aria-hidden="true"></i> Log-In
-						</a>
-					</li>
-				<?php endif; ?>
-				
-			</ul>
-		</nav>
-	</div>
-</div> -->
-
 <?php if ($this->session->flashdata("notice")): ?>
 	<?php $alert = $this->session->flashdata("notice"); unset($_SESSION["notice"]); ?>
 	<div class="notice n_all row alert alert-<?=$alert[0]?> rounded-pill" data-bs-dismiss="alert" role="button" style="position: fixed; top: 5rem; right: 4rem; z-index: 9999;">

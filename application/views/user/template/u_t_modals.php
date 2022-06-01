@@ -1,3 +1,4 @@
+<!-- SIGN UP MODAL -->
 <div id="modal_sign_up" class="modal">
 	<div class="modal-dialog modal-md">
 		<div class="modal-content text-light" style="background-color: #000;">
@@ -156,7 +157,7 @@
 					<div class="row mt-4">
 						<div class="col-12 px-3 text-center">
 							<button class="btn btn-light btn-lg rounded-pill fw-bold px-5" type="submit">
-								<i class="fa fa-user" aria-hidden="true"></i> Register
+								<i class="mdi" aria-hidden="true"></i> Register
 							</button>
 						</div>
 					</div>
@@ -211,7 +212,68 @@
 					<div class="row mt-4">
 						<div class="col-12 px-3 text-center">
 							<button class="btn btn-light btn-lg rounded-pill fw-bold px-5" type="submit">
-								<i class="fa fa-user" aria-hidden="true"></i> Log In
+								<i class="mdi" aria-hidden="true"></i> Log In
+							</button>
+						</div>
+						<div class="col-12 px-1 text-center my-2">
+							<button id="fb_login" class="btn btn-lg rounded-pill fw-bold px-5 text-light" type="button" style="background-color: #4267b2;">
+								<i class="mdi mdi-facebook mdi-24px" aria-hidden="true"></i> Log in With Facebook
+							</button>
+						</div>
+					</div>
+					<div class="row mt-2 mb-4 text-center">
+						<span>Don't have an account? <a id="" data-bs-target="#modal_sign_up" data-bs-toggle="modal" data-bs-dismiss="modal" style="color: red;" href="#">Sign Up Here.</a></span>
+					</div>
+				</div>
+			<?=form_close()?>
+		</div>
+	</div>
+</div>
+<!-- SIGN IN CART MODAL -->
+<div id="modal_sign_in_cart" class="modal">
+	<div class="modal-dialog modal-md">
+		<div class="modal-content text-light" style="background-color: #000;">
+			<?=form_open(base_url() . "login_verify", "method='POST'")?>
+			<input type="hidden" name="from_cart" value="1">
+				<div class="modal-body">
+					<div class="row justify-content-end pe-3 pt-2">
+						<button type="button" class="btn-close btn-close-white rounded-circle" data-bs-dismiss="modal" aria-label="Close"></button>
+					</div>
+					<div class="row">
+						<div class="col-12 text-light pt-3 text-center">
+							<h2 class="fw-bold">Sign in to your account to Place Order.</h2>
+						</div>
+					</div>
+					<div class="row mt-5 mb-5 px-5">
+						<div class="col-12 px-3">
+							<div class="row mt-2">
+								<div class="col-12">
+									<h6 class="fw-bold">Email: </h6>
+								</div>
+								<div class="col-12">
+									<input class="form-control bg-dark text-light border-dark" type="email" name="inp_email" placeholder="*Email Address" required="">
+								</div>
+							</div>
+							<div class="row mt-2">
+								<div class="col-12">
+									<h6 class="fw-bold">Password: </h6>
+								</div>
+								<div class="col-12">
+									<input class="form-control bg-dark text-light border-dark" type="password" name="inp_password" placeholder="*Password" required="">
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="row mt-4">
+						<div class="col-12 px-3 text-center">
+							<button class="btn btn-light btn-md rounded-pill fw-bold px-5" type="submit">
+								<i class="mdi" aria-hidden="true"></i> Log In
+							</button>
+						</div>
+						<div class="col-12 px-1 text-center my-2">
+							<button id="fb_login" class="btn btn-md rounded-pill fw-bold px-5 text-light" type="button" style="background-color: #4267b2;">
+								<i class="mdi mdi-facebook mdi-24px" aria-hidden="true"></i> Log in With Facebook
 							</button>
 						</div>
 					</div>

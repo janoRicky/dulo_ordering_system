@@ -3,7 +3,8 @@
 $template_header;
 ?>
 <body>
-	<div class="wrapper">
+	<?php $this->load->view("user/template/u_t_api_scripts"); ?>
+	<div class="wrapper bg">
 		<?php $this->load->view("user/template/u_t_navbar"); ?>
 		<div class="container-fluid">
 			<div class="row my-4 justify-content-center">
@@ -78,14 +79,16 @@ $template_header;
 							</div>
 							<div id="featured_items" class="carousel slide" data-bs-ride="carousel">
 								<div class="carousel-inner p-4 pt-0" style="">
+									<?php
+									$per_slide = 4;
+									?>
 									<?php if ($tbl_products->num_rows() > 0): ?>
 										<?php foreach ($tbl_products->result_array() as $key => $row): ?>
-											<?php $per_slide = 4; ?>
 											<?php if ($key % $per_slide == 0): ?>
 												<div class="carousel-item <?=($key == 0 ? 'active' : '')?>">
-													<div class="row justify-content-center">
+													<div class="row row-cols-2 row-cols-sm-3 row-cols-md-4 justify-content-center">
 											<?php endif; ?>
-												<div class="col-<?=(12 / $per_slide)?>">
+												<div class="col mb-3">
 													<div class="card shadow" style="border-radius: 15px;">
 														<img class="img-fluid w-100" style="height: 200px; object-fit: cover; border-radius: 15px 15px 0 0;" src="<?=base_url('uploads/products/product_'.$row['product_id'].'/'.$row['img'])?>" class="card-img-top" alt="<?=ucwords($row["name"])?>">
 														<div class="card-body">

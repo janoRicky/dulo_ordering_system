@@ -29,7 +29,7 @@
 					);
 					$this->session->set_userdata($data);
 					$this->session->set_flashdata("notice", array("success", "Welcome ". $data["user_name"] ."!"));
-					redirect("home");
+					redirect($_SERVER['HTTP_REFERER']);
 				} else {
 					$this->session->set_flashdata("notice", array("warning", "Password is incorrect."));
 				}

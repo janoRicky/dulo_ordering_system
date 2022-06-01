@@ -24,6 +24,7 @@ $template_header;
 	}*/
 </style>
 <body>
+	<?php $this->load->view("user/template/u_t_api_scripts"); ?>
 	<div class="wrapper bg">
 		<?php $this->load->view("user/template/u_t_navbar"); ?>
 		<div class="container-fluid">
@@ -34,7 +35,7 @@ $template_header;
 							<div class="row">
 								<div class="col-12 col-lg-7 pr-3">
 									<?php if (count($cart) < 1): ?>
-										<div class="card shadow" style="border-radius: 15px;">
+										<div class="card shadow mb-3" style="border-radius: 15px;">
 											<div class="card-body">
 												<div class="row align-items-center item mb-4">
 													<div class="price text-center p-4 mt-4">
@@ -175,9 +176,16 @@ $template_header;
 																<input type="hidden" name="grand_total" value="<?=$grand_total?>">
 																<input id="method_delivery" type="hidden" name="delivery_method" required>
 																
-																<button class="btn btn-dark fw-bold px-4 py-3 rounded-pill text-light" <?=($grand_total > 0 ? "" : "disabled")?>>
-																	Payment
-																</button>
+
+																<?php if ($this->session->userdata("user_in")): ?>
+																	<button class="btn btn-dark fw-bold px-4 py-3 rounded-pill text-light" <?=($grand_total > 0 ? "" : "disabled")?>>
+																		Payment
+																	</button>
+																<?php else: ?>
+																	<button class="btn btn-dark fw-bold px-4 py-3 rounded-pill text-light" type="button" href="#" data-bs-toggle="modal" data-bs-target="#modal_sign_in_cart">
+																		Payment
+																	</button>
+																<?php endif; ?>
 															<?=form_close()?>
 														</div>
 													</div>

@@ -19,16 +19,6 @@
 	<!-- CUSTOM STYLE -->
 	<link rel="stylesheet" href="<?=base_url()?>assets/css/u_style.css">
 
-	<style type="text/css">
-		.banner {
-			background-position: center;
-			background-image: url("<?=base_url()?>assets/img/pink_stripes.png");
-			background-repeat: repeat-x;
-
-			background-size: contain;
-		}
-	</style>
-
 	<!-- PAGE ICON -->
 	<link rel="icon" href="<?=base_url()?>/favicon.ico" type="image/gif">
 

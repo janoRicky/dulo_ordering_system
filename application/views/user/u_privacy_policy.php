@@ -13,7 +13,7 @@ $template_header;
 					<div class="card shadow" style="border-radius: 15px;">
 						<div class="card-body p-0">
 							<div class="row m-0 p-0 justify-content-center pb-4 pt-2">
-								<div class="col-12">
+								<div class="col-12 px-5 py-4">
 									<h1>Privacy Policy of Dulo By The A's Ordering</h1>
 
 									<p>Dulo By The A's Ordering operates the https://dulo.bytemerchant.info website, which provides the SERVICE.</p>
@@ -82,28 +82,4 @@ $template_header;
 		<?php $this->load->view("user/template/u_t_footer"); ?>
 	</div>
 </body>
-<script type="text/javascript">
-	$(document).ready(function () {
-		$(document).on("mouseenter", ".scroll.left", function() {
-			timer_left = setInterval(function() {
-				$(".nav_order").scrollLeft($(".nav_order").scrollLeft() - 10);
-			}, 20);
-		}).on("mouseleave", ".scroll.left", function() {
-			clearInterval(timer_left);
-		});
-		$(document).on("mouseenter", ".scroll.right", function() {
-			timer_right = setInterval(function() {
-				$(".nav_order").scrollLeft($(".nav_order").scrollLeft() + 10);
-			}, 20);
-		}).on("mouseleave", ".scroll.right", function() {
-			clearInterval(timer_right);
-		});
-
-		$(document).on("click", ".receive", function(e) {
-			if (!confirm("Are you sure you want to set this order as RECEIVED?")) {
-				e.preventDefault();
-			}
-		});
-	});
-</script>
 </html>

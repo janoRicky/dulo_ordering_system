@@ -2,8 +2,9 @@
 <?php
 $template_header;
 ?>
-<body class="d-flex flex-column min-vh-100 w-100">
-	<div class="wrapper">
+<body>
+	<?php $this->load->view("user/template/u_t_api_scripts"); ?>
+	<div class="wrapper bg">
 		<?php $this->load->view("user/template/u_t_navbar"); ?>
 		<div class="container-fluid">
 			<div class="row my-4 justify-content-center">
@@ -32,7 +33,7 @@ $template_header;
 					<div class="row justify-content-center">
 						<?php if ($tbl_products->num_rows() > 0): ?>
 							<?php foreach ($tbl_products->result_array() as $row): ?>
-								<div class="col-6 col-lg-6 col-xl-4 my-3">
+								<div class="col-12 col-lg-6 col-xl-4 my-3">
 									<a class="text-dark text-decoration-none h-100 w-100" href="<?=base_url('product?id='.$row['product_id'])?>">
 										<div class="card shadow p-2" style="border-radius: 15px;">
 											<div class="card-body">

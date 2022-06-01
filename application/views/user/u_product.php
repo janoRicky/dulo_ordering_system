@@ -3,7 +3,8 @@
 $template_header;
 ?>
 <body>
-	<div class="wrapper">
+	<?php $this->load->view("user/template/u_t_api_scripts"); ?>
+	<div class="wrapper bg">
 		<?php $this->load->view("user/template/u_t_navbar"); ?>
 		<div class="container-fluid">
 			<div class="row my-4 justify-content-center">
