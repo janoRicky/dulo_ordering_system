@@ -4,7 +4,6 @@ $template_header;
 ?>
 
 <body>
-	<?php $this->load->view("user/template/u_t_api_scripts"); ?>
 	<div class="wrapper bg">
 		<?php $this->load->view("user/template/u_t_navbar"); ?>
 		<div class="container-fluid">
@@ -14,64 +13,227 @@ $template_header;
 						<div class="card-body p-0">
 							<div class="row m-0 p-0 justify-content-center pb-4 pt-2">
 								<div class="col-12">
-									<h1>Privacy Policy of Dulo By The A's Ordering</h1>
-
-									<p>Dulo By The A's Ordering operates the https://dulo.bytemerchant.info website, which provides the SERVICE.</p>
-
-									<p>This page is used to inform website visitors regarding our policies with the collection, use, and disclosure of Personal Information if anyone decided to use our Service, the Dulo By The A's Ordering website.</p>
-
-									<p>If you choose to use our Service, then you agree to the collection and use of information in relation with this policy. The Personal Information that we collect are used for providing and improving the Service. We will not use or share your information with anyone except as described in this Privacy Policy. Our Privacy Policy was created with the help of the <a href="https://www.termsfeed.com/privacy-policy-generator/">Privacy Policy Generator</a>.</p>
-
-									<p>The terms used in this Privacy Policy have the same meanings as in our Terms and Conditions, which is accessible at https://dulo.bytemerchant.info, unless otherwise defined in this Privacy Policy.</p>
-
-									<h2>Information Collection and Use</h2>
-
-									<p>For a better experience while using our Service, we may require you to provide us with certain personally identifiable information, including but not limited to your name, phone number, and postal address. The information that we collect will be used to contact or identify you.</p>
-
-									<h2>Log Data</h2>
-
-									<p>We want to inform you that whenever you visit our Service, we collect information that your browser sends to us that is called Log Data. This Log Data may include information such as your computer’s Internet Protocol ("IP") address, browser version, pages of our Service that you visit, the time and date of your visit, the time spent on those pages, and other statistics.</p>
-
-									<h2>Cookies</h2>
-
-									<p>Cookies are files with small amount of data that is commonly used an anonymous unique identifier. These are sent to your browser from the website that you visit and are stored on your computer’s hard drive.</p>
-
-									<p>Our website uses these "cookies" to collection information and to improve our Service. You have the option to either accept or refuse these cookies, and know when a cookie is being sent to your computer. If you choose to refuse our cookies, you may not be able to use some portions of our Service.</p>
-
-									<p>For more general information on cookies, please read <a href="https://www.termsfeed.com/blog/sample-cookies-policy-template/#What_Are_Cookies">"Cookies" article from the TermsFeed website</a>.</p>
-
-									<h2>Service Providers</h2>
-
-									<p>We may employ third-party companies and individuals due to the following reasons:</p>
-
-									<ul>
-									    <li>To facilitate our Service;</li>
-									    <li>To provide the Service on our behalf;</li>
-									    <li>To perform Service-related services; or</li>
-									    <li>To assist us in analyzing how our Service is used.</li>
-									</ul>
-
-									<p>We want to inform our Service users that these third parties have access to your Personal Information. The reason is to perform the tasks assigned to them on our behalf. However, they are obligated not to disclose or use the information for any other purpose.</p>
-
-									<h2>Security</h2>
-
-									<p>We value your trust in providing us your Personal Information, thus we are striving to use commercially acceptable means of protecting it. But remember that no method of transmission over the internet, or method of electronic storage is 100% secure and reliable, and we cannot guarantee its absolute security.</p>
-
-									<h2>Links to Other Sites</h2>
-
-									<p>Our Service may contain links to other sites. If you click on a third-party link, you will be directed to that site. Note that these external sites are not operated by us. Therefore, we strongly advise you to review the Privacy Policy of these websites. We have no control over, and assume no responsibility for the content, privacy policies, or practices of any third-party sites or services.</p>
-
-									<p>Children's Privacy</p>
-
-									<p>Our Services do not address anyone under the age of 13. We do not knowingly collect personal identifiable information from children under 13. In the case we discover that a child under 13 has provided us with personal information, we immediately delete this from our servers. If you are a parent or guardian and you are aware that your child has provided us with personal information, please contact us so that we will be able to do necessary actions.</p>
-
-									<h2>Changes to This Privacy Policy</h2>
-
-									<p>We may update our Privacy Policy from time to time. Thus, we advise you to review this page periodically for any changes. We will notify you of any changes by posting the new Privacy Policy on this page. These changes are effective immediately, after they are posted on this page.</p>
-
-									<h2>Contact Us</h2>
-
-									<p>If you have any questions or suggestions about our Privacy Policy, do not hesitate to contact us.</p>
+									<!-- <div class="row mt-4">
+										<div class="col-12 banner text-center">
+											<div class="banner_board">
+												<h5 class="fw-bold"> My Orders <?=(!is_null($this->input->get("state")) ? "(". $states[$this->input->get("state")] .")" : "")?> </h5>
+											</div>
+										</div>
+									</div> -->
+									<div class="row my-2 justify-content-center">
+										<class class="col-12 col-sm-10 justify-content-center text-center">
+											<a style="" class="btn py-2 px-4 m-0 fw-bold my_order_state" href="my_orders">ALL (<?=(isset($order_state_counts) ? array_sum($order_state_counts) : 0)?>)</a>
+											<a style="" class="btn py-2 px-4 m-0 fw-bold my_order_state" href="my_orders?state=0"><?=$states[0]?> (<?=(isset($order_state_counts[0]) ? $order_state_counts[0] : 0)?>)</a>
+											<a style="" class="btn py-2 px-4 m-0 fw-bold my_order_state" href="my_orders?state=1"><?=$states[1]?> (<?=(isset($order_state_counts[1]) ? $order_state_counts[1] : 0)?>)</a>
+											<a style="" class="btn py-2 px-4 m-0 fw-bold my_order_state" href="my_orders?state=2"><?=$states[2]?> (<?=(isset($order_state_counts[2]) ? $order_state_counts[2] : 0)?>)</a>
+											<a style="" class="btn py-2 px-4 m-0 fw-bold my_order_state" href="my_orders?state=3"><?=$states[3]?> (<?=(isset($order_state_counts[3]) ? $order_state_counts[3] : 0)?>)</a>
+											<a style="" class="btn py-2 px-4 m-0 fw-bold my_order_state" href="my_orders?state=4"><?=$states[4]?> (<?=(isset($order_state_counts[4]) ? $order_state_counts[4] : 0)?>)</a>
+											<a style="" class="btn py-2 px-4 m-0 fw-bold my_order_state" href="my_orders?state=5"><?=$states[5]?> (<?=(isset($order_state_counts[5]) ? $order_state_counts[5] : 0)?>)</a>
+											<a style="" class="btn py-2 px-4 m-0 fw-bold my_order_state" href="my_orders?state=6"><?=$states[6]?> (<?=(isset($order_state_counts[6]) ? $order_state_counts[6] : 0)?>)</a>
+										</class>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="card shadow mt-3" style="border-radius: 15px;">
+						<div class="card-body p-0">
+							<div class="row m-0 p-0 justify-content-center py-4">
+								<div class="col-12">
+									<div class="row justify-content-center">
+										<div class="col-10 p-4">
+											<div class="row">
+												<div class="col-4 col-md-3">
+													<h5 class="fw-bold">Date / Time: </h5>
+												</div>
+												<div class="col-12 text-center rounded-pill bg-secondary text-light py-2">
+													<?=date("Y-m-d / H:i:s A", strtotime($my_order["date_time"]))?>
+												</div>
+											</div>
+											<div class="row mt-2">
+												<div class="col-3">
+													<h5 class="fw-bold">Full Address: </h5>
+												</div>
+												<div class="col-12 text-center rounded-pill bg-secondary text-light py-2">
+													<?=$my_order["province"] ." / ". $my_order["city"] ." / ". $my_order["street"] ." / ". $my_order["address"]?>
+												</div>
+											</div>
+											<div class="row mt-2">
+												<div class="col-3">
+													<h5 class="fw-bold">Order State: </h5>
+												</div>
+												<div class="col-12 text-center rounded-pill bg-secondary text-light py-2">
+													<?=$states[$my_order["state"]]?>
+												</div>
+											</div>
+											<div class="row mt-2">
+												<div class="col-12">
+													<h5 class="fw-bold">Ordered Item/s: </h5>
+												</div>
+											</div>
+											<div class="row mt-2">
+												<div class="col-1"></div>
+												<div class="col-10">
+													<?php if ($type == "CUSTOM"): ?>
+														<?php
+														$order_item = $order_items->row_array();
+														$product_info = $this->Model_read->get_product_custom_wid($order_item["product_id"])->row_array();
+														?>
+														<hr>
+														<div class="row mt-2">
+															<div class="col-12">
+																<h5 class="fw-bold">Custom Description:</h5>
+															</div>
+															<div class="col-12 custom_description">
+																<?=$product_info["description"]?>
+															</div>
+														</div>
+														<hr>
+														<div class="row mt-2">
+															<div class="col-6 col-sm-3">
+																<h5 class="fw-bold">Type:</h5>
+															</div>
+															<div class="col-6 col-sm-3">
+																<?=$types[$product_info["type_id"]]?>
+															</div>
+															<div class="col-6 col-sm-3">
+																<h5 class="fw-bold">Size:</h5>
+															</div>
+															<div class="col-6 col-sm-3">
+																<?=$product_info["size"]?>
+															</div>
+														</div>
+														<hr>
+														<div class="row mt-2">
+															<div class="col-12">
+																<h5 class="fw-bold">Reference Images:</h5>
+															</div>
+															<?php $imgs = explode("/", $product_info["img"]); ?>
+															<?php foreach ($imgs as $src): ?>
+																<?php if ($src != NULL): ?>
+																	<div class="col-12 col-sm-6 col-md-4 pb-3 mx-auto">
+																		<img class="img-responsive item_img" src="
+																		<?=base_url(). 'uploads/custom/custom_'. $product_info["custom_id"] .'/'. $src?>">
+																	</div>
+																<?php endif; ?>
+															<?php endforeach; ?>
+														</div>
+														<hr>
+														<?php if ($my_order["state"] > 0): ?>
+															<div class="row mt-2">
+																<div class="col-6 col-sm-3">
+																	<h5 class="fw-bold">Qty:</h5>
+																</div>
+																<div class="col-6 col-sm-3">
+																	<?=$order_item["qty"]?>
+																</div>
+																<div class="col-6 col-sm-3">
+																	<h5 class="fw-bold">Price:</h5>
+																</div>
+																<div class="col-6 col-sm-3">
+																	<?=$order_item["price"]?>
+																</div>
+															</div>
+															<hr>
+														<?php endif; ?>
+													<?php else: ?>
+														<table class="table table-center table-hover table-responsive-sm table-bordered">
+															<thead>
+																<tr>
+																	<th>Item</th>
+																	<th>Qty.</th>
+																	<th>Unit Price</th>
+																	<th>Total Price</th>
+																	<th></th>
+																</tr>
+															</thead>
+															<tbody>
+																<?php $total_qty = 0; $total_price = 0; ?>
+																<?php foreach ($order_items->result_array() as $row): ?>
+																	<tr>
+																		<td><?=$this->Model_read->get_product_wid($row["product_id"])->row_array()["name"]?></td>
+																		<td><?=$row["qty"]?></td>
+																		<?php $total_qty += $row["qty"]; ?>
+																		<td><?=$row["price"]?></td>
+																		<td><?=$row["qty"] * $row["price"]?></td>
+																		<?php $total_price += $row["qty"] * $row["price"]; ?>
+																		<td class="text-center">
+																			<a href="<?=base_url();?>product?id=<?=$row['product_id']?>">
+																				<button class="btn fw-bold rounded-pill product_btn px-3 py-2">
+																					<i class="fa fa-eye" aria-hidden="true"></i> View
+																				</button>
+																			</a>
+																		</td>
+																	</tr>
+																<?php endforeach; ?>
+																<tr>
+																	<td>Total</td>
+																	<td><?=$total_qty?></td>
+																	<td></td>
+																	<td><?=$total_price?></td>
+																	<td></td>
+																</tr>
+															</tbody>
+														</table>
+													<?php endif; ?>
+												</div>
+												<div class="col-1"></div>
+											</div>
+											<?php if ($order_payments->num_rows() > 0): ?>
+												<div class="row mt-2">
+													<h5 class="fw-bold">Payments:</h5>
+												</div>
+												<div class="row mt-2">
+													<div class="col-12">
+														<table class="table table-center table-hover table-responsive-sm table-bordered">
+															<thead>
+																<tr>
+																	<th>ID</th>
+																	<th>Img</th>
+																	<th>Date / Time</th>
+																	<?php if ($my_order["state"] > 1): ?>
+																		<th>Amount</th>
+																	<?php endif; ?>
+																</tr>
+															</thead>
+															<tbody>
+																<?php $total_payment = 0; ?>
+																<?php foreach ($order_payments->result_array() as $row): ?>
+																	<tr>
+																		<td><?=$row["payment_id"]?></td>
+																		<td class="col-4">
+																			<?php if($row["img"] != NULL): ?>
+																				<img class="img-responsive item_img" src="<?php
+																				if (!empty($row['img'])) {
+																					echo base_url(). 'uploads/users/user_'. $user_id .'/payments/order_'. $order_id .'/'. $row["img"];
+																				} else {
+																					echo base_url(). "assets/img/no_img.png";
+																				}
+																				?>">
+																			<?php endif; ?>
+																		</td>
+																		<td><?=$my_order["date_time"]?></td>
+																		<?php if ($my_order["state"] > 1): ?>
+																			<td><?=$row["amount"]?></td>
+																			<?php $total_payment += $row["amount"]; ?>
+																		<?php endif; ?>
+																	</tr>
+																<?php endforeach; ?>
+																<?php if ($my_order["state"] > 1): ?>
+																	<tr>
+																		<td>Total</td>
+																		<td></td>
+																		<td></td>
+																		<td><?=$total_payment?></td>
+																	</tr>
+																<?php endif; ?>
+															</tbody>
+														</table>
+													</div>
+												</div>
+											<?php endif; ?>
+										</div>
+									</div>
 								</div>
 							</div>
 						</div>

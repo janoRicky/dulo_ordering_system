@@ -13,7 +13,7 @@
 
 		$this->load->library("email", array(
 			"protocol" => "smtp",
-			"smtp_host" => "ssl://smtp.googlemail.com",
+			"smtp_host" => "ssl://mail.bytemerchant.info",
 			"smtp_port" => 465,
 			"smtp_user" => $this->Model_read->get_config_wkey("smtp_user"), 
 			"smtp_pass" => $this->Model_read->get_config_wkey("smtp_pass")

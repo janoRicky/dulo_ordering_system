@@ -12,7 +12,7 @@
 				<div class="col-12 col-lg-8">
 					<ul class="nav col-12 col-lg-auto ms-lg-auto justify-content-end mb-md-0 me-lg-3">
 						<li>
-							<a href="products" class="nav-link px-2 text-light h5 px-3 mx-1">
+							<a href="https://m.me/TheAskit" target="_blank" class="nav-link px-2 text-light h5 px-3 mx-1">
 								<i class="nav-icon mdi mdi-chat-question-outline"></i> Help
 							</a>
 						</li>

@@ -23,7 +23,7 @@
 		$fb_id = $this->input->post("fb_id");
 
 
-		if ($name_last == NULL || $name_first == NULL || $email == NULL) {
+		if ($name_first == NULL) {
 			$this->session->set_flashdata("notice", array("warning", "One or more inputs are empty."));
 		} else {
 			if ($this->Model_read->get_user_acc_wemail($email)->num_rows() > 0) {
