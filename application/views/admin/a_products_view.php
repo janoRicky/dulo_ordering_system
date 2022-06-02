@@ -61,7 +61,7 @@ $template_header;
 										<label>Date Added:</label>
 									</div>
 									<div class="col-12 col-md-8">
-										<?=date("Y-m-d / H:i:s A", strtotime($row_info["date_added"]))?>
+										<?=date("Y-m-d / h:i:s A", strtotime($row_info["date_added"]))?>
 									</div>
 									<div class="col-12 col-md-4">
 										<label>Price:</label>

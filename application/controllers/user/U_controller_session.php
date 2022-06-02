@@ -14,6 +14,8 @@
 		$amount = $this->input->get("amount");
 		$submit = $this->input->get("submit");
 
+		$adtl_note = $this->input->get("adtl_note");
+
 		if ($amount > 0) {
 			if (!$this->session->has_userdata("cart")) {
 				$data["cart"] = array($id => $amount);
@@ -22,6 +24,17 @@
 
 				$cart[$id] = $amount;
 				$data["cart"] = $cart;
+			}
+			$this->session->set_userdata($data);
+		}
+		if (strlen($adtl_note) > 0) {
+			if (!$this->session->has_userdata("cart_notes")) {
+				$data["cart_notes"] = array($id => $amount);
+			} else {
+				$cart_notes = $this->session->userdata("cart_notes");
+
+				$cart_notes[$id] = $adtl_note;
+				$data["cart_notes"] = $cart_notes;
 			}
 			$this->session->set_userdata($data);
 		}

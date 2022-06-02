@@ -84,7 +84,7 @@ $template_header;
 													<?=($order_item_info["price"] != NULL ? "PHP ". number_format($order_item_info["price"], 2) : "NONE")?>
 												</td>
 												<td>
-													<?=date("Y-m-d / H:i:s A", strtotime($row["date_time"]))?>
+													<?=date("Y-m-d / h:i:s A", strtotime($row["date_time"]))?>
 												</td>
 												<td>
 													<?=$states[$row["state"]]?>

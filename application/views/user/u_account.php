@@ -42,14 +42,6 @@ $template_header;
 											</div>
 											<div class="row mt-2">
 												<div class="col-12">
-													<h5 class="fw-bold">Address: </h5>
-												</div>
-												<div class="col-12 text-center rounded-pill bg-secondary text-light py-2">
-													<?=$account_details["province"] ." / ". $account_details["city"] ." / ". $account_details["street"] ." / ". $account_details["address"]?>
-												</div>
-											</div>
-											<div class="row mt-2">
-												<div class="col-12">
 													<h5 class="fw-bold">Contact Num: </h5>
 												</div>
 												<div class="col-12 text-center rounded-pill bg-secondary text-light py-2">
@@ -80,9 +72,6 @@ $template_header;
 									<a style="" class="btn py-2 px-4 m-0 fw-bold my_order_state" href="my_orders?state=1"><?=$states[1]?> (<?=(isset($order_state_counts[1]) ? $order_state_counts[1] : 0)?>)</a><br>
 									<a style="" class="btn py-2 px-4 m-0 fw-bold my_order_state" href="my_orders?state=2"><?=$states[2]?> (<?=(isset($order_state_counts[2]) ? $order_state_counts[2] : 0)?>)</a><br>
 									<a style="" class="btn py-2 px-4 m-0 fw-bold my_order_state" href="my_orders?state=3"><?=$states[3]?> (<?=(isset($order_state_counts[3]) ? $order_state_counts[3] : 0)?>)</a><br>
-									<a style="" class="btn py-2 px-4 m-0 fw-bold my_order_state" href="my_orders?state=4"><?=$states[4]?> (<?=(isset($order_state_counts[4]) ? $order_state_counts[4] : 0)?>)</a><br>
-									<a style="" class="btn py-2 px-4 m-0 fw-bold my_order_state" href="my_orders?state=5"><?=$states[5]?> (<?=(isset($order_state_counts[5]) ? $order_state_counts[5] : 0)?>)</a><br>
-									<a style="" class="btn py-2 px-4 m-0 fw-bold my_order_state" href="my_orders?state=6"><?=$states[6]?> (<?=(isset($order_state_counts[6]) ? $order_state_counts[6] : 0)?>)</a><br>
 								</div>
 							</div>
 						</div>

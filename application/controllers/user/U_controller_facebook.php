@@ -14,8 +14,8 @@
 
 	// = = = AJAX
 	public function login_with_facebook() {
-		$name_last = $this->input->post("fb_first_name");
-		$name_first = $this->input->post("fb_last_name");
+		$name_last = $this->input->post("fb_last_name");
+		$name_first = $this->input->post("fb_first_name");
 		$name_middle = $this->input->post("fb_middle_name");
 
 		$gender = "other";

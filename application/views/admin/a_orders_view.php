@@ -70,7 +70,7 @@ $template_header;
 											<label>Date / Time:</label>
 										</div>
 										<div class="col-12 col-md-8">
-											<?=date("Y-m-d / H:i:s A", strtotime($row_info["date_time"]))?>
+											<?=date("Y-m-d / h:i:s A", strtotime($row_info["date_time"]))?>
 										</div>
 									</div>
 									<div class="col-12 col-md-6 row border-0">
@@ -201,42 +201,6 @@ $template_header;
 										</table>
 										<button class="btn btn-primary btn-lg my-2" data-bs-toggle="modal" data-bs-target="#modal_payment" data-id="<?=$row_info['order_id']?>">
 											Add Payment
-										</button>
-									</div>
-									<div class="col-12">
-										<label>Unpaid Payments:</label>
-										<table class="table table-striped table-hover table-responsive-md table-bordered">
-											<thead>
-												<tr>
-													<th>ID</th>
-													<th>Description</th>
-													<th>Amount To Be Paid</th>
-													<th>Action</th>
-												</tr>
-											</thead>
-											<tbody>
-												<?php if ($tbl_payments_unpaid->num_rows() < 1): ?>
-													<tr>
-														<td colspan="4" class="fw-bold">[ EMPTY ]</td>
-													</tr>
-												<?php else: ?>
-													<?php foreach ($tbl_payments_unpaid->result_array() as $row): ?>
-														<tr>
-															<td class="id"><?=$row["payment_id"]?></td>
-															<td class="description"><?=$row["description"]?></td>
-															<td class="amount">
-																PHP <span><?=number_format($row["amount"], 2)?></span>
-															</td>
-															<td>
-																<i class="fa fa-trash fa-lg text-danger p-1 btn_delete_payment action_button" data-bs-toggle="modal" data-bs-target="#modal_delete_payment_tbp" data-id="<?=$row['payment_id']?>" aria-hidden="true"></i>
-															</td>
-														</tr>
-													<?php endforeach; ?>
-												<?php endif; ?>
-											</tbody>
-										</table>
-										<button class="btn btn-primary btn-lg my-2" data-bs-toggle="modal" data-bs-target="#modal_payment_tbp" data-id="<?=$row_info['order_id']?>">
-											Add Payment To Be Paid
 										</button>
 									</div>
 									<div class="col-12">

@@ -23,7 +23,7 @@
 						</li>
 						<li class="p-2 ps-4">
 							<?php if ($this->session->userdata("user_in")): ?>
-								<a class="text-decoration-none text-light fw-bold" href="account">My Account</a>
+								<a class="text-decoration-none text-light fw-bold" href="account"><?=(($this->session->userdata("user_name")) ? $this->session->userdata("user_name") : "My Account")?></a>
 								<span class="mx-2"><i class="nav-icon mdi mdi-circle text-success"></i></span>
 								<a id="logout" class="text-decoration-none text-light fw-bold" href="#">Logout</a>
 							<?php else: ?>

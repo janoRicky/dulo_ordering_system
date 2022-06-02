@@ -54,15 +54,12 @@ $template_header;
 									<h5 class="fw-bold">Date / Time: </h5>
 								</div>
 								<div class="col-8 col-md-9">
-									<?=date("Y-m-d / H:i:s A", strtotime($my_order["date_time"]))?>
+									<?=date("Y-m-d / h:i:s A", strtotime($my_order["date_time"]))?>
 								</div>
 							</div>
 							<div class="row mt-2">
 								<div class="col-4 col-md-3">
 									<h5 class="fw-bold">Full Address: </h5>
-								</div>
-								<div class="col-8 col-md-9">
-									<?=$my_order["province"] ." / ". $my_order["city"] ." / ". $my_order["street"] ." / ". $my_order["address"]?>
 								</div>
 							</div>
 							<div class="row mt-2">

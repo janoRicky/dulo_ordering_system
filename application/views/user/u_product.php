@@ -58,7 +58,7 @@ $template_header;
 												<h5 class="fw-bold">ADDITIONAL NOTE <span class="text-muted">[OPTIONAL]</span>:</h5>
 											</div>
 											<div class="col-12 col-sm-7">
-												<textarea class="form-control text-center" name="note" rows="3"></textarea>
+												<textarea class="form-control text-center" name="adtl_note" maxlength="255" rows="3"><?=(isset($product_note) ? $product_note : "")?></textarea>
 											</div>
 										</div>
 										<div class="row justify-content-center mt-4">
@@ -67,7 +67,7 @@ $template_header;
 													<button class="btn btn-qty-subtract" type="button" style="width: 72px; height: 72px; border-radius: 100%;">
 														<i class="mdi mdi-minus-circle-outline mdi-36px"></i>
 													</button>
-													<input class="form-control text-center mx-2" id="product_qty" style="width: 120px; font-size: 24px;" type="number" name="amount" min="1" value="1" required="" placeholder="*Qty">
+													<input class="form-control text-center mx-2" id="product_qty" style="width: 120px; font-size: 24px;" type="number" name="amount" min="1" value="<?=(isset($product_qty) ? $product_qty : '1')?>" required="" placeholder="*Qty">
 													<button class="btn btn-qty-add" type="button" style="width: 72px; height: 72px; border-radius: 100%;">
 														<i class="mdi mdi-plus-circle-outline mdi-36px"></i>
 													</button>

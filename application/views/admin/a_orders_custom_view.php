@@ -47,7 +47,7 @@ $template_header;
 									</div>
 									<div class="col-12">
 										<label>Date / Time:</label><br>
-										<?=date("Y-m-d / H:i:s A", strtotime($row_info["date_time"]))?>
+										<?=date("Y-m-d / h:i:s A", strtotime($row_info["date_time"]))?>
 									</div>
 									<div class="col-12">
 										<label>Full Address:</label><br>

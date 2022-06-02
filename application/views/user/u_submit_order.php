@@ -28,40 +28,62 @@ $template_header;
 										</div>
 									</div>
 								</div>
-								<div class="col-12 col-lg-6 pr-3">
+								<div class="col-12 col-lg-8 pr-3">
 									<div class="row mt-2">
 										<div class="col-12">
 											<div class="card shadow" style="border-radius: 15px;">
 												<div class="card-body mt-2 mx-3">
-													<h5 class="card-title fw-bold">Payment Method <?=$no_account_uid?></h5>
+													<div class="row justify-content-center mt-2 mb-4">
+														<div class="col-12 col-md-9 col-lg-6 row rounded shadow p-0 text-center">
+															<div class="col-auto rounded-start border border-1 text-light bg-info">
+																<i class="mdi mdi-store-outline mdi-36px"></i>
+															</div>
+															<div class="col rounded-end border border-1 border-start-0 p-2">
+																<h4 class="fw-bold">Pick-Up</h4>
+															</div>
+														</div>
+														<div class="col-12 col-md-10 col-lg-8 text-center">
+															<div class="bg-secondary text-light px-4 py-2 mt-2" style="border-radius: 10px;">
+																<h6 class="fw-bold">Pick-Up on:</h6>
+																<span>JDC Compound Beside Palmera 5, Calabarzon, Philippines, Taytay, Philippines</span>
+															</div>
+														</div>
+													</div>
+													<h5 class="card-title fw-bold">Pick-Up Time</h5>
 													<hr class="my-3 px-5">
 													<div class="row justify-content-center item mb-4">
-														<?php if ($delivery_method == 1): ?>
-															<div class="col-12 text-center">
-																<div class="row mt-2">
-																	<div class="col-12">
-																		<div class="input-group">
-																			<span class="input-group-text px-4">
-																				<i class="dm_pickup mdi mdi-store-outline mdi-24px d-none"></i>
-																				<i class="dm_online mdi mdi-credit-card mdi-24px"></i>
-																			</span>
-																			<select id="payment_method" class="form-control fw-bold" style="font-size: 16px;">
-																				<option value="0">Payment On Pick-Up</option>
-																				<option value="1">Online Payment</option>
-																			</select>
-																		</div>
+														<div class="col-12 col-md-10 col-lg-7 text-center">
+															<div class="row mt-2">
+																<div class="col-12">
+																	<input type="datetime-local" name="inp_datetime_pickup" value="<?=date('Y-m-d\TH:i:s')?>">
+																</div>
+															</div>
+														</div>
+													</div>
+													<h5 class="card-title fw-bold">Payment Method</h5>
+													<hr class="my-3 px-5">
+													<div class="row justify-content-center item mb-4">
+														<div class="col-12 col-md-10 col-lg-7 text-center">
+															<div class="row mt-2">
+																<div class="col-12">
+																	<div class="input-group">
+																		<span class="input-group-text px-4">
+																			<i class="dm_pickup mdi mdi-store-outline mdi-24px d-none"></i>
+																			<i class="dm_online mdi mdi-credit-card mdi-24px"></i>
+																		</span>
+																		<select id="payment_method" name="inp_payment_method" class="form-control fw-bold" style="font-size: 16px;">
+																			<option value="0">Payment On Pick-Up</option>
+																			<option value="1">Online Payment</option>
+																		</select>
 																	</div>
 																</div>
 															</div>
-														<?php endif; ?>
-														<div class="col-12 text-center payment" style="<?=(($delivery_method == 1) ? 'display: none;' : '')?>">
-															<div class="row mt-2">
-																<div class="col-12 text-start">
-																	<h6 class="fw-bold">Ref No: </h6>
-																	<span>(Send Payment to GCash # 0999999999)</span>
-																</div>
-																<div class="col-12">
-																	<input id="ref_no" class="form-control" type="text" name="inp_ref_no" placeholder="*Ref No" autocomplete="off" required value="<?=(($delivery_method == 1) ? 'payment_on_pickup' : '')?>">
+														</div>
+														<div class="col-12 text-center payment" style="display: none;">
+															<div class="row mt-2 justify-content-center">
+																<div class="col-12 col-md-10 col-lg-8 rounded-pill text-center pt-3 pb-3 mb-4 text-light" style="background-color: #007dfe;">
+																	<img class="mb-2" src="https://www.gcash.com/wp-content/uploads/2019/07/gcash-logo.png" alt="GCash">
+																	<h5 class="fw-bold">(Send Payment to GCash # 0999999999)</h5>
 																</div>
 															</div>
 															<div class="row mt-2">
@@ -82,57 +104,7 @@ $template_header;
 										</div>
 									</div>
 								</div>
-								<?php if ($delivery_method == 0): ?>
-									<div class="col-12 col-lg-6 pl-3">
-										<div class="row mt-2">
-											<div class="col-12">
-												<div class="card shadow" style="border-radius: 15px;">
-													<div class="card-body mt-2 mx-3">
-														<h5 class="card-title fw-bold">Address</h5>
-														<hr class="my-3 px-5">
-														<div class="row justify-content-center item mb-4">
-															<div class="col-12 text-center">
-																<div class="row mt-2">
-																	<div class="col-12 text-start">
-																		<h6 class="fw-bold">Province: </h6>
-																	</div>
-																	<div class="col-12">
-																		<input class="form-control" type="text" name="inp_province" placeholder="*Province" value="<?=(isset($account_details['province']) ? $account_details['province'] : '')?>" autocomplete="off" required="">
-																	</div>
-																</div>
-																<div class="row mt-2">
-																	<div class="col-12 text-start">
-																		<h6 class="fw-bold">City: </h6>
-																	</div>
-																	<div class="col-12">
-																		<input class="form-control" type="text" name="inp_city" placeholder="*City" value="<?=(isset($account_details['city']) ? $account_details['city'] : '')?>" autocomplete="off" required="">
-																	</div>
-																</div>
-																<div class="row mt-2">
-																	<div class="col-12 text-start">
-																		<h6 class="fw-bold">Street / Road: </h6>
-																	</div>
-																	<div class="col-12">
-																		<input class="form-control" type="text" name="inp_street" placeholder="*Street/Road" value="<?=(isset($account_details['street']) ? $account_details['street'] : '')?>" autocomplete="off" required="">
-																	</div>
-																</div>
-																<div class="row mt-2">
-																	<div class="col-12 text-start">
-																		<h6 class="fw-bold">House Number / Floor / Bldg. / etc.: </h6>
-																	</div>
-																	<div class="col-12">
-																		<input class="form-control" type="text" name="inp_address" placeholder="House Number/Floor/Bldg./etc." value="<?=(isset($account_details['address']) ? $account_details['address'] : '')?>" autocomplete="off">
-																	</div>
-																</div>
-															</div>
-														</div>
-													</div>
-												</div>
-											</div>
-										</div>
-									</div>
-								<?php endif; ?>
-								<div class="col-12 col-md-12 text-center mt-3">
+								<div class="col-12 col-lg-8 text-center mt-3">
 									<div class="card shadow" style="border-radius: 15px; background-color: #ffd500;">
 										<div class="card-body row">
 											<div class="col-12 col-md-6 d-none d-md-block text-end">
@@ -202,8 +174,8 @@ $template_header;
 					$(".dm_pickup").toggleClass("d-none");
 
 					$(".payment").slideUp().fadeOut();
-					$("#ref_no").removeAttr("required");
-					$("#ref_no").val('payment_on_pickup');
+					// $("#ref_no").removeAttr("required");
+					// $("#ref_no").val('payment_on_pickup');
 				}
 			} else { // pickup
 				if ($(".dm_pickup").hasClass("d-none")) {
@@ -211,8 +183,8 @@ $template_header;
 					$(".dm_pickup").toggleClass("d-none");
 
 					$(".payment").slideDown().fadeIn();
-					$("#ref_no").attr("required", "");
-					$("#ref_no").val('');
+					// $("#ref_no").attr("required", "");
+					// $("#ref_no").val('');
 
 				}
 			}

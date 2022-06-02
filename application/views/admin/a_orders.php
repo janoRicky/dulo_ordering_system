@@ -14,7 +14,7 @@ $template_header;
 						
 						<div class="row py-3 col-12 col-md-9 mx-auto border-bottom mb-4 title_bar">
 							<div class="col-12 col-sm-6 text-start">
-								<h2 class="fw-bold">Orders <small class="text-muted">x<?=$tbl_products->num_rows()?></small></h2>
+								<h2 class="fw-bold">Orders <small class="text-muted">x<?=$tbl_orders->num_rows()?></small></h2>
 							</div>
 							<div class="col-12 col-sm-6 text-end">
 								<button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal_new_order"><i class="fa fa-plus p-1" aria-hidden="true"></i> New Order</button>
@@ -81,7 +81,7 @@ $template_header;
 													<?php endif; ?>
 												</td>
 												<td>
-													<?=date("Y-m-d / H:i:s A", strtotime($row["date_time"]))?>
+													<?=date("Y-m-d / h:i:s A", strtotime($row["date_time"]))?>
 												</td>
 												<td class="qty">
 													<?=$total_qty?>

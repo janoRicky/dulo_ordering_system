@@ -81,12 +81,12 @@ class Model_read extends CI_Model {
 
 	public function get_orders($state) {
 		$where_state = ($state != "ALL" ? "AND state = '$state'" : "");
-		$query = "SELECT * FROM orders AS o WHERE status = '1' $where_state AND EXISTS(SELECT * FROM orders_items AS oi WHERE o.order_id = oi.order_id AND type = 'NORMAL')";
-		return $this->db->query($query);
+		$query = "SELECT * FROM orders AS o WHERE status = '1' $where_state AND EXISTS(SELECT * FROM orders_items AS oi WHERE o.order_id = oi.order_id)";
+		return $this->db->query($query); //  AND type = 'NORMAL'
 	}
 	public function get_order_wid($id) {
-		$query = "SELECT * FROM orders AS o WHERE order_id = '$id' AND status = '1' AND EXISTS(SELECT * FROM orders_items AS oi WHERE o.order_id = oi.order_id AND type = 'NORMAL')";
-		return $this->db->query($query);
+		$query = "SELECT * FROM orders AS o WHERE order_id = '$id' AND status = '1' AND EXISTS(SELECT * FROM orders_items AS oi WHERE o.order_id = oi.order_id)";
+		return $this->db->query($query); // AND type = 'NORMAL'
 	}
 	public function get_order_wuser_id($id, $state) {
 		$where_state = ($state != "ALL" ? array("state" => $state) : array());

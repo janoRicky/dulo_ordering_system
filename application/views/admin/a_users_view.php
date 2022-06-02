@@ -110,7 +110,7 @@ $template_header;
 															<?=$row["order_id"]?>
 														</td>
 														<td>
-															<?=date("Y-m-d / H:i:s A", strtotime($row["date_time"]))?>
+															<?=date("Y-m-d / h:i:s A", strtotime($row["date_time"]))?>
 														</td>
 														<td>
 															<?=$order_type?>

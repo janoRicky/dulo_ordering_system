@@ -33,9 +33,6 @@ $template_header;
 											<a style="" class="btn py-2 px-4 m-0 fw-bold my_order_state" href="my_orders?state=1"><?=$states[1]?> (<?=(isset($order_state_counts[1]) ? $order_state_counts[1] : 0)?>)</a>
 											<a style="" class="btn py-2 px-4 m-0 fw-bold my_order_state" href="my_orders?state=2"><?=$states[2]?> (<?=(isset($order_state_counts[2]) ? $order_state_counts[2] : 0)?>)</a>
 											<a style="" class="btn py-2 px-4 m-0 fw-bold my_order_state" href="my_orders?state=3"><?=$states[3]?> (<?=(isset($order_state_counts[3]) ? $order_state_counts[3] : 0)?>)</a>
-											<a style="" class="btn py-2 px-4 m-0 fw-bold my_order_state" href="my_orders?state=4"><?=$states[4]?> (<?=(isset($order_state_counts[4]) ? $order_state_counts[4] : 0)?>)</a>
-											<a style="" class="btn py-2 px-4 m-0 fw-bold my_order_state" href="my_orders?state=5"><?=$states[5]?> (<?=(isset($order_state_counts[5]) ? $order_state_counts[5] : 0)?>)</a>
-											<a style="" class="btn py-2 px-4 m-0 fw-bold my_order_state" href="my_orders?state=6"><?=$states[6]?> (<?=(isset($order_state_counts[6]) ? $order_state_counts[6] : 0)?>)</a>
 										</class>
 									</div>
 								</div>
@@ -61,10 +58,7 @@ $template_header;
 													<?php foreach ($my_orders->result_array() as $row): ?>
 														<tr>
 															<td class="text-center">
-																<?=date("Y-m-d / H:i:s A", strtotime($row["date_time"]))?>
-															</td>
-															<td class="text-center">
-																<?=$row["province"] ." / ". $row["city"] ." / ". $row["street"] ." / ". $row["address"]?>
+																<?=date("Y-m-d / h:i:s A", strtotime($row["date_time"]))?>
 															</td>
 															<td class="text-center">
 																<?=$states[$row["state"]]?>

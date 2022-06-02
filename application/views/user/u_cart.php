@@ -101,7 +101,7 @@ $template_header;
 																<div class="row">
 																	<div class="col-6 text-start">
 																		<a class="btn btn-info rounded-pill mt-1" href="<?=base_url()?>product?id=<?=$item_info['product_id']?>">
-																			Update Qty
+																			Update
 																		</a>
 																	</div>
 																	<div class="col-6 text-end">
@@ -128,18 +128,16 @@ $template_header;
 												<hr class="my-3 px-5">
 												<div class="row justify-content-center item mb-4">
 													<div class="col-12 col-md-10 col-xl-8 text-center">
-														<div class="input-group">
-															<span class="input-group-text px-4">
-																<i class="dm_pickup mdi mdi-store-outline mdi-36px d-none"></i>
-																<i class="dm_ship mdi mdi-motorbike mdi-36px"></i>
-															</span>
-															<select id="delivery_method" class="form-control fw-bold" style="font-size: 1.35rem;">
-																<option value="0">Ship</option>
-																<option value="1">Pick-Up</option>
-															</select>
+														<div class="row rounded shadow">
+															<div class="col-auto rounded-start border border-1 text-light bg-info">
+																<i class="mdi mdi-store-outline mdi-36px"></i>
+															</div>
+															<div class="col rounded-end border border-1 border-start-0 p-2">
+																<h4 class="fw-bold">Pick-Up</h4>
+															</div>
 														</div>
 													</div>
-													<div class="col-12 text-center pickup-address" style="display: none;">
+													<div class="col-12 text-center">
 														<div class="bg-secondary text-light px-4 py-2 mt-2" style="border-radius: 10px;">
 															<h6 class="fw-bold">Pick-Up on:</h6>
 															<span>JDC Compound Beside Palmera 5, Calabarzon, Philippines, Taytay, Philippines</span>
@@ -174,9 +172,7 @@ $template_header;
 														<div class="col-5">
 															<?=form_open(base_url() . "submit_order", "method='POST'")?>
 																<input type="hidden" name="grand_total" value="<?=$grand_total?>">
-																<input id="method_delivery" type="hidden" name="delivery_method" required>
 																
-
 																<?php if ($this->session->userdata("user_in")): ?>
 																	<button class="btn btn-dark fw-bold px-4 py-3 rounded-pill text-light" <?=($grand_total > 0 ? "" : "disabled")?>>
 																		Payment
@@ -211,25 +207,25 @@ $template_header;
 			}
 		});
 
-		$("#delivery_method").on("change", function() {
-			if ($(this).val() == 0) { // ship
-				if ($(".dm_ship").hasClass("d-none")) {
-					$(".dm_ship").toggleClass("d-none");
-					$(".dm_pickup").toggleClass("d-none");
+		// $("#delivery_method").on("change", function() {
+		// 	if ($(this).val() == 0) { // ship
+		// 		if ($(".dm_ship").hasClass("d-none")) {
+		// 			$(".dm_ship").toggleClass("d-none");
+		// 			$(".dm_pickup").toggleClass("d-none");
 
-					$(".pickup-address").slideUp().fadeOut();
-				}
-			} else { // pickup
-				if ($(".dm_pickup").hasClass("d-none")) {
-					$(".dm_ship").toggleClass("d-none");
-					$(".dm_pickup").toggleClass("d-none");
+		// 			$(".pickup-address").slideUp().fadeOut();
+		// 		}
+		// 	} else { // pickup
+		// 		if ($(".dm_pickup").hasClass("d-none")) {
+		// 			$(".dm_ship").toggleClass("d-none");
+		// 			$(".dm_pickup").toggleClass("d-none");
 
-					$(".pickup-address").slideDown().fadeIn();
-				}
-			}
-			$('#method_delivery').val($(this).val());
-		});
-		$("#method_delivery").val($("#delivery_method").find(":selected").val());
+		// 			$(".pickup-address").slideDown().fadeIn();
+		// 		}
+		// 	}
+		// 	$('#method_delivery').val($(this).val());
+		// });
+		// $("#method_delivery").val($("#delivery_method").find(":selected").val());
     });
 </script>
 </html>

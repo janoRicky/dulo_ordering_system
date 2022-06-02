@@ -34,17 +34,16 @@ $template_header;
 					<div class="card shadow px-4 py-1" style="border-radius: 15px;">
 						<div class="card-body">
 							<div class="row align-items-center">
-								<div class="col-12 my-2">
+								<div class="col-12 my-2 text-center">
 									<h4 class="fw-bold">
 										ORDER NOW!
 									</h4>
-									<p>Choose your transaction</p>
 								</div>
 							</div>
 							<div class="row align-items-center">
-								<a href="products" class="btn my-1"  style="border-radius: 15px; background-color: #f7e929;">
-									<i class="nav-icon mdi mdi-motorbike mdi-36px"></i> <i class="nav-icon mdi mdi-store-outline mdi-36px"></i><br>
-									DELIVERY / PICK-UP
+								<a href="products" class="btn my-1 fw-bold"  style="border-radius: 15px; background-color: #f7e929;">
+									<i class="nav-icon mdi mdi-store-outline mdi-36px"></i><br>
+									PICK-UP
 								</a>
 							</div>
 						</div>

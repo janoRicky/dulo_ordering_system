@@ -27,9 +27,6 @@ $template_header;
 											<a style="" class="btn py-2 px-4 m-0 fw-bold my_order_state" href="my_orders?state=1"><?=$states[1]?> (<?=(isset($order_state_counts[1]) ? $order_state_counts[1] : 0)?>)</a>
 											<a style="" class="btn py-2 px-4 m-0 fw-bold my_order_state" href="my_orders?state=2"><?=$states[2]?> (<?=(isset($order_state_counts[2]) ? $order_state_counts[2] : 0)?>)</a>
 											<a style="" class="btn py-2 px-4 m-0 fw-bold my_order_state" href="my_orders?state=3"><?=$states[3]?> (<?=(isset($order_state_counts[3]) ? $order_state_counts[3] : 0)?>)</a>
-											<a style="" class="btn py-2 px-4 m-0 fw-bold my_order_state" href="my_orders?state=4"><?=$states[4]?> (<?=(isset($order_state_counts[4]) ? $order_state_counts[4] : 0)?>)</a>
-											<a style="" class="btn py-2 px-4 m-0 fw-bold my_order_state" href="my_orders?state=5"><?=$states[5]?> (<?=(isset($order_state_counts[5]) ? $order_state_counts[5] : 0)?>)</a>
-											<a style="" class="btn py-2 px-4 m-0 fw-bold my_order_state" href="my_orders?state=6"><?=$states[6]?> (<?=(isset($order_state_counts[6]) ? $order_state_counts[6] : 0)?>)</a>
 										</class>
 									</div>
 								</div>
@@ -47,15 +44,15 @@ $template_header;
 													<h5 class="fw-bold">Date / Time: </h5>
 												</div>
 												<div class="col-12 text-center rounded-pill bg-secondary text-light py-2">
-													<?=date("Y-m-d / H:i:s A", strtotime($my_order["date_time"]))?>
+													<?=date("Y-m-d / h:i:s A", strtotime($my_order["date_time"]))?>
 												</div>
 											</div>
-											<div class="row mt-2">
-												<div class="col-3">
-													<h5 class="fw-bold">Full Address: </h5>
+											<div class="row">
+												<div class="col-4 col-md-3">
+													<h5 class="fw-bold">Pick Up Date / Time: </h5>
 												</div>
 												<div class="col-12 text-center rounded-pill bg-secondary text-light py-2">
-													<?=$my_order["province"] ." / ". $my_order["city"] ." / ". $my_order["street"] ." / ". $my_order["address"]?>
+													<?=date("Y-m-d / h:i:s A", strtotime($my_order["datetime_pickup"]))?>
 												</div>
 											</div>
 											<div class="row mt-2">

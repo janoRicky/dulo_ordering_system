@@ -17,9 +17,6 @@
 		<a href="users" class="list-group-item side_link py-3 px-4 users">
 			<i class="fa fa-users" aria-hidden="true"></i> User Accounts
 		</a>
-		<a href="messaging" class="list-group-item side_link py-3 px-4 message">
-			<i class="fa fa-envelope" aria-hidden="true"></i> Messaging
-		</a>
 		<a href="accounts" class="list-group-item side_link py-3 px-4 admins">
 			<i class="fa fa-user-secret" aria-hidden="true"></i> Admin Accounts
 		</a>

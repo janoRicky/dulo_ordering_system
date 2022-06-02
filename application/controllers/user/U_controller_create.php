@@ -32,14 +32,16 @@
 
 		// $zip_code = $this->input->post("inp_zip_code");
 		// $country = $this->input->post("inp_country");
-		$province = $this->input->post("inp_province");
-		$city = $this->input->post("inp_city");
-		$street = $this->input->post("inp_street");
-		$address = $this->input->post("inp_address");
+		// $province = $this->input->post("inp_province");
+		// $city = $this->input->post("inp_city");
+		// $street = $this->input->post("inp_street");
+		// $address = $this->input->post("inp_address");
 
 		$password = $this->input->post("inp_password");
 
-		if ($name_last == NULL || $name_first == NULL || $gender == NULL || $email == NULL || $contact_num == NULL || $province == NULL || $city == NULL || $street == NULL || $password == NULL) {
+		if ($name_last == NULL || $name_first == NULL || $gender == NULL || $email == NULL || $contact_num == NULL
+		 // || $province == NULL || $city == NULL || $street == NULL
+		  || $password == NULL) {
 			$this->session->set_flashdata("notice", array("warning", "One or more inputs are empty."));
 		} else {
 			if ($this->Model_read->get_user_acc_wemail($email)->num_rows() > 0) {
@@ -65,10 +67,10 @@
 
 					// "zip_code" => $zip_code,
 					// "country" => $country,
-					"province" => $province,
-					"city" => $city,
-					"street" => $street,
-					"address" => $address,
+					// "province" => $province,
+					// "city" => $city,
+					// "street" => $street,
+					// "address" => $address,
 
 					"password" => password_hash($password, PASSWORD_BCRYPT),
 					"status" => "1"
@@ -86,23 +88,28 @@
 	public function new_order() {
 		$user_id = ($this->session->has_userdata("user_id") ? $this->session->userdata("user_id") : 0);
 		$date_time = date('Y-m-d H:i:s');
-		$ref_no = $this->input->post("inp_ref_no");
+		// $ref_no = $this->input->post("inp_ref_no");
 
 		// $zip_code = $this->input->post("inp_zip_code");
 		// $country = $this->input->post("inp_country");
-		$province = $this->input->post("inp_province");
-		$city = $this->input->post("inp_city");
-		$street = $this->input->post("inp_street");
-		$address = $this->input->post("inp_address");
+		// $province = $this->input->post("inp_province");
+		// $city = $this->input->post("inp_city");
+		// $street = $this->input->post("inp_street");
+		// $address = $this->input->post("inp_address");
 
-		$items_no = $this->input->post("items_no");
+
+		$datetime_pickup = $this->input->post("inp_datetime_pickup");
+
+		$payment_method = $this->input->post("inp_payment_method");
+
+		$items_no = $this->input->post("items_no"); // WAT?
 		$items = ($this->session->has_userdata("cart") ? $this->session->userdata("cart") : array());
 
+		$items_notes = ($this->session->has_userdata("cart_notes") ? $this->session->userdata("cart_notes") : array());
 
-		if ($user_id == NULL || $ref_no == NULL || count($items) < 1) {
+
+		if ($user_id == NULL || count($items) < 1) {
 			$this->session->set_flashdata("notice", array("warning", "One or more inputs are empty."));
-		} elseif (($province == NULL || $city == NULL || $street == NULL) && $ref_no != "payment_on_pickup") {
-			$this->session->set_flashdata("notice", array("warning", "Address inputs are empty."));
 		} else {
 			$user = $this->Model_read->get_user_acc_wid($user_id);
 			if ($user->num_rows() < 1) {
@@ -117,12 +124,15 @@
 					if ($id != NULL && $qty != NULL) {
 						$p_details = $this->Model_read->get_product_wid_user($id)->row_array();
 
-						$data_items[] = array(
+						$data_temp = array(
 							"product_id" => $id,
 							"qty" => $qty,
 							"price" => $p_details["price"],
-							"type" => "NORMAL"
+							"type" => "PICKUP"
 						);
+						$data_temp["adtl_note"] = (isset($items_notes[$id]) ? $items_notes[$id] : "");
+
+						$data_items[] = $data_temp;
 					}
 				}
 
@@ -131,10 +141,11 @@
 					"date_time" => $date_time,
 					// "zip_code" => $zip_code,
 					// "country" => $country,
-					"province" => $province,
-					"city" => $city,
-					"street" => $street,
-					"address" => $address,
+					// "province" => $province,
+					// "city" => $city,
+					// "street" => $street,
+					// "address" => $address,
+					"datetime_pickup" => $datetime_pickup,
 					"state" => "0",
 					"status" => "1"
 				);
@@ -148,7 +159,7 @@
 
 					$this->session->unset_userdata("cart");
 
-					if ($ref_no == "payment_on_pickup") {
+					if ($payment_method == 0) {
 						$this->email->set_newline("\r\n");
 						$this->email->clear();
 						$this->email->from("dulo.ordering@gmail.com");
@@ -162,7 +173,7 @@
 						$this->session->set_flashdata("notice", array("success", "Order is successfully added."));
 						
 						redirect("my_orders");
-					} else {
+					} else { // ONLINE PAYMENT
 						// insert order payment
 						$img = NULL;
 
@@ -200,8 +211,10 @@
 						}
 
 						$data = array(
+							"payment_method" => $payment_method,
+							
 							"order_id" => $order_id,
-							"ref_no" => $ref_no,
+							// "ref_no" => $ref_no,
 							"img" => $img,
 							"date_time" => $date_time,
 							"type" => "0",

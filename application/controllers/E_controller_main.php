@@ -81,6 +81,18 @@
 		if ($id == NULL || $product->num_rows() < 1) {
 			redirect("products");
 		} else {
+
+			if ($this->session->has_userdata("cart")) {
+				$cart = $this->session->userdata("cart");
+
+				$data["product_qty"] = $cart[$id];
+			}
+			if ($this->session->has_userdata("cart_notes")) {
+				$cart_notes = $this->session->userdata("cart_notes");
+
+				$data["product_note"] = $cart_notes[$id];
+			}
+
 			$data["product_details"] = $product->row_array();
 			$data["type"] = $this->Model_read->get_type_wid($data["product_details"]["type_id"])->row_array()["name"];
 			$this->load->view("user/u_product", $data);
@@ -128,13 +140,13 @@
 		$data["template_head"] = $this->load->view("user/template/u_t_head", $head);
 
 		$grand_total = $this->input->post("grand_total");
-		$delivery_method = $this->input->post("delivery_method");
+		// $delivery_method = $this->input->post("delivery_method");
 
 		if (!$this->session->has_userdata("user_in")) {
 			$this->session->set_flashdata("notice", array("warning", "Please log-in first."));
 			redirect("cart");
 		} else {
-			if (!isset($grand_total) || $grand_total <= 0 || !isset($delivery_method)){
+			if (!isset($grand_total) || $grand_total <= 0){ // || !isset($delivery_method)
 				$this->session->set_flashdata("notice", array("danger", "Something went wrong, please try again."));
 				redirect("cart");
 			} else {
@@ -145,7 +157,7 @@
 					$user_details = NULL;
 				}
 				$data["grand_total"] = $grand_total;
-				$data["delivery_method"] = $delivery_method;
+				// $data["delivery_method"] = $delivery_method;
 				$data["account_details"] = $user_details;
 				$data["no_account_uid"] = get_cookie("no_account_uid");
 				$this->load->view("user/u_submit_order", $data);
@@ -189,11 +201,8 @@
 
 			$data["states"] = array(
 				"PENDING", 
-				"WAITING FOR PAYMENT", 
-				"ACCEPTED / IN PROGRESS", 
-				"TO SHIP",
-				"SHIPPED", 
-				"RECEIVED", 
+				"ACCEPTED", 
+				"COMPLETED", 
 				"CANCELLED"
 			);
 
@@ -240,11 +249,8 @@
 		} else {
 			$data["states"] = array(
 				"PENDING", 
-				"WAITING FOR PAYMENT", 
-				"ACCEPTED / IN PROGRESS", 
-				"TO SHIP",
-				"SHIPPED", 
-				"RECEIVED", 
+				"ACCEPTED", 
+				"COMPLETED", 
 				"CANCELLED"
 			);
 			$user_id = $this->session->userdata("user_id");
@@ -283,11 +289,8 @@
 			// state descriptions
 			$data["states"] = array(
 				"PENDING", 
-				"WAITING FOR PAYMENT", 
-				"ACCEPTED / IN PROGRESS", 
-				"TO SHIP",
-				"SHIPPED", 
-				"RECEIVED", 
+				"ACCEPTED", 
+				"COMPLETED", 
 				"CANCELLED"
 			);
 			// get order payments
@@ -330,11 +333,8 @@
 
 			$data["states"] = array(
 				"PENDING", 
-				"WAITING FOR PAYMENT", 
-				"ACCEPTED / IN PROGRESS", 
-				"TO SHIP",
-				"SHIPPED", 
-				"RECEIVED", 
+				"ACCEPTED", 
+				"COMPLETED", 
 				"CANCELLED"
 			);
 			$data["order_payments"] = $this->Model_read->get_order_payments_worder_id($id);
@@ -367,11 +367,8 @@
 
 				$data["states"] = array(
 					"PENDING", 
-					"WAITING FOR PAYMENT", 
-					"ACCEPTED / IN PROGRESS", 
-					"TO SHIP", 
-					"SHIPPED", 
-					"RECEIVED", 
+					"ACCEPTED", 
+					"COMPLETED", 
 					"CANCELLED"
 				);
 				$data["order_payments"] = $payments_adtl;

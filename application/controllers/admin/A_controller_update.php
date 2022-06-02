@@ -64,7 +64,7 @@
 				"type_id" => $type_id,
 				"description" => $description,
 				"price" => $price,
-				"qty" => $qty
+				// "qty" => $qty
 			);
 
 			if ($this->Model_update->update_product($product_id, $data)) {

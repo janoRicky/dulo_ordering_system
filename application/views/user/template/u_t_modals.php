@@ -94,49 +94,6 @@
 					<div class="row mt-4">
 						<div class="col-12 banner text-center">
 							<div>
-								<h4 class="fw-bold"> Address Info </h4>
-							</div>
-						</div>
-					</div>
-					<div class="row mt-1 px-5">
-						<div class="col-12 px-3">
-							<div class="row mt-2">
-								<div class="col-12">
-									<h6 class="fw-bold">Province: </h6>
-								</div>
-								<div class="col-12">
-									<input class="form-control bg-dark text-light border-dark" type="text" name="inp_province" placeholder="*Province" autocomplete="off" required="">
-								</div>
-							</div>
-							<div class="row mt-2">
-								<div class="col-12">
-									<h6 class="fw-bold">City: </h6>
-								</div>
-								<div class="col-12">
-									<input class="form-control bg-dark text-light border-dark" type="text" name="inp_city" placeholder="*City" autocomplete="off" required="">
-								</div>
-							</div>
-							<div class="row mt-2">
-								<div class="col-12">
-									<h6 class="fw-bold">Street / Road: </h6>
-								</div>
-								<div class="col-12">
-									<input class="form-control bg-dark text-light border-dark" type="text" name="inp_street" placeholder="*Street/Road" autocomplete="off" required="">
-								</div>
-							</div>
-							<div class="row mt-2">
-								<div class="col-12">
-									<h6 class="fw-bold">House Number / Floor / Bldg. / etc.: </h6>
-								</div>
-								<div class="col-12">
-									<input class="form-control bg-dark text-light border-dark" type="text" name="inp_address" placeholder="Address" autocomplete="off">
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="row mt-4">
-						<div class="col-12 banner text-center">
-							<div>
 								<h4 class="fw-bold"> Contact Info </h4>
 							</div>
 						</div>
