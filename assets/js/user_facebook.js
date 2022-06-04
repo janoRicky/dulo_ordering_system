@@ -20,7 +20,7 @@ function login_with_fb() {
 	});
 }
 
-$(document).on('click', '#fb_login', function() {
+$(document).on('click', '.fb_login', function() {
   	FB.login(function(response) {
 		if (response.status === 'connected') {
 			login_with_fb();
@@ -43,4 +43,13 @@ $(document).on('click', '#logout', function() {
 		}
 	});
 	window.location.replace("logout");
+});
+
+$(document).on('click', '.fb_share', function() {
+    FB.ui({
+        method: 'share',
+        href: $(this).data('href'),
+        hashtag: '#DuloByTheAs',
+        quote: 'Look at what I ordered!',
+    });
 });

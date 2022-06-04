@@ -2,6 +2,7 @@
 
 <div id="fb-root"></div>
 <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v14.0&appId=321693583476006&autoLogAppEvents=1" nonce="6JYTGt2T"></script>
+<script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v14.0&appId=321693583476006&autoLogAppEvents=1" nonce="GcbgYYX0"></script>
 <?=form_open(base_url() . "login_with_fb", "id='form_fb_login' method='POST'")?>
 	<input id="fb_id" type="hidden" name="fb_id">
 	<input id="fb_email" type="hidden" name="fb_email">

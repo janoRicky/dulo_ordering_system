@@ -119,7 +119,7 @@
 						</div>
 					</div>
 					<div class="row mt-2 mb-4 text-center">
-						<span>Already have an account? <a id="" data-bs-target="#modal_sign_in" data-bs-toggle="modal" data-bs-dismiss="modal" style="color: red;" href="#">Sign In Here.</a></span>
+						<span>Already have an account? <a data-bs-target="#modal_sign_in" data-bs-toggle="modal" data-bs-dismiss="modal" style="color: red;" href="#">Sign In Here.</a></span>
 					</div>
 				</div>
 			<?=form_close()?>
@@ -173,13 +173,13 @@
 							</button>
 						</div>
 						<div class="col-12 px-1 text-center my-2">
-							<button id="fb_login" class="btn btn-lg rounded-pill fw-bold px-5 text-light" type="button" style="background-color: #4267b2;">
+							<button class="fb_login btn btn-lg rounded-pill fw-bold px-5 text-light" type="button" style="background-color: #4267b2;">
 								<i class="mdi mdi-facebook mdi-24px" aria-hidden="true"></i> Log in With Facebook
 							</button>
 						</div>
 					</div>
 					<div class="row mt-2 mb-4 text-center">
-						<span>Don't have an account? <a id="" data-bs-target="#modal_sign_up" data-bs-toggle="modal" data-bs-dismiss="modal" style="color: red;" href="#">Sign Up Here.</a></span>
+						<span>Don't have an account? <a data-bs-target="#modal_sign_up" data-bs-toggle="modal" data-bs-dismiss="modal" style="color: red;" href="#">Sign Up Here.</a></span>
 					</div>
 				</div>
 			<?=form_close()?>
@@ -229,13 +229,13 @@
 							</button>
 						</div>
 						<div class="col-12 px-1 text-center my-2">
-							<button id="fb_login" class="btn btn-md rounded-pill fw-bold px-5 text-light" type="button" style="background-color: #4267b2;">
+							<button class="fb_login btn btn-md rounded-pill fw-bold px-5 text-light" type="button" style="background-color: #4267b2;">
 								<i class="mdi mdi-facebook mdi-24px" aria-hidden="true"></i> Log in With Facebook
 							</button>
 						</div>
 					</div>
 					<div class="row mt-2 mb-4 text-center">
-						<span>Don't have an account? <a id="" data-bs-target="#modal_sign_up" data-bs-toggle="modal" data-bs-dismiss="modal" style="color: red;" href="#">Sign Up Here.</a></span>
+						<span>Don't have an account? <a data-bs-target="#modal_sign_up" data-bs-toggle="modal" data-bs-dismiss="modal" style="color: red;" href="#">Sign Up Here.</a></span>
 					</div>
 				</div>
 			<?=form_close()?>

@@ -10,6 +10,11 @@
 		}
 		?>
 	</title>
+	<meta property="og:url"           content="<?=base_url()?>" />
+    <meta property="og:type"          content="website" />
+    <meta property="og:title"         content="Dulo By The A's Ordering" />
+    <meta property="og:description"   content="Order now at Dulo By The A's!" />
+    <meta property="og:image"         content="<?=base_url()?>assets/img/dulo-logo.png" />
 	<!-- ICONS LIBRARY -->
 	<link rel="stylesheet" href="<?=base_url()?>assets/MaterialDesign-Webfont/css/materialdesignicons.min.css">
 	<!-- BOOTSTRAP -->

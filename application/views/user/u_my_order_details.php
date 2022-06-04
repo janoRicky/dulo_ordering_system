@@ -4,6 +4,7 @@ $template_header;
 ?>
 
 <body>
+	<?php $this->load->view("user/template/u_t_api_scripts"); ?>
 	<div class="wrapper bg">
 		<?php $this->load->view("user/template/u_t_navbar"); ?>
 		<div class="container-fluid">
@@ -255,7 +256,9 @@ $template_header;
 						</div>
 						<div class="row mt-4">
 							<div class="col-12 px-1 text-center my-2">
-								<div class="fb-share-button btn btn-lg rounded-pill fw-bold px-4" style="background-color: #4267b2;" data-href="<?=base_url()?>order?ouid=<?=$my_order["order_uid"]?>" data-layout="button" data-size="large"><a class="text-light text-decoration-none" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fdevelopers.facebook.com%2Fdocs%2Fplugins%2F&amp;src=sdkpreparse" class="fb-xfbml-parse-ignore"><i class="mdi mdi-facebook mdi-24px" aria-hidden="true"></i> Share</a></div>
+								<div class="fb_share btn btn-lg btn-primary rounded-pill fw-bold px-4 text-light" role="button" style="background-color: #4267b2 !important;" data-href="<?=base_url()?>order?ouid=<?=$my_order["order_uid"]?>">
+								    <i class="mdi mdi-facebook mdi-24px" aria-hidden="true"></i> Share
+							    </div>
 							</div>
 						</div>
 					</div>
