@@ -134,7 +134,7 @@ $template_header;
 														</td>
 														<td>
 															<a class="btn btn-primary" href="<?=base_url()?>admin/orders<?=($order_type == "CUSTOM" ? "_custom" : "")?>_view?id=<?=$row['order_id']?>">
-																<i class="fa fa-eye" aria-hidden="true"></i> View
+																<i class="mdi mdi-eye"></i> View
 															</a>
 														</td>
 													</tr>

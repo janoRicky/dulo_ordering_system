@@ -414,124 +414,124 @@
 		}
 		redirect("admin/orders_custom". (isset($order_id) ? "_view?id=". $order_id : ""));
 	}
-	public function edit_order_state_custom() {
-		$custom_id = $this->input->post("inp_custom_id");
-		$order_id = $this->input->post("inp_id");
-		$state = $this->input->post("inp_state");
+	// public function edit_order_state_custom() {
+	// 	$custom_id = $this->input->post("inp_custom_id");
+	// 	$order_id = $this->input->post("inp_id");
+	// 	$state = $this->input->post("inp_state");
 
-		if ($custom_id == NULL || $order_id == NULL || $state == NULL) {
-			$this->session->set_flashdata("alert", array("warning", "One or more inputs are empty."));
-		} else {
-			$error = NULL;
+	// 	if ($custom_id == NULL || $order_id == NULL || $state == NULL) {
+	// 		$this->session->set_flashdata("alert", array("warning", "One or more inputs are empty."));
+	// 	} else {
+	// 		$error = NULL;
 
-			$custom_product_info = $this->Model_read->get_product_custom_wid($custom_id)->row_array();
-			$product_info = $this->Model_read->get_product_wid($custom_product_info["product_id"]);
-			$order_info = $this->Model_read->get_order_custom_wid($order_id)->row_array();
-			$order_item_info = $this->Model_read->get_order_items_worder_id($order_id)->row_array();
-			if ($order_info["state"] > 5 && $state < 6) {
-				$error = "Cancelled Orders can't be restored";
-			} elseif ($order_info["state"] > 2 && $state < 3) {
-				$error = "Order State can't be reverted";
-			} elseif ($order_item_info["qty"] == NULL && $order_item_info["price"] == NULL && $state > 1) {
-				$error = "Order qty and price need to be set first (by updating state to WAITING FOR PAYMENT)";
-			} else {
-				if ($state == 1) {
-					$price = $this->input->post("inp_price_pw");
-					$qty = $this->input->post("inp_qty_pw");
+	// 		$custom_product_info = $this->Model_read->get_product_custom_wid($custom_id)->row_array();
+	// 		$product_info = $this->Model_read->get_product_wid($custom_product_info["product_id"]);
+	// 		$order_info = $this->Model_read->get_order_custom_wid($order_id)->row_array();
+	// 		$order_item_info = $this->Model_read->get_order_items_worder_id($order_id)->row_array();
+	// 		if ($order_info["state"] > 5 && $state < 6) {
+	// 			$error = "Cancelled Orders can't be restored";
+	// 		} elseif ($order_info["state"] > 2 && $state < 3) {
+	// 			$error = "Order State can't be reverted";
+	// 		} elseif ($order_item_info["qty"] == NULL && $order_item_info["price"] == NULL && $state > 1) {
+	// 			$error = "Order qty and price need to be set first (by updating state to WAITING FOR PAYMENT)";
+	// 		} else {
+	// 			if ($state == 1) {
+	// 				$price = $this->input->post("inp_price_pw");
+	// 				$qty = $this->input->post("inp_qty_pw");
 
-					if ($price == NULL || $qty == NULL) {
-						$error = "One or more inputs are empty.";
-					} else {
-						$data = array(
-							"price" => $price,
-							"qty" => $qty
-						);
-						if (!$this->Model_update->update_order_item($order_id, $data)) {
-							$error = "Order Item Error";
-						}
-					}
-				} elseif ($state == 3) {
-					if ($custom_product_info["product_id"] == NULL) {
-						$name = $this->input->post("inp_name");
-						$description = $this->input->post("inp_description");
-						$type_id = $this->input->post("inp_type_id");
-						$price = $this->input->post("inp_price_ps");
-						$qty = $order_item_info["qty"];
+	// 				if ($price == NULL || $qty == NULL) {
+	// 					$error = "One or more inputs are empty.";
+	// 				} else {
+	// 					$data = array(
+	// 						"price" => $price,
+	// 						"qty" => $qty
+	// 					);
+	// 					if (!$this->Model_update->update_order_item($order_id, $data)) {
+	// 						$error = "Order Item Error";
+	// 					}
+	// 				}
+	// 			} elseif ($state == 3) {
+	// 				if ($custom_product_info["product_id"] == NULL) {
+	// 					$name = $this->input->post("inp_name");
+	// 					$description = $this->input->post("inp_description");
+	// 					$type_id = $this->input->post("inp_type_id");
+	// 					$price = $this->input->post("inp_price_ps");
+	// 					$qty = $order_item_info["qty"];
 
-						if ($name == NULL || $type_id == NULL || $description == NULL || $price == NULL || $qty == NULL) {
-							$error = "One or more inputs are empty.";
-						} else {
-							$img = NULL;
+	// 					if ($name == NULL || $type_id == NULL || $description == NULL || $price == NULL || $qty == NULL) {
+	// 						$error = "One or more inputs are empty.";
+	// 					} else {
+	// 						$img = NULL;
 
-							$product_folder = "product_". (intval($this->db->count_all("products")) + 1);
+	// 						$product_folder = "product_". (intval($this->db->count_all("products")) + 1);
 
-							$config["upload_path"] = "./uploads/". $product_folder;
-							$config["allowed_types"] = "gif|jpg|jpeg|png";
-							$config["max_size"] = 5000;
-							$config["encrypt_name"] = TRUE;
+	// 						$config["upload_path"] = "./uploads/". $product_folder;
+	// 						$config["allowed_types"] = "gif|jpg|jpeg|png";
+	// 						$config["max_size"] = 5000;
+	// 						$config["encrypt_name"] = TRUE;
 
-							$this->load->library("upload", $config);
-							if (!is_dir("uploads/". $product_folder)) {
-								mkdir("./uploads/". $product_folder, 0777, TRUE);
-							}
+	// 						$this->load->library("upload", $config);
+	// 						if (!is_dir("uploads/". $product_folder)) {
+	// 							mkdir("./uploads/". $product_folder, 0777, TRUE);
+	// 						}
 
-							if (isset($_FILES["inp_img"])) {
-								if (!$this->upload->do_upload("inp_img")) {
-									$this->session->set_flashdata("alert", array("warning", $this->upload->display_errors()));
-								} else {
-									$img = $this->upload->data("file_name");
-								}
-							}
+	// 						if (isset($_FILES["inp_img"])) {
+	// 							if (!$this->upload->do_upload("inp_img")) {
+	// 								$this->session->set_flashdata("alert", array("warning", $this->upload->display_errors()));
+	// 							} else {
+	// 								$img = $this->upload->data("file_name");
+	// 							}
+	// 						}
 
-							$data = array(
-								"name" => $name,
-								"img" => $img,
-								"type_id" => $type_id,
-								"description" => $description,
-								"price" => $price,
-								"qty" => $qty,
-								"type" => "NORMAL",
-								"date_added" => date("Y-m-d H:i:s"),
-								"visibility" => "0",
-								"status" => "1"
-							);
-							if (!$this->Model_create->create_product($data)) {
-								$error = "Product Error";
-							}
-							$product_id = $this->db->insert_id();
-							$data_custom = array(
-								"product_id" => $product_id
-							);
-							if (!$this->Model_update->update_product_custom($custom_id, $data_custom)) {
-								$error = "Product Custom Error";
-							}
-						}
-					}
-				} elseif ($state == 6 && $order_info["state"] > 2 && $custom_product_info["product_id"] != NULL) {
-					$data = array(
-						"qty" => $order_item_info["qty"]
-					);
-					if (!$this->Model_update->update_product($custom_product_info["product_id"], $data)) {
-						$error = "Order Cancel Error";
-					}
-				}
-			}
-			if ($error == NULL) {
-				$data_order = array(
-					"state" => $state
-				);
-				if ($this->Model_update->update_order($order_id, $data_order)) {
-					$this->session->set_flashdata("alert", array("success", "State is successfully updated."));
-				} else {
-					$this->session->set_flashdata("alert", array("danger", "Something went wrong, please try again."));
-				}
-			} else {
-				$this->session->set_flashdata("alert", array("warning", "[". $error ."]"));
-			}
+	// 						$data = array(
+	// 							"name" => $name,
+	// 							"img" => $img,
+	// 							"type_id" => $type_id,
+	// 							"description" => $description,
+	// 							"price" => $price,
+	// 							"qty" => $qty,
+	// 							"type" => "NORMAL",
+	// 							"date_added" => date("Y-m-d H:i:s"),
+	// 							"visibility" => "0",
+	// 							"status" => "1"
+	// 						);
+	// 						if (!$this->Model_create->create_product($data)) {
+	// 							$error = "Product Error";
+	// 						}
+	// 						$product_id = $this->db->insert_id();
+	// 						$data_custom = array(
+	// 							"product_id" => $product_id
+	// 						);
+	// 						if (!$this->Model_update->update_product_custom($custom_id, $data_custom)) {
+	// 							$error = "Product Custom Error";
+	// 						}
+	// 					}
+	// 				}
+	// 			} elseif ($state == 6 && $order_info["state"] > 2 && $custom_product_info["product_id"] != NULL) {
+	// 				$data = array(
+	// 					"qty" => $order_item_info["qty"]
+	// 				);
+	// 				if (!$this->Model_update->update_product($custom_product_info["product_id"], $data)) {
+	// 					$error = "Order Cancel Error";
+	// 				}
+	// 			}
+	// 		}
+	// 		if ($error == NULL) {
+	// 			$data_order = array(
+	// 				"state" => $state
+	// 			);
+	// 			if ($this->Model_update->update_order($order_id, $data_order)) {
+	// 				$this->session->set_flashdata("alert", array("success", "State is successfully updated."));
+	// 			} else {
+	// 				$this->session->set_flashdata("alert", array("danger", "Something went wrong, please try again."));
+	// 			}
+	// 		} else {
+	// 			$this->session->set_flashdata("alert", array("warning", "[". $error ."]"));
+	// 		}
 			
-		}
-		redirect("admin/orders_custom". (isset($order_id) ? "_view?id=". $order_id : ""));
-	}
+	// 	}
+	// 	redirect("admin/orders_custom". (isset($order_id) ? "_view?id=". $order_id : ""));
+	// }
 	// = = = ORDERS BOTH
 	public function edit_order_payment() {
 		$order_id = $this->input->post("inp_id");

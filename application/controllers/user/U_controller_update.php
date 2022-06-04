@@ -3,11 +3,11 @@
 
  class U_controller_update extends E_Core_Controller {
 
- 	public function __construct() {
- 		parent::__construct();
- 		$this->load->model("Model_read");
- 		$this->load->model("Model_update");
- 	}
+	public function __construct() {
+		parent::__construct();
+		$this->load->model("Model_read");
+		$this->load->model("Model_update");
+	}
 
 	public function user_details_update() {
 		$user_id = ($this->session->has_userdata("user_id") ? $this->session->userdata("user_id") : NULL);
@@ -139,85 +139,169 @@
 		}
 		redirect("my_orders?state=5");
 	}
+
+
+	public function user_order_cancel() {
+		$user_id = ($this->session->has_userdata("user_id") ? $this->session->userdata("user_id") : NULL);
+
+		$order_id = $this->input->get("oid");
+
+		if ($user_id == NULL || $order_id == NULL) {
+			$this->session->set_flashdata("notice", array("warning", "One or more inputs are empty."));
+		} else {
+
+			$order = $this->Model_read->get_order_all_wid_user_id_state($order_id, $user_id, "0");
+			if ($order->num_rows() > 0) {
+				$data = array(
+					"state" => "3"
+				);
+
+				if ($this->Model_update->update_order_wuser_id($order_id, $user_id, $data)) {
+					$this->session->set_flashdata("notice", array("success", "Order is successfully cancelled."));
+				} else {
+					$this->session->set_flashdata("notice", array("danger", "Something went wrong, please try again."));
+				}
+			} else {
+				$this->session->set_flashdata("notice", array("danger", "Something went wrong, please try again."));
+			}
+		}
+		redirect("my_orders?state=3");
+	}
+	public function user_order_share() {
+		
+		include('application/libraries/phpqrcode/qrlib.php');
+
+		$user_id = ($this->session->has_userdata("user_id") ? $this->session->userdata("user_id") : NULL);
+
+		$order_id = $this->input->get("oid");
+
+		if ($user_id == NULL || $order_id == NULL) {
+			$this->session->set_flashdata("notice", array("warning", "One or more inputs are empty."));
+		} else {
+			
+			$order = $this->Model_read->get_order_unshared_all_wid($order_id, $user_id);
+			if ($order->num_rows() > 0 && $order->row_array()['state'] != 3) {
+				// generate unique id
+				do {
+					$ouid = uniqid('', true);
+				} while ($this->Model_read->get_order_all_w_ouid($ouid)->num_rows() > 0);
+
+				// make directories
+				if (!is_dir("uploads")) {
+					mkdir("./uploads", 0755, TRUE);
+				}
+				if (!is_dir("uploads/orders")) {
+					mkdir("./uploads/orders", 0755, TRUE);
+				}
+
+				// make file path
+				$file_name = $ouid .'.png';
+				$file_path = 'uploads/orders/'. $file_name;
+				$qr_link = base_url() .'order?ouid='. $ouid;
+
+
+				$data = array(
+					"order_uid" => $ouid,
+					"img_qr" => $file_name
+				);
+
+				if ($this->Model_update->update_order_wuser_id($order_id, $user_id, $data)) {
+					// generating
+					if (!file_exists($file_path)) {
+						QRcode::png($qr_link, $file_path, QR_ECLEVEL_L, 6, 4);
+					}
+
+					$this->session->set_flashdata("notice", array("success", "Order is now shareable!"));
+
+					redirect(explode("#", $_SERVER['HTTP_REFERER'])[0] ."#share");
+				} else {
+					$this->session->set_flashdata("notice", array("danger", "Something went wrong, please try again.[1]"));
+				}
+			} else {
+				$this->session->set_flashdata("notice", array("danger", "Something went wrong, please try again.[0]"));
+			}
+		}
+		redirect($_SERVER['HTTP_REFERER']);
+	}
 	
 	// public function submit_payment_unpaid() {
-	// 	$order_id = $this->input->post("inp_order_id");
-	// 	$user_id = ($this->session->has_userdata("user_id") ? $this->session->userdata("user_id") : NULL);
-	// 	$date_time = date('Y-m-d H:i:s');
-	// 	$ref_no = $this->input->post("inp_ref_no");
+	//  $order_id = $this->input->post("inp_order_id");
+	//  $user_id = ($this->session->has_userdata("user_id") ? $this->session->userdata("user_id") : NULL);
+	//  $date_time = date('Y-m-d H:i:s');
+	//  $ref_no = $this->input->post("inp_ref_no");
 
-	// 	$order = $this->Model_read->get_order_to_pay_wid_user_id($order_id, $user_id);
-	// 	if ($order_id == NULL || $order->num_rows() < 1) {
-	// 		$this->session->set_flashdata("notice", array("danger", "Something went wrong, please try again."));
-	// 	} elseif ($order_id == NULL || $user_id == NULL || $date_time == NULL || $ref_no == NULL) {
-	// 		$this->session->set_flashdata("notice", array("warning", "One or more inputs are empty."));
-	// 	} else {
-	// 		$user = $this->Model_read->get_user_acc_wid($user_id);
-	// 		if ($user->num_rows() < 1) {
-	// 			$this->session->set_flashdata("notice", array("warning", "User does not exist."));
-	// 			redirect("home");
-	// 		} else {
-	// 			// insert order payment
-	// 			$img = NULL;
+	//  $order = $this->Model_read->get_order_to_pay_wid_user_id($order_id, $user_id);
+	//  if ($order_id == NULL || $order->num_rows() < 1) {
+	//      $this->session->set_flashdata("notice", array("danger", "Something went wrong, please try again."));
+	//  } elseif ($order_id == NULL || $user_id == NULL || $date_time == NULL || $ref_no == NULL) {
+	//      $this->session->set_flashdata("notice", array("warning", "One or more inputs are empty."));
+	//  } else {
+	//      $user = $this->Model_read->get_user_acc_wid($user_id);
+	//      if ($user->num_rows() < 1) {
+	//          $this->session->set_flashdata("notice", array("warning", "User does not exist."));
+	//          redirect("home");
+	//      } else {
+	//          // insert order payment
+	//          $img = NULL;
 
-	// 			$user_folder = "user_". $user_id;
-	// 			$payment_folder = "order_". $order_id;
+	//          $user_folder = "user_". $user_id;
+	//          $payment_folder = "order_". $order_id;
 
-	// 			$config["upload_path"] = "./uploads/users/". $user_folder ."/payments/". $payment_folder;
-	// 			$config["allowed_types"] = "gif|jpg|jpeg|png";
-	// 			$config["max_size"] = 5000;
-	// 			$config["encrypt_name"] = TRUE;
+	//          $config["upload_path"] = "./uploads/users/". $user_folder ."/payments/". $payment_folder;
+	//          $config["allowed_types"] = "gif|jpg|jpeg|png";
+	//          $config["max_size"] = 5000;
+	//          $config["encrypt_name"] = TRUE;
 
-	// 			$this->load->library("upload", $config);
-	// 			if (!is_dir("uploads")) {
-	// 				mkdir("./uploads", 0777, TRUE);
-	// 			}
-	// 			if (!is_dir("uploads/users")) {
-	// 				mkdir("./uploads/users", 0777, TRUE);
-	// 			}
-	// 			if (!is_dir("uploads/users/". $user_folder)) {
-	// 				mkdir("./uploads/users/". $user_folder, 0777, TRUE);
-	// 			}
-	// 			if (!is_dir("uploads/users/". $user_folder ."/payments")) {
-	// 				mkdir("./uploads/users/". $user_folder ."/payments", 0777, TRUE);
-	// 			}
-	// 			if (!is_dir("uploads/users/". $user_folder ."/payments/". $payment_folder)) {
-	// 				mkdir("./uploads/users/". $user_folder ."/payments/". $payment_folder, 0777, TRUE);
-	// 			}
+	//          $this->load->library("upload", $config);
+	//          if (!is_dir("uploads")) {
+	//              mkdir("./uploads", 0777, TRUE);
+	//          }
+	//          if (!is_dir("uploads/users")) {
+	//              mkdir("./uploads/users", 0777, TRUE);
+	//          }
+	//          if (!is_dir("uploads/users/". $user_folder)) {
+	//              mkdir("./uploads/users/". $user_folder, 0777, TRUE);
+	//          }
+	//          if (!is_dir("uploads/users/". $user_folder ."/payments")) {
+	//              mkdir("./uploads/users/". $user_folder ."/payments", 0777, TRUE);
+	//          }
+	//          if (!is_dir("uploads/users/". $user_folder ."/payments/". $payment_folder)) {
+	//              mkdir("./uploads/users/". $user_folder ."/payments/". $payment_folder, 0777, TRUE);
+	//          }
 
-	// 			if (isset($_FILES["inp_img"])) {
-	// 				if (!$this->upload->do_upload("inp_img")) {
-	// 					$this->session->set_flashdata("notice", array("warning", $this->upload->display_errors()));
-	// 				} else {
-	// 					$img = $this->upload->data("file_name");
-	// 				}
-	// 			}
+	//          if (isset($_FILES["inp_img"])) {
+	//              if (!$this->upload->do_upload("inp_img")) {
+	//                  $this->session->set_flashdata("notice", array("warning", $this->upload->display_errors()));
+	//              } else {
+	//                  $img = $this->upload->data("file_name");
+	//              }
+	//          }
 
-	// 			$data = array(
-	// 				"order_id" => $order_id,
-	// 				"img" => $img,
-	// 				"date_time" => $date_time,
-	// 				"status" => "1"
-	// 			);
+	//          $data = array(
+	//              "order_id" => $order_id,
+	//              "img" => $img,
+	//              "date_time" => $date_time,
+	//              "status" => "1"
+	//          );
 
-	// 			if ($this->Model_create->create_order_payment($data)) {
-	// 				$user_info = $user->row_array();
+	//          if ($this->Model_create->create_order_payment($data)) {
+	//              $user_info = $user->row_array();
 
-	// 				$this->email->set_newline("\r\n");
-	// 				$this->email->clear();
-	// 				$this->email->from("dulo.ordering@gmail.com");
-	// 				$this->email->to($this->Model_read->get_config_wkey("alerts_email_send_to"));
-	// 				$this->email->subject("Payment for Custom Order has been made!");
-	// 				$this->email->message(
-	// 					"Payment for a custom order [custom order #". $order_id ."] has been made by ". $user_info["email"] ."[user_id: ". $user_id ."] at ". $date_time
-	// 				);
-	// 				$this->email->send();
-	// 				$this->session->set_flashdata("notice", array("success", "Payment is successfully sent."));
-	// 			} else {
-	// 				$this->session->set_flashdata("notice", array("danger", "Something went wrong, please try again."));
-	// 			}
-	// 		}
-	// 	}
-	// 	redirect("home");
+	//              $this->email->set_newline("\r\n");
+	//              $this->email->clear();
+	//              $this->email->from("dulo.ordering@gmail.com");
+	//              $this->email->to($this->Model_read->get_config_wkey("alerts_email_send_to"));
+	//              $this->email->subject("Payment for Custom Order has been made!");
+	//              $this->email->message(
+	//                  "Payment for a custom order [custom order #". $order_id ."] has been made by ". $user_info["email"] ."[user_id: ". $user_id ."] at ". $date_time
+	//              );
+	//              $this->email->send();
+	//              $this->session->set_flashdata("notice", array("success", "Payment is successfully sent."));
+	//          } else {
+	//              $this->session->set_flashdata("notice", array("danger", "Something went wrong, please try again."));
+	//          }
+	//      }
+	//  }
+	//  redirect("home");
 	// }
 }

@@ -42,6 +42,8 @@
 
 		if ($submit == "BN") {
 			redirect("cart");
+		} elseif ($submit == "STC") {
+			redirect($_SERVER['HTTP_REFERER']);
 		} else {
 			redirect("products");
 		}

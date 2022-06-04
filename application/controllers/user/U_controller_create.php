@@ -251,20 +251,27 @@
 		$order_id = $this->input->post("inp_order_id");
 		$user_id = ($this->session->has_userdata("user_id") ? $this->session->userdata("user_id") : NULL);
 		$date_time = date('Y-m-d H:i:s');
-		$ref_no = $this->input->post("inp_ref_no");
+		// $ref_no = $this->input->post("inp_ref_no");
 
 		// get payment id for adtl payment
 		$payment_id = $this->input->post("inp_payment_id");
 		$payment = $this->Model_read->get_order_payment_adtl_wid($payment_id);
 
-		$order = $this->Model_read->get_order_to_pay_wid_user_id($order_id, $user_id);
+		$order_payments = $this->Model_read->get_order_payments_worder_id($order_id);
+
+		$order = $this->Model_read->get_order_payable_wid_user_id($order_id, $user_id);
 		if ($order_id == NULL || $order->num_rows() < 1) {
 			$this->session->set_flashdata("notice", array("danger", "Something went wrong, please try again.[0]"));
-		} elseif ($order_id == NULL || $user_id == NULL || $date_time == NULL || $ref_no == NULL) {
+		} elseif ($order_id == NULL || $user_id == NULL || $date_time == NULL) {
 			$this->session->set_flashdata("notice", array("warning", "One or more inputs are empty."));
-		} elseif ($payment_id != NULL && $payment->num_rows() < 1) {
-			$this->session->set_flashdata("notice", array("danger", "Something went wrong, please try again.[1]"));
-		} else {
+		}
+		//  elseif ($payment_id != NULL && $payment->num_rows() < 1) {
+		// 	$this->session->set_flashdata("notice", array("danger", "Something went wrong, please try again.[1]"));
+		// } 
+		elseif ($order_payments->num_rows() > 10) {
+			$this->session->set_flashdata("notice", array("warning", "Payment limit (10). Remove some payments first."));
+		}
+		else {
 			$user = $this->Model_read->get_user_acc_wid($user_id);
 			if ($user->num_rows() < 1) {
 				$this->session->set_flashdata("notice", array("warning", "User does not exist."));
@@ -306,64 +313,36 @@
 					}
 				}
 
-				// submit payment for additional payment
-				if ($payment_id != NULL) {
-					$data = array(
-						"img" => $img,
-						"date_time" => $date_time,
-						"status" => "1"
+				
+				// submit order payment
+				$data = array(
+					"order_id" => $order_id,
+					"img" => $img,
+					"date_time" => $date_time,
+					"type" => "0",
+					"status" => "1"
+				);
+
+				if ($this->Model_create->create_order_payment($data)) {
+					$user_info = $user->row_array();
+
+					// send email
+					$this->email->set_newline("\r\n");
+					$this->email->clear();
+					$this->email->from("dulo.ordering@gmail.com");
+					$this->email->to($this->Model_read->get_config_wkey("alerts_email_send_to"));
+					$this->email->subject("Payment for Custom Order has been made!");
+					$this->email->message(
+						"Payment for a custom order [custom order #". $order_id ."] has been made by ". $user_info["email"] ."[user_id: ". $user_id ."] at ". $date_time
 					);
+					$this->email->send();
 
-					if ($this->Model_update->update_order_payment($payment_id, $data)) {
-						$user_info = $user->row_array();
-
-						// send email
-						$this->email->set_newline("\r\n");
-						$this->email->clear();
-						$this->email->from("dulo.ordering@gmail.com");
-						$this->email->to($this->Model_read->get_config_wkey("alerts_email_send_to"));
-						$this->email->subject("An additional payment has been made!");
-						$this->email->message(
-							"Additional payment [payment_id: ". $payment_id ."] for an order [order #". $order_id ."] has been made by ". $user_info["email"] ."[user_id: ". $user_id ."] at ". $date_time
-						);
-						$this->email->send();
-
-						$this->session->set_flashdata("notice", array("success", "Payment is successfully sent."));
-					} else {
-						$this->session->set_flashdata("notice", array("danger", "Something went wrong, please try again.[2]"));
-					}
-
-					redirect("my_order_payment_adtl?id=". $order_id);
-				} else { // submit order payment
-					$data = array(
-						"order_id" => $order_id,
-						"img" => $img,
-						"date_time" => $date_time,
-						"type" => "0",
-						"status" => "1"
-					);
-
-					if ($this->Model_create->create_order_payment($data)) {
-						$user_info = $user->row_array();
-
-						// send email
-						$this->email->set_newline("\r\n");
-						$this->email->clear();
-						$this->email->from("dulo.ordering@gmail.com");
-						$this->email->to($this->Model_read->get_config_wkey("alerts_email_send_to"));
-						$this->email->subject("Payment for Custom Order has been made!");
-						$this->email->message(
-							"Payment for a custom order [custom order #". $order_id ."] has been made by ". $user_info["email"] ."[user_id: ". $user_id ."] at ". $date_time
-						);
-						$this->email->send();
-
-						$this->session->set_flashdata("notice", array("success", "Payment is successfully sent."));
-					} else {
-						$this->session->set_flashdata("notice", array("danger", "Something went wrong, please try again.[3]"));
-					}
-
-					redirect("my_order_details?id=". $order_id);
+					$this->session->set_flashdata("notice", array("success", "Payment is successfully sent."));
+				} else {
+					$this->session->set_flashdata("notice", array("danger", "Something went wrong, please try again.[3]"));
 				}
+
+				redirect("my_order_details?id=". $order_id);
 			}
 		}
 		redirect("my_orders");

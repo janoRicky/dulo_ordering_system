@@ -105,7 +105,7 @@
 									<h6 class="fw-bold">Contact Num: </h6>
 								</div>
 								<div class="col-12">
-									<input class="form-control bg-dark text-light border-dark" type="text" name="inp_contact_num" placeholder="*Contact #" autocomplete="off" required="">
+									<input class="form-control bg-dark text-light border-dark" type="text" name="inp_contact_num" placeholder="Contact #" autocomplete="off">
 								</div>
 							</div>
 						</div>

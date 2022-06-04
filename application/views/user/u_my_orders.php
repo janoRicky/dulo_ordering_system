@@ -19,13 +19,6 @@ $template_header;
 						<div class="card-body p-0">
 							<div class="row m-0 p-0 justify-content-center pb-4 pt-2">
 								<div class="col-12">
-									<!-- <div class="row mt-4">
-										<div class="col-12 banner text-center">
-											<div class="banner_board">
-												<h5 class="fw-bold"> My Orders <?=(!is_null($this->input->get("state")) ? "(". $states[$this->input->get("state")] .")" : "")?> </h5>
-											</div>
-										</div>
-									</div> -->
 									<div class="row my-2 justify-content-center">
 										<class class="col-12 col-sm-10 justify-content-center text-center">
 											<a style="" class="btn py-2 px-4 m-0 fw-bold my_order_state" href="my_orders">ALL (<?=(isset($order_state_counts) ? array_sum($order_state_counts) : 0)?>)</a>
@@ -58,36 +51,38 @@ $template_header;
 													<?php foreach ($my_orders->result_array() as $row): ?>
 														<tr>
 															<td class="text-center">
+																<?=date("Y-m", strtotime($row["date_time"]))?>-<?= str_pad($row["order_id"], 6, '0', STR_PAD_LEFT) ?>
+															</td>
+															<td class="text-center">
 																<?=date("Y-m-d / h:i:s A", strtotime($row["date_time"]))?>
 															</td>
 															<td class="text-center">
-																<?=$states[$row["state"]]?>
+																<?php if ($row["state"] == 0): ?>
+																	<div class="border border-3 border-secondary text-secondary rounded-pill">
+																		<?=$states[$row["state"]]?>
+																	</div>
+																<?php elseif ($row["state"] == 1): ?>
+																	<div class="border border-3 border-success text-success rounded-pill">
+																		<?=$states[$row["state"]]?>
+																	</div>
+																<?php elseif ($row["state"] == 2): ?>
+																	<div class="border border-3 border-primary text-primary rounded-pill">
+																		<?=$states[$row["state"]]?>
+																	</div>
+																<?php else: ?>
+																	<div class="border border-3 border-danger text-danger rounded-pill">
+																		<?=$states[$row["state"]]?>
+																	</div>
+																<?php endif; ?>
 															</td>
 															<td class="text-center">
-																<?php if ($row["state"] == 1): ?>
-																	<a href="my_order_payment?id=<?=$row["order_id"]?>">
-																		<button class="btn fw-bold rounded-pill product_btn px-3 py-2">
-																			<i class="fa fa-money" aria-hidden="true"></i> Payment
-																		</button>
-																	</a>
-																	<?php if ($this->Model_read->get_order_payments_adtl_worder_id($row["order_id"])->num_rows() > 0): ?>
-																		<a href="my_order_payment_adtl?id=<?=$row["order_id"]?>">
-																			<button class="btn fw-bold rounded-pill product_btn px-3 py-2">
-																				<i class="fa fa-money" aria-hidden="true"></i> Adtl. Payment
-																			</button>
-																		</a>
-																	<?php endif; ?>
-																<?php elseif ($row["state"] == 4): ?>
-																	<a class="receive" href="order_receive?order_id=<?=$row['order_id']?>">
-																		<button class="btn fw-bold rounded-pill product_btn px-3 py-2">
-																			<i class="fa fa-check" aria-hidden="true"></i> Received
-																		</button>
+																<?php if ($row["state"] == 0): ?>
+																	<a class="btn fw-bold rounded-pill btn-success px-3 py-2 mb-1" href="my_order_payment?id=<?=$row["order_id"]?>">
+																		<i class="mdi mdi-cash"></i> Payment
 																	</a>
 																<?php endif; ?>
-																<a href="my_order_details?id=<?=$row["order_id"]?>">
-																	<button class="btn fw-bold rounded-pill product_btn px-3 py-2">
-																		<i class="fa fa-eye" aria-hidden="true"></i> Details
-																	</button>
+																<a class="btn fw-bold rounded-pill product_btn px-3 py-2 mb-1" href="my_order_details?id=<?=$row["order_id"]?>">
+																	<i class="mdi mdi-eye"></i> Details
 																</a>
 															</td>
 														</tr>

@@ -33,6 +33,12 @@ class Model_read extends CI_Model {
 		$query = "SELECT * FROM products AS p WHERE status = '1' AND visibility = '1' AND EXISTS(SELECT * FROM types AS t WHERE p.type_id = t.type_id)";
 		return $this->db->query($query);
 	}
+	public function get_products_user_view_search_type($search, $type) {
+		$search_query = (!is_null($type) && !empty($type) ? "AND type_id = '$type' " : "") . (!is_null($search) ? "AND (name LIKE '%$search%' OR description LIKE '%$search%') " : "");
+		
+		$query = "SELECT * FROM products AS p WHERE status = '1' AND visibility = '1' $search_query AND EXISTS(SELECT * FROM types AS t WHERE p.type_id = t.type_id) ORDER BY p.date_added DESC";
+		return $this->db->query($query);
+	}
 	public function get_products_user_view($search, $type, $page) {
 		$search_query = (!is_null($type) && !empty($type) ? "AND type_id = '$type' " : "") . (!is_null($search) ? "AND (name LIKE '%$search%' OR description LIKE '%$search%') " : "");
 		$pg_no = (!is_null($page) && !empty($page) ? $page * 10 : 0);
@@ -107,13 +113,38 @@ class Model_read extends CI_Model {
 	public function get_order_all_wid_user_id($id, $user_id) {
 		return $this->db->get_where("orders", array("order_id" => $id, "user_id" => $user_id));
 	}
+	public function get_order_all_wid_user_id_state($id, $user_id, $state) {
+		return $this->db->get_where("orders", array("order_id" => $id, "user_id" => $user_id, "state" => $state));
+	}
 	public function get_order_to_pay_wid_user_id($id, $user_id) {
-		return $this->db->get_where("orders", array("order_id" => $id, "user_id" => $user_id, "state" => "1"));
+		return $this->db->get_where("orders", array("order_id" => $id, "user_id" => $user_id, "state" => "0"));
+	}
+	public function get_order_payable_wid_user_id($id, $user_id) {
+		return $this->db->get_where("orders", array("order_id" => $id, "user_id" => $user_id, "state <" => "2"));
 	}
 	public function get_order_items_wid_user_id($id, $user_id, $type) {
 		$query = "SELECT * FROM orders_items AS oi WHERE order_id = '$id' AND type = '$type' AND EXISTS(SELECT * FROM orders AS o WHERE o.order_id = oi.order_id AND user_id = '$user_id' AND status = '1')";
 		return $this->db->query($query);
 	}
+
+
+
+	public function get_order_unshared_all_wid($id, $user_id) {
+		return $this->db->get_where("orders", array("order_id" => $id, "user_id" => $user_id, "order_uid" => NULL));
+	}
+	public function get_order_shared_all_wid($id, $user_id) {
+		return $this->db->get_where("orders", array("order_id" => $id, "user_id" => $user_id, "order_uid !=" => NULL));
+	}
+	
+	public function get_order_all_w_ouid($ouid) {
+		return $this->db->get_where("orders", array("order_uid" => $ouid));
+	}
+	public function get_order_items_w_ouid($ouid) {
+		$query = "SELECT * FROM orders_items AS oi WHERE EXISTS(SELECT * FROM orders AS o WHERE o.order_id = oi.order_id AND order_uid = '$ouid')";
+		return $this->db->query($query);
+	}
+
+
 
 	public function get_order_payments_worder_id($order_id) {
 		return $this->db->get_where("orders_payments", array("order_id" => $order_id, "type" => "0"));

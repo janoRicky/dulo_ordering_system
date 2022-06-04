@@ -29,7 +29,7 @@ $template_header;
 													<h5 class="fw-bold">Email: </h5>
 												</div>
 												<div class="col-12 text-center rounded-pill bg-secondary text-light py-2">
-													<?=$account_details["email"]?>
+													<?=($account_details["email"] ? $account_details["email"] : '&nbsp;')?>
 												</div>
 											</div>
 											<div class="row mt-2">
@@ -37,7 +37,7 @@ $template_header;
 													<h5 class="fw-bold">Gender: </h5>
 												</div>
 												<div class="col-12 text-center rounded-pill bg-secondary text-light py-2">
-													<?=$account_details["gender"]?>
+													<?=($account_details["gender"] ? $account_details["gender"] : '&nbsp;')?>
 												</div>
 											</div>
 											<div class="row mt-2">
@@ -45,7 +45,7 @@ $template_header;
 													<h5 class="fw-bold">Contact Num: </h5>
 												</div>
 												<div class="col-12 text-center rounded-pill bg-secondary text-light py-2">
-													<?=$account_details["contact_num"]?>
+													<?=($account_details["contact_num"] ? $account_details["contact_num"] : '&nbsp;')?>
 												</div>
 											</div>
 											<div class="row mt-4 mb-4">
@@ -62,7 +62,7 @@ $template_header;
 								</div>
 							</div>
 						</div>
-						<div class="col-12 col-md-4 justify-content-center text-center">
+						<div class="col-12 col-md-4 mt-3 justify-content-center text-center">
 							<div class="card shadow" style="border-radius: 15px;">
 								<div class="card-body px-2 pt-2 pb-4">
 									<h5 class="card-title fw-bold mt-3">My Orders</h5>

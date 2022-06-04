@@ -78,6 +78,9 @@ $route['my_order_payment_adtl'] = 'E_controller_main/view_u_my_order_adtl_paymen
 
 $route['customer_support'] = 'E_controller_main/view_u_customer_support';
 
+$route['order'] = 'E_controller_main/view_u_shared_order_details';
+
+
 
 // SESSION
 $route['to_cart'] = 'user/U_controller_session/to_cart';
@@ -103,6 +106,14 @@ $route['submit_order'] = 'E_controller_main/view_u_submit_order';
 $route['order_receive'] = 'user/U_controller_update/user_order_receive';
 
 $route['send_message'] = 'user/U_controller_create/new_message_user';
+
+
+$route['remove_payment'] = 'user/U_controller_delete/delete_payment';
+$route['cancel_order'] = 'user/U_controller_update/user_order_cancel';
+$route['share_order'] = 'user/U_controller_update/user_order_share';
+
+
+
 
 // PAGES - ADMIN
 $route['admin'] = 'E_controller_main/view_a_login';

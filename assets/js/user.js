@@ -23,6 +23,11 @@ $(document).ready(function () {
 	// 	}
 	// });
 
+	$(document).on("click", ".btn_link", function() {
+		window.location.href = $(this).data("href");
+	});
+
+
 	$(document).on("click", ".featured_type", function() {
 		window.location.href = $(this).children("a").attr("href");
 		// console.log($(this).children("a").attr("href"));

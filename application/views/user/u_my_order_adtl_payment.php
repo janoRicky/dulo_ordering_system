@@ -125,7 +125,7 @@ $template_header;
 											<div class="row mt-4 mb-3">
 												<div class="col-12 text-center">
 													<button class="button b_p b_lg" type="submit">
-														<i class="fa fa-money" aria-hidden="true"></i> Submit Payment
+														<i class="mdi mdi-cash"></i> Submit Payment
 													</button>
 												</div>
 											</div>

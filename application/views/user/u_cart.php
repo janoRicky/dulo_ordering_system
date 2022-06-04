@@ -37,8 +37,8 @@ $template_header;
 									<?php if (count($cart) < 1): ?>
 										<div class="card shadow mb-3" style="border-radius: 15px;">
 											<div class="card-body">
-												<div class="row align-items-center item mb-4">
-													<div class="price text-center p-4 mt-4">
+												<div class="row align-items-center item mb-4 justify-content-center">
+													<div class="col-11 col-sm-9 col-md-8 col-lg-7 bg-warning rounded-pill text-center p-4 pb-3 mt-4">
 														<h4 class="fw-bold">
 															CART IS EMPTY
 														</h4>
@@ -92,21 +92,21 @@ $template_header;
 																			</div>
 																		</div>
 																	</div>
-																	<div class="col-12 col-md-5 text-end">
+																	<div class="col-12 col-md-5 text-center text-sm-end">
 																		<h5 class="fw-bold price">
 																			PHP <?=number_format($price, 2)?>
 																		</h5>
 																	</div>
 																</div>
 																<div class="row">
-																	<div class="col-6 text-start">
+																	<div class="col-12 col-sm-6 text-center text-sm-start">
 																		<a class="btn btn-info rounded-pill mt-1" href="<?=base_url()?>product?id=<?=$item_info['product_id']?>">
-																			Update
+																			<i class="mdi mdi-pencil" aria-hidden="true"></i> Update
 																		</a>
 																	</div>
-																	<div class="col-6 text-end">
+																	<div class="col-12 col-sm-6 text-center text-sm-end pt-2">
 																		<a class="remove_item btn fw-bold px-4 py-3 rounded-pill product_btn" href="<?=base_url()?>remove_from_cart?id=<?=$key?>">
-																			<i class="fa fa-trash" aria-hidden="true"></i> Remove
+																			<i class="mdi mdi-trash-can" aria-hidden="true"></i> Remove
 																		</a>
 																	</div>
 																</div>
@@ -132,7 +132,7 @@ $template_header;
 															<div class="col-auto rounded-start border border-1 text-light bg-info">
 																<i class="mdi mdi-store-outline mdi-36px"></i>
 															</div>
-															<div class="col rounded-end border border-1 border-start-0 p-2">
+															<div class="col rounded-end border border-1 border-start-0 pt-3 pb-1">
 																<h4 class="fw-bold">Pick-Up</h4>
 															</div>
 														</div>
@@ -155,9 +155,9 @@ $template_header;
 													<hr class="my-3 px-5">
 													<div class="row align-items-center mb-4">
 														<div class="col-12 p-3 price">
-																<h5 class="fw-bold text-center">
-																	CART IS EMPTY
-																</h5>
+															<h5 class="fw-bold text-center">
+																CART IS EMPTY
+															</h5>
 														</div>
 													</div>
 												<?php endif; ?>
@@ -165,11 +165,11 @@ $template_header;
 											<?php if (count($cart) > 0): ?>
 												<div class="card-footer p-3" style="background-color: #ffd500; border-radius: 0 0 15px 15px;">
 													<div class="row">
-														<div class="col-7 fw-bold text-center">
+														<div class="col-12 col-sm-7 fw-bold text-center">
 															<?=count($cart)?> Item<?=(count($cart) > 1 ? 's' : '')?>
 															<h5 class="fw-bold">PHP <?=number_format($grand_total, 2)?></h5>
 														</div>
-														<div class="col-5">
+														<div class="col-12 col-sm-5 text-center text-sm-start">
 															<?=form_open(base_url() . "submit_order", "method='POST'")?>
 																<input type="hidden" name="grand_total" value="<?=$grand_total?>">
 																
@@ -202,7 +202,7 @@ $template_header;
 <script type="text/javascript">
 	$(document).ready(function () {
 		$(".remove_item").on('click', function(event) {
-			if (!confirm("remove item?")) {
+			if (!confirm("Remove Item?")) {
 				event.preventDefault();
 			}
 		});

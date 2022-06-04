@@ -138,7 +138,7 @@ $template_header;
 																	<h5 class="fw-bold">Contact Num: </h5>
 																</div>
 																<div class="col-12">
-																	<input class="form-control" type="text" name="inp_contact_num" placeholder="*Contact #" value="<?=$account_details['contact_num']?>" autocomplete="off" required="">
+																	<input class="form-control" type="text" name="inp_contact_num" placeholder="Contact #" value="<?=$account_details['contact_num']?>" autocomplete="off">
 																</div>
 															</div>
 															<hr>

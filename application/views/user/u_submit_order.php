@@ -54,8 +54,8 @@ $template_header;
 													<div class="row justify-content-center item mb-4">
 														<div class="col-12 col-md-10 col-lg-7 text-center">
 															<div class="row mt-2">
-																<div class="col-12">
-																	<input type="datetime-local" name="inp_datetime_pickup" value="<?=date('Y-m-d\TH:i:s')?>">
+																<div class="col">
+																	<input type="datetime-local" class="form-control text-center" name="inp_datetime_pickup" value="<?=date('Y-m-d\TH:i')?>">
 																</div>
 															</div>
 														</div>
@@ -87,7 +87,7 @@ $template_header;
 																</div>
 															</div>
 															<div class="row mt-2">
-																<div class="col-12 text-start">
+																<div class="col-12 text-center">
 																	<h6 class="fw-bold">Proof of Payment (Img / Screenshot): </h6>
 																</div>
 																<div class="col-12">
@@ -113,7 +113,7 @@ $template_header;
 											</div>
 											<div class="col-12 col-md-6 text-center text-md-start">
 												<button class="btn btn-dark fw-bold px-4 py-3 rounded-pill text-light" type="submit">
-													<i class="fa fa-money" aria-hidden="true"></i> Place Order
+													<i class="mdi mdi-cash"></i> Place Order
 												</button>
 											</div>
 										</div>

@@ -48,7 +48,7 @@
 		$type = $this->input->get("type");
 		$page = intval($this->input->get("page"));
 		
-		$page_total = intval($this->Model_read->get_products_user()->num_rows() / 10) + 1;
+		$page_total = intval($this->Model_read->get_products_user_view_search_type($search, $type)->num_rows() / 10) + 1;
 
 		$page_no = (!is_null($page) && $page >= 0 ? ($page > $page_total-1 ? $page_total-1 : $page) : 0);
 
@@ -85,12 +85,12 @@
 			if ($this->session->has_userdata("cart")) {
 				$cart = $this->session->userdata("cart");
 
-				$data["product_qty"] = $cart[$id];
+				$data["product_qty"] = (isset($cart[$id]) ? $cart[$id] : 1);
 			}
 			if ($this->session->has_userdata("cart_notes")) {
 				$cart_notes = $this->session->userdata("cart_notes");
 
-				$data["product_note"] = $cart_notes[$id];
+				$data["product_note"] = (isset($cart_notes[$id]) ? $cart_notes[$id] : "");;
 			}
 
 			$data["product_details"] = $product->row_array();
@@ -279,13 +279,10 @@
 			$order_states = $this->Model_read->get_order_states_wuser_id($user_id)->result_array();
 			$data["order_state_counts"] = array_count_values(array_column($order_states, "state"));
 
-			// get order item details
-			$order_items = $this->Model_read->get_order_items_wid_user_id($id, $user_id, "CUSTOM");
-			$type = "CUSTOM";
-			if ($order_items->num_rows() < 1) {
-				$order_items = $this->Model_read->get_order_items_wid_user_id($id, $user_id, "NORMAL");
-				$type = "NORMAL";
-			}
+			$order_items = $this->Model_read->get_order_items_wid_user_id($id, $user_id, "PICKUP");
+			$type = "PICKUP";
+			$data["type"] = $type;
+
 			// state descriptions
 			$data["states"] = array(
 				"PENDING", 
@@ -309,6 +306,29 @@
 			$this->load->view("user/u_my_order_details", $data);
 		}
 	}
+	public function view_u_shared_order_details() {
+		$ouid = $this->input->get("ouid");
+
+		$head["title"] = "Order Details - Dulo By The A's";
+		$data["template_head"] = $this->load->view("user/template/u_t_head", $head);
+
+		// get order details
+		$order = $this->Model_read->get_order_all_w_ouid($ouid);
+		if ($ouid == NULL || $order->num_rows() < 1) {
+			redirect("home");
+		} else {
+			$order_items = $this->Model_read->get_order_items_w_ouid($ouid);
+
+			$data["my_order"] = $order->row_array();
+			$data["order_items"] = $order_items;
+			
+			foreach ($this->Model_read->get_types()->result_array() as $row) {
+				$data["types"][$row["type_id"]] = $row["name"];
+			}
+
+			$this->load->view("user/u_shared_order_details", $data);
+		}
+	}
 	public function view_u_my_order_payment() {
 		$id = $this->input->get("id");
 
@@ -317,16 +337,15 @@
 
 		$user_id = $this->session->userdata("user_id");
 
-		$order = $this->Model_read->get_order_to_pay_wid_user_id($id, $user_id);
-		if ($id == NULL || $order->num_rows() < 1) {
+		$order_payments = $this->Model_read->get_order_payments_worder_id($id);
+
+		$order = $this->Model_read->get_order_payable_wid_user_id($id, $user_id);
+		if (($id == NULL || $order->num_rows() < 1) || $order_payments->num_rows() > 10) {
+			$this->session->set_flashdata("notice", array("danger", "Something went wrong, please try again."));
 			redirect("my_orders");
 		} else {
-			$order_items = $this->Model_read->get_order_items_wid_user_id($id, $user_id, "CUSTOM");
-			$type = "CUSTOM";
-			if ($order_items->num_rows() < 1) {
-				$order_items = $this->Model_read->get_order_items_wid_user_id($id, $user_id, "NORMAL");
-				$type = "NORMAL";
-			}
+			$order_items = $this->Model_read->get_order_items_wid_user_id($id, $user_id, "PICKUP");
+			$type = "PICKUP";
 			
 			$data["my_order"] = $order->row_array();
 			$data["order_items"] = $order_items;
@@ -600,11 +619,8 @@
 
 		$data["states"] = array(
 			"PENDING", 
-			"WAITING FOR PAYMENT", 
-			"ACCEPTED / IN PROGRESS", 
-			"TO SHIP",
-			"SHIPPED", 
-			"RECEIVED", 
+			"ACCEPTED", 
+			"COMPLETED", 
 			"CANCELLED"
 		);
 
@@ -633,11 +649,8 @@
 
 			$data["states"] = array(
 				"PENDING", 
-				"WAITING FOR PAYMENT", 
-				"ACCEPTED / IN PROGRESS", 
-				"TO SHIP",
-				"SHIPPED", 
-				"RECEIVED", 
+				"ACCEPTED", 
+				"COMPLETED", 
 				"CANCELLED"
 			);
 			
@@ -693,11 +706,8 @@
 
 		$data["states"] = array(
 			"PENDING", 
-			"WAITING FOR PAYMENT", 
-			"ACCEPTED / IN PROGRESS", 
-			"TO SHIP",
-			"SHIPPED", 
-			"RECEIVED", 
+			"ACCEPTED", 
+			"COMPLETED", 
 			"CANCELLED"
 		);
 
@@ -733,11 +743,8 @@
 
 			$data["states"] = array(
 				"PENDING", 
-				"WAITING FOR PAYMENT", 
-				"ACCEPTED / IN PROGRESS", 
-				"TO SHIP",
-				"SHIPPED", 
-				"RECEIVED", 
+				"ACCEPTED", 
+				"COMPLETED", 
 				"CANCELLED"
 			);
 
@@ -810,11 +817,8 @@
 
 			$data["states"] = array(
 				"PENDING", 
-				"WAITING FOR PAYMENT", 
-				"ACCEPTED / IN PROGRESS", 
-				"TO SHIP",
-				"SHIPPED", 
-				"RECEIVED", 
+				"ACCEPTED", 
+				"COMPLETED", 
 				"CANCELLED"
 			);
 

@@ -53,16 +53,16 @@ $template_header;
 									?>
 									<?=form_open(base_url() . "to_cart", "method='GET'")?>
 										<input type="hidden" name="id" value="<?=$product_details['product_id']?>">
-										<div class="row justify-content-center my-5">
-											<div class="col-12 col-sm-12 text-center">
+										<div class="row justify-content-center mt-5">
+											<div class="col-11 col-sm-12 text-center">
 												<h5 class="fw-bold">ADDITIONAL NOTE <span class="text-muted">[OPTIONAL]</span>:</h5>
 											</div>
-											<div class="col-12 col-sm-7">
+											<div class="col-11 col-sm-7">
 												<textarea class="form-control text-center" name="adtl_note" maxlength="255" rows="3"><?=(isset($product_note) ? $product_note : "")?></textarea>
 											</div>
 										</div>
-										<div class="row justify-content-center mt-4">
-											<div class="col-5 col-md-12">
+										<div class="row justify-content-center mt-1 mt-md-4">
+											<div class="col-12 col-md-12">
 												<div class="row justify-content-center py-3">
 													<button class="btn btn-qty-subtract" type="button" style="width: 72px; height: 72px; border-radius: 100%;">
 														<i class="mdi mdi-minus-circle-outline mdi-36px"></i>
@@ -74,12 +74,12 @@ $template_header;
 												</div>
 											</div>
 										</div>
-										<div class="row justify-content-center mt-4">
-											<div class="col-7 col-md-12 text-center">
-												<button class="btn fw-bold px-4 py-3 rounded-pill product_btn" type="submit" name="submit" value="AC">
+										<div class="row justify-content-center mt-1 mt-md-4 pb-4">
+											<div class="col-10 col-md-12 text-center">
+												<button class="btn fw-bold px-4 py-3 mb-2 rounded-pill product_btn" type="submit" name="submit" value="AC">
 													<i class="mdi mdi-cart-arrow-down"></i> ADD TO CART
 												</button>
-												<button class="btn fw-bold px-4 py-3 rounded-pill product_btn" type="submit" name="submit" value="BN">
+												<button class="btn fw-bold px-4 py-3 mb-2 rounded-pill product_btn" type="submit" name="submit" value="BN">
 													<i class="mdi mdi-cash" aria-hidden="true"></i> BUY NOW
 												</button>
 											</div>
