@@ -34,7 +34,7 @@ $template_header;
 									<div class="row">
 										<div class="col px-5 text-end">
 											<?php if ($my_order["state"] != 3): ?>
-												<?php if (strlen($my_order["order_uid"]) < 1): ?>
+												<?php if ($my_order["shared"] != '1'): ?>
 													<button class="btn_link btn btn-primary rounded-pill fw-bold px-4 py-2" data-href="<?=base_url()?>share_order?oid=<?=$my_order["order_id"]?>">
 														<i class="mdi mdi-share-variant"></i> SHARE
 													</button>
@@ -49,52 +49,64 @@ $template_header;
 									<div class="row justify-content-center">
 										<div class="col-10 p-4">
 											<div class="row">
-												<div class="col-12">
-													<h5 class="fw-bold">Order #: </h5>
+												<div class="col-12 col-md-6 col-lg-7">
+													<div class="row">
+														<div class="col-12">
+															<h5 class="fw-bold">Order #: </h5>
+														</div>
+														<div class="col-12 text-center rounded-pill bg-secondary text-light py-2">
+															<?=date("Y-m", strtotime($my_order["date_time"]))?>-<?= str_pad($my_order["order_id"], 6, '0', STR_PAD_LEFT) ?>
+														</div>
+													</div>
+													<div class="row">
+														<div class="col-12">
+															<h5 class="fw-bold">Date / Time: </h5>
+														</div>
+														<div class="col-12 text-center rounded-pill bg-secondary text-light py-2">
+															<?=date("Y-m-d / h:i A", strtotime($my_order["date_time"]))?>
+														</div>
+													</div>
+													<div class="row">
+														<div class="col-12">
+															<h5 class="fw-bold">Pick Up Date / Time: </h5>
+														</div>
+														<div class="col-12 text-center rounded-pill bg-secondary text-light py-2">
+															<?=date("Y-m-d / h:i A", strtotime($my_order["datetime_pickup"]))?>
+														</div>
+													</div>
+													<div class="row mt-2">
+														<div class="col-12">
+															<h5 class="fw-bold">Order State: </h5>
+														</div>
+														<?php if ($my_order["state"] == 0): ?>
+															<div class="col-12 text-center rounded-pill bg-secondary text-light py-2">
+																<h5 class="fw-bold pt-2"><?=$states[$my_order["state"]]?></h5>
+															</div>
+														<?php elseif ($my_order["state"] == 1): ?>
+															<div class="col-12 text-center rounded-pill bg-success text-light py-2">
+																<h5 class="fw-bold pt-2"><?=$states[$my_order["state"]]?></h5>
+															</div>
+														<?php elseif ($my_order["state"] == 2): ?>
+															<div class="col-12 text-center rounded-pill bg-primary text-light py-2">
+																<h5 class="fw-bold pt-2"><?=$states[$my_order["state"]]?></h5>
+															</div>
+														<?php else: ?>
+															<div class="col-12 text-center rounded-pill bg-danger text-light py-2">
+																<h5 class="fw-bold pt-2"><?=$states[$my_order["state"]]?></h5>
+															</div>
+														<?php endif; ?>
+													</div>
 												</div>
-												<div class="col-12 text-center rounded-pill bg-secondary text-light py-2">
-													<?=date("Y-m", strtotime($my_order["date_time"]))?>-<?= str_pad($my_order["order_id"], 6, '0', STR_PAD_LEFT) ?>
+												<div class="col-12 col-md-6 col-lg-5 mt-2">
+													<div class="col-12">
+														<h5 class="fw-bold">QR Link: </h5>
+													</div>
+													<div class="col-10 col-md-12 border border-2 mx-auto">
+														<img class="w-100" src="<?=base_url()?>uploads/orders/<?=$my_order["img_qr"]?>">
+													</div>
 												</div>
 											</div>
-											<div class="row">
-												<div class="col-12">
-													<h5 class="fw-bold">Date / Time: </h5>
-												</div>
-												<div class="col-12 text-center rounded-pill bg-secondary text-light py-2">
-													<?=date("Y-m-d / h:i A", strtotime($my_order["date_time"]))?>
-												</div>
-											</div>
-											<div class="row">
-												<div class="col-12">
-													<h5 class="fw-bold">Pick Up Date / Time: </h5>
-												</div>
-												<div class="col-12 text-center rounded-pill bg-secondary text-light py-2">
-													<?=date("Y-m-d / h:i A", strtotime($my_order["datetime_pickup"]))?>
-												</div>
-											</div>
-											<div class="row mt-2">
-												<div class="col-12">
-													<h5 class="fw-bold">Order State: </h5>
-												</div>
-												<?php if ($my_order["state"] == 0): ?>
-													<div class="col-12 text-center rounded-pill bg-secondary text-light py-2">
-														<h5 class="fw-bold pt-2"><?=$states[$my_order["state"]]?></h5>
-													</div>
-												<?php elseif ($my_order["state"] == 1): ?>
-													<div class="col-12 text-center rounded-pill bg-success text-light py-2">
-														<h5 class="fw-bold pt-2"><?=$states[$my_order["state"]]?></h5>
-													</div>
-												<?php elseif ($my_order["state"] == 2): ?>
-													<div class="col-12 text-center rounded-pill bg-primary text-light py-2">
-														<h5 class="fw-bold pt-2"><?=$states[$my_order["state"]]?></h5>
-													</div>
-												<?php else: ?>
-													<div class="col-12 text-center rounded-pill bg-danger text-light py-2">
-														<h5 class="fw-bold pt-2"><?=$states[$my_order["state"]]?></h5>
-													</div>
-												<?php endif; ?>
-											</div>
-											<div class="row mt-2">
+											<div class="row mt-3">
 												<div class="col-12">
 													<h5 class="fw-bold">Ordered Item/s: </h5>
 												</div>
@@ -198,7 +210,7 @@ $template_header;
 											<?php if ($order_payments->num_rows() < 10): // limit payment to 10 ?>
 												<?php if ($my_order["state"] < 2): ?>
 													<div class="row mt-2 text-center">
-														<a href="my_order_payment?id=<?=$row["order_id"]?>" class="btn fw-bold rounded-pill product_btn px-3 py-2">
+														<a href="my_order_payment?id=<?=$my_order["order_id"]?>" class="btn fw-bold rounded-pill product_btn px-3 py-2">
 															<i class="mdi mdi-cash"></i> Add Payment
 														</a>
 													</div>
@@ -207,7 +219,7 @@ $template_header;
 
 											<?php if ($my_order["state"] == 0): ?>
 												<div class="row mt-2 text-center">
-													<a href="cancel_order?oid=<?=$row["order_id"]?>" id="cancel_order" class="btn btn-danger fw-bold rounded-pill px-3 py-2">
+													<a href="cancel_order?oid=<?=$my_order["order_id"]?>" id="cancel_order" class="btn btn-danger fw-bold rounded-pill px-3 py-2">
 														<i class="mdi mdi-close"></i> Cancel Order
 													</a>
 												</div>
@@ -224,7 +236,7 @@ $template_header;
 		<?php $this->load->view("user/template/u_t_footer"); ?>
 	</div>
 
-	<?php if (strlen($my_order["order_uid"]) > 0): ?>
+	<?php if ($my_order["shared"] == '1'): ?>
 		<script type="text/javascript">
 			function copyToClipboard(element) {
 			    var $temp = $("<input>");

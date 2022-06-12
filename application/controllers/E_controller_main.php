@@ -314,7 +314,7 @@
 
 		// get order details
 		$order = $this->Model_read->get_order_all_w_ouid($ouid);
-		if ($ouid == NULL || $order->num_rows() < 1) {
+		if ($ouid == NULL || $order->num_rows() < 1 || $order->row_array()['shared'] != '1') {
 			redirect("home");
 		} else {
 			$order_items = $this->Model_read->get_order_items_w_ouid($ouid);
@@ -1042,5 +1042,35 @@
 		}
 
 		echo json_encode($names);
+	}
+
+	public function get_order() {
+		$this->admin_login_check();
+
+		$ouid = $this->input->get("get_ouid");
+
+		if (strlen($ouid) > 0) {
+			$order_info = $this->Model_read->get_order_all_w_ouid($ouid)->row_array();
+			$order_items = $this->Model_read->get_order_items_w_ouid($ouid);
+			$order = array(
+				'id' => $order_info['order_id'],
+				'items' => array()
+			);
+			
+			foreach ($order_items->result_array() as $row) {
+				$product_info = $this->Model_read->get_product_wid($row["product_id"])->row_array();
+
+				$item = array(
+					'product_id' => $product_info['product_id'],
+					'product_name' => $product_info['name'],
+					'qty' => $row['qty'],
+					'price' => $product_info['price']
+				);
+
+				array_push($order['items'], $item);
+			}
+
+			echo json_encode($order);
+		}
 	}
 }

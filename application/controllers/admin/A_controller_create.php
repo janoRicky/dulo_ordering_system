@@ -129,6 +129,9 @@
 	}
 	// = = = ORDERS
 	public function new_order() {
+		
+		include('application/libraries/phpqrcode/qrlib.php');
+		
 		$user_id = $this->input->post("inp_user_id");
 
 		$description = $this->input->post("inp_description");
@@ -216,7 +219,27 @@
 					}
 				}
 				if ($error == NULL) {
+					// generate unique id
+					do {
+						$ouid = uniqid('', true);
+					} while ($this->Model_read->get_order_all_w_ouid($ouid)->num_rows() > 0);
+
+					// make directories
+					if (!is_dir("uploads")) {
+						mkdir("./uploads", 0755, TRUE);
+					}
+					if (!is_dir("uploads/orders")) {
+						mkdir("./uploads/orders", 0755, TRUE);
+					}
+
+					// make file path
+					$file_name = $ouid .'.png';
+					$file_path = 'uploads/orders/'. $file_name;
+					$qr_link = base_url() .'order?ouid='. $ouid;
+
 					$data = array(
+						"order_uid" => $ouid,
+						
 						"user_id" => $user_id,
 						"description" => $description,
 						"date_time" => $date ." ". $time,
@@ -226,11 +249,19 @@
 						// "city" => $city,
 						// "street" => $street,
 						// "address" => $address,
+
+						"img_qr" => $file_name,
+
 						"state" => "0",
 						"status" => "1"
 					);
 					if ($this->Model_create->create_order($data)) {
 						$item_id = $this->db->insert_id();
+
+						// generating
+						if (!file_exists($file_path)) {
+							QRcode::png($qr_link, $file_path, QR_ECLEVEL_L, 6, 4);
+						}
 
 						foreach ($items as $row) {
 							$product_info = $this->Model_read->get_product_wid($row["product_id"])->row_array();

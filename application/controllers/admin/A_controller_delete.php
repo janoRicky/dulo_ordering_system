@@ -26,7 +26,9 @@
 				$dir = "./uploads/products/product_". $row_info["product_id"];
 				if (is_dir($dir)) {
 					foreach (scandir($dir) as $item) {
-					    unlink($dir."/".$item);
+						if ($item != "." && $item != "..") {
+					    	unlink($dir."/".$item);
+						}
 					}
 					rmdir($dir);
 				}
@@ -56,7 +58,9 @@
 				$dir = "./uploads/types/type_". $row_info["type_id"];
 				if (is_dir($dir)) {
 					foreach (scandir($dir) as $item) {
-					    unlink($dir."/".$item);
+						if ($item != "." && $item != "..") {
+					    	unlink($dir."/".$item);
+						}
 					}
 					rmdir($dir);
 				}

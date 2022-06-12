@@ -33,178 +33,191 @@ $template_header;
 						<div class="row col-12 col-md-9 mx-auto view_container">
 							<div class="col-12">
 								<div class="row mt-2 justify-content-center">
-									<div class="col-12 col-md-6 row border-0">
-										<?php
-										$user_info = $this->Model_read->get_user_acc_wid($row_info["user_id"])->row_array();
-										?>
-										<?php if ($user_info["email"] == NULL): ?>
-											<div class="col-12 col-md-4">
-												<label>No Account:</label><br>
-											</div>
-											<div class="col-12 col-md-8">
-												<a href="<?=base_url();?>admin/users_view?id=<?=$row_info["user_id"]?>">
-													<i class="fa fa-eye fa-lg text-primary p-1" aria-hidden="true"></i><?=$user_info["name_last"] .", ". $user_info["name_first"] ." ". $user_info["name_middle"] ." ". $user_info["name_extension"]?> [User #<?=$row_info["user_id"]?>]
-												</a>
-											</div>
-										<?php else: ?>
-											<div class="col-12 col-md-4">
-												<label>User Email:</label><br>
-											</div>
-											<div class="col-12 col-md-8">
+									<div class="col-12 col-md-6 col-lg-8">
+										<div class="col-12 row border-0">
+											<?php
+											$user_info = $this->Model_read->get_user_acc_wid($row_info["user_id"])->row_array();
+											?>
+											<?php if ($user_info["email"] == NULL): ?>
+												<div class="col-12 col-md-4">
+													<label>No Account:</label><br>
+												</div>
+												<div class="col-12 col-md-8">
 													<a href="<?=base_url();?>admin/users_view?id=<?=$row_info["user_id"]?>">
-													<i class="fa fa-eye fa-lg text-primary p-1" aria-hidden="true"></i><?=$user_info["email"]?> [User #<?=$row_info["user_id"]?>]
-												</a>
+														<i class="fa fa-eye fa-lg text-primary p-1" aria-hidden="true"></i><?=$user_info["name_last"] .", ". $user_info["name_first"] ." ". $user_info["name_middle"] ." ". $user_info["name_extension"]?> [User #<?=$row_info["user_id"]?>]
+													</a>
+												</div>
+											<?php else: ?>
+												<div class="col-12 col-md-4">
+													<label>User Email:</label><br>
+												</div>
+												<div class="col-12 col-md-8">
+														<a href="<?=base_url();?>admin/users_view?id=<?=$row_info["user_id"]?>">
+														<i class="fa fa-eye fa-lg text-primary p-1" aria-hidden="true"></i><?=$user_info["email"]?> [User #<?=$row_info["user_id"]?>]
+													</a>
+												</div>
+											<?php endif; ?>
+										</div>
+										<div class="col-12 row border-0">
+											<div class="col-12 col-md-4">
+												<label>Description:</label>
 											</div>
+											<div class="col-12 col-md-8">
+												<?=$row_info["description"]?>
+											</div>
+										</div>
+										<div class="col-12 row border-0">
+											<div class="col-12 col-md-4">
+												<label>Pick-Up Time:</label>
+											</div>
+											<div class="col-12 col-md-8">
+												<?=date("Y-m-d / h:i:s A", strtotime($row_info["datetime_pickup"]))?>
+											</div>
+										</div>
+										<div class="col-12 row border-0">
+											<div class="col-12 col-md-4">
+												<label>Date / Time:</label>
+											</div>
+											<div class="col-12 col-md-8">
+												<?=date("Y-m-d / h:i:s A", strtotime($row_info["date_time"]))?>
+											</div>
+										</div>
+									</div>
+									<div class="col-10 col-md-6 col-lg-4">
+										<?php if (!empty($row_info["img_qr"])): ?>
+											<img class="w-100 w-sm-75" src="<?=base_url()?>uploads/orders/<?=$row_info["img_qr"]?>">
+										<?php else: ?>
+											<h4>NO QR</h4>
 										<?php endif; ?>
-									</div>
-									<div class="col-12 col-md-6 row border-0">
-										<div class="col-12 col-md-4">
-											<label>Description:</label>
-										</div>
-										<div class="col-12 col-md-8">
-											<?=$row_info["description"]?>
-										</div>
-									</div>
-									<div class="col-12 col-md-6 row border-0">
-										<div class="col-12 col-md-4">
-											<label>Pick-Up Time:</label>
-										</div>
-										<div class="col-12 col-md-8">
-											<?=date("Y-m-d / h:i:s A", strtotime($row_info["datetime_pickup"]))?>
-										</div>
-									</div>
-									<div class="col-12 col-md-6 row border-0">
-										<div class="col-12 col-md-4">
-											<label>Date / Time:</label>
-										</div>
-										<div class="col-12 col-md-8">
-											<?=date("Y-m-d / h:i:s A", strtotime($row_info["date_time"]))?>
-										</div>
 									</div>
 
 									<div class="col-12">
 										<label>Ordered Items:</label>
-										<table id="table_items" class="table table-striped table-hover table-responsive-md table-bordered">
-											<thead>
-												<tr>
-													<th>Item</th>
-													<th>Adtl Note</th>
-													<th>Qty.</th>
-													<th>Unit Price</th>
-													<th>Total Price</th>
-													<th>Action</th>
-												</tr>
-											</thead>
-											<tbody>
-												<?php $total_qty = 0; $total_price = 0; ?>
-												<?php if ($tbl_order_items->num_rows() < 1): ?>
+										<div class="table-responsive">
+											<table id="table_items" class="table table-striped table-hover table-bordered">
+												<thead>
 													<tr>
-														<td colspan="5" class="fw-bold">[ EMPTY ]</td>
+														<th>Item</th>
+														<th>Adtl Note</th>
+														<th>Qty.</th>
+														<th>Unit Price</th>
+														<th>Total Price</th>
+														<th>Action</th>
 													</tr>
-												<?php else: ?>
-													<?php foreach ($tbl_order_items->result_array() as $row): ?>
+												</thead>
+												<tbody>
+													<?php $total_qty = 0; $total_price = 0; ?>
+													<?php if ($tbl_order_items->num_rows() < 1): ?>
 														<tr>
-															<td>
-																<a href="<?=base_url();?>admin/products_view?id=<?=$row["product_id"]?>">
-																	<i class="fa fa-eye fa-lg text-primary p-1" aria-hidden="true"></i> <?=$this->Model_read->get_product_wid($row["product_id"])->row_array()["name"]?>
-																</a>
-															</td>
-															<td>
-																<div class="text-wrap w-100">
-																	<?=($row["adtl_note"] ? $row["adtl_note"] : "---")?>
-																</div>
-															</td>
-															<td><?=$row["qty"]?></td>
-															<?php $total_qty += $row["qty"]; ?>
-															<td>
-																PHP <?=number_format($row["price"], 2)?>
-															</td>
-															<td class="total_price">
-																PHP <?=number_format($row["qty"] * $row["price"], 2)?>
-															</td>
-															<?php $total_price += $row["qty"] * $row["price"]; ?>
-															<td>
-																<a href="<?=base_url();?>admin/products_view?id=<?=$row['product_id']?>">
-																	<button class="btn btn-sm btn-primary mb-1">View</button>
-																</a>
-															</td>
+															<td colspan="5" class="fw-bold">[ EMPTY ]</td>
 														</tr>
-													<?php endforeach; ?>
-												<?php endif; ?>
-											</tbody>
-											<tr>
-												<td class="fw-bold" colspan="2">Total</td>
-												<td id="total_qty">
-													<?=$total_qty?>
-												</td>
-												<td></td>
-												<td id="total_price">
-													PHP <?=number_format($total_price, 2)?>
-												</td>
-												<td></td>
-											</tr>
-										</table>
+													<?php else: ?>
+														<?php foreach ($tbl_order_items->result_array() as $row): ?>
+															<tr>
+																<td>
+																	<a href="<?=base_url();?>admin/products_view?id=<?=$row["product_id"]?>">
+																		<i class="fa fa-eye fa-lg text-primary p-1" aria-hidden="true"></i> <?=$this->Model_read->get_product_wid($row["product_id"])->row_array()["name"]?>
+																	</a>
+																</td>
+																<td>
+																	<div class="text-wrap w-100">
+																		<?=($row["adtl_note"] ? $row["adtl_note"] : "---")?>
+																	</div>
+																</td>
+																<td><?=$row["qty"]?></td>
+																<?php $total_qty += $row["qty"]; ?>
+																<td>
+																	PHP <?=number_format($row["price"], 2)?>
+																</td>
+																<td class="total_price">
+																	PHP <?=number_format($row["qty"] * $row["price"], 2)?>
+																</td>
+																<?php $total_price += $row["qty"] * $row["price"]; ?>
+																<td>
+																	<a href="<?=base_url();?>admin/products_view?id=<?=$row['product_id']?>">
+																		<button class="btn btn-sm btn-primary mb-1">View</button>
+																	</a>
+																</td>
+															</tr>
+														<?php endforeach; ?>
+													<?php endif; ?>
+												</tbody>
+												<tr>
+													<td class="fw-bold" colspan="2">Total</td>
+													<td id="total_qty">
+														<?=$total_qty?>
+													</td>
+													<td></td>
+													<td id="total_price">
+														PHP <?=number_format($total_price, 2)?>
+													</td>
+													<td></td>
+												</tr>
+											</table>
+										</div>
 									</div>
 									<div class="col-12">
 										<label>Payments:</label>
-										<table id="table_payments" class="table table-striped table-hover table-responsive-md table-bordered">
-											<thead>
-												<tr>
-													<th>ID</th>
-													<th>Img</th>
-													<th>Date / Time</th>
-													<th>Description</th>
-													<th>Amount</th>
-													<th>Action</th>
-												</tr>
-											</thead>
-											<tbody>
-												<?php $total_payment = 0; ?>
-												<?php if ($tbl_payments->num_rows() < 1): ?>
+										<div class="table-responsive">
+											<table id="table_payments" class="table table-striped table-hover table-bordered">
+												<thead>
 													<tr>
-														<td colspan="6" class="fw-bold">[ EMPTY ]</td>
+														<th>ID</th>
+														<th>Img</th>
+														<th>Date / Time</th>
+														<th>Description</th>
+														<th>Amount</th>
+														<th>Action</th>
 													</tr>
-												<?php else: ?>
-													<?php foreach ($tbl_payments->result_array() as $row): ?>
+												</thead>
+												<tbody>
+													<?php $total_payment = 0; ?>
+													<?php if ($tbl_payments->num_rows() < 1): ?>
 														<tr>
-															<td class="id"><?=$row["payment_id"]?></td>
-															<td>
-																<?php if($row["img"] != NULL): ?>
-																	<img class="img-responsive img_row img_zoomable" src="<?php
-																	if (!empty($row["img"])) {
-																		echo base_url(). 'uploads/users/user_'. $row_info["user_id"] .'/payments/order_'. $row_info["order_id"] .'/'. $row["img"];
-																	} else {
-																		echo base_url(). "assets/img/no_img.png";
-																	}
-																	?>">
-																<?php endif; ?>
-															</td>
-															<td class="date_time"><?=$row["date_time"]?></td>
-															<td class="description"><?=$row["description"]?></td>
-															<?php $total_payment += $row["amount"]; ?>
-															<td class="amount">
-																PHP <span><?=number_format($row["amount"], 2)?></span>
-															</td>
-															<td>
-																<button class="btn btn-primary btn-sm btn_update_payment my-2" data-bs-toggle="modal" data-bs-target="#modal_payment_update" data-id="<?=$row['payment_id']?>">
-																	Update
-																</button>
-															</td>
+															<td colspan="6" class="fw-bold">[ EMPTY ]</td>
 														</tr>
-													<?php endforeach; ?>
-													<tr>
-														<td class="fw-bold">Total</td>
-														<td></td>
-														<td></td>
-														<td></td>
-														<td>
-															PHP <?=number_format($total_payment, 2)?>
-														</td>
-														<td></td>
-													</tr>
-												<?php endif; ?>
-											</tbody>
-										</table>
+													<?php else: ?>
+														<?php foreach ($tbl_payments->result_array() as $row): ?>
+															<tr>
+																<td class="id"><?=$row["payment_id"]?></td>
+																<td>
+																	<?php if($row["img"] != NULL): ?>
+																		<img class="img-responsive img_row img_zoomable" src="<?php
+																		if (!empty($row["img"])) {
+																			echo base_url(). 'uploads/users/user_'. $row_info["user_id"] .'/payments/order_'. $row_info["order_id"] .'/'. $row["img"];
+																		} else {
+																			echo base_url(). "assets/img/no_img.png";
+																		}
+																		?>">
+																	<?php endif; ?>
+																</td>
+																<td class="date_time"><?=$row["date_time"]?></td>
+																<td class="description"><?=$row["description"]?></td>
+																<?php $total_payment += $row["amount"]; ?>
+																<td class="amount">
+																	PHP <span><?=number_format($row["amount"], 2)?></span>
+																</td>
+																<td>
+																	<button class="btn btn-primary btn-sm btn_update_payment my-2" data-bs-toggle="modal" data-bs-target="#modal_payment_update" data-id="<?=$row['payment_id']?>">
+																		Update
+																	</button>
+																</td>
+															</tr>
+														<?php endforeach; ?>
+														<tr>
+															<td class="fw-bold">Total</td>
+															<td></td>
+															<td></td>
+															<td></td>
+															<td>
+																PHP <?=number_format($total_payment, 2)?>
+															</td>
+															<td></td>
+														</tr>
+													<?php endif; ?>
+												</tbody>
+											</table>
+										</div>
 										<button class="btn btn-primary btn-lg my-2" data-bs-toggle="modal" data-bs-target="#modal_payment" data-id="<?=$row_info['order_id']?>">
 											Add Payment
 										</button>

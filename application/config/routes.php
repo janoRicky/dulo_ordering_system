@@ -160,6 +160,8 @@ $route['admin/info_get'] = 'E_controller_main/get_info';
 
 $route['admin/user_search'] = 'E_controller_main/search_users';
 
+$route['admin/get_order'] = 'E_controller_main/get_order';
+
 // - CREATE
 $route['admin/product_create'] = 'admin/A_controller_create/new_product';
 $route['admin/type_create'] = 'admin/A_controller_create/new_type';

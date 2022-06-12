@@ -130,10 +130,10 @@ class Model_read extends CI_Model {
 
 
 	public function get_order_unshared_all_wid($id, $user_id) {
-		return $this->db->get_where("orders", array("order_id" => $id, "user_id" => $user_id, "order_uid" => NULL));
+		return $this->db->get_where("orders", array("order_id" => $id, "user_id" => $user_id, "shared" => 0));
 	}
 	public function get_order_shared_all_wid($id, $user_id) {
-		return $this->db->get_where("orders", array("order_id" => $id, "user_id" => $user_id, "order_uid !=" => NULL));
+		return $this->db->get_where("orders", array("order_id" => $id, "user_id" => $user_id, "shared" => 1));
 	}
 	
 	public function get_order_all_w_ouid($ouid) {
