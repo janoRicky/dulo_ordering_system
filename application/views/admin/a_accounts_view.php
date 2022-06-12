@@ -24,7 +24,7 @@ $template_header;
 						</div>
 						<div class="row col-12 col-md-9 mx-auto view_container">
 							<div class="col-12">
-								<div class="row mt-2">
+								<div class="row mt-2 justify-content-center">
 									<div class="col-12 col-md-6 row border-0">
 										<div class="col-12 col-md-4">
 											<label>Full Name:</label>

@@ -55,22 +55,6 @@ $template_header;
 										</select>
 									</div>
 									<div class="col-12 col-md-6 text-start pb-3">
-										<label for="inp_province">Province:</label>
-										<input type="text" class="form-control" name="inp_province" placeholder="*Province" value="<?=$row_info['province']?>" autocomplete="off" required="">
-									</div>
-									<div class="col-12 col-md-6 text-start pb-3">
-										<label for="inp_city">City:</label>
-										<input type="text" class="form-control" name="inp_city" placeholder="*City" value="<?=$row_info['city']?>" autocomplete="off" required="">
-									</div>
-									<div class="col-12 col-md-6 text-start pb-3">
-										<label for="inp_street">Street/Road:</label>
-										<input type="text" class="form-control" name="inp_street" placeholder="*Street/Road" value="<?=$row_info['street']?>" autocomplete="off" required="">
-									</div>
-									<div class="col-12 col-md-6 text-start pb-3">
-										<label for="inp_address">House Number/Floor/Bldg./etc.:</label>
-										<input type="text" class="form-control" name="inp_address" placeholder="House Number/Floor/Bldg./etc." value="<?=$row_info['address']?>" autocomplete="off">
-									</div>
-									<div class="col-12 col-md-6 text-start pb-3">
 										<label for="inp_contact_num">Contact Number:</label>
 										<input type="text" class="form-control" name="inp_contact_num" placeholder="*Contact #" value="<?=$row_info['contact_num']?>" autocomplete="off" required="">
 									</div>

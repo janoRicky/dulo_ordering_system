@@ -31,8 +31,6 @@ $template_header;
 											<option value="1" <?=($state == "1" ? "selected" : "")?>><?=$states[1]?></option>
 											<option value="2" <?=($state == "2" ? "selected" : "")?>><?=$states[2]?></option>
 											<option value="3" <?=($state == "3" ? "selected" : "")?>><?=$states[3]?></option>
-											<option value="4" <?=($state == "4" ? "selected" : "")?>><?=$states[4]?></option>
-											<option value="5" <?=($state == "5" ? "selected" : "")?>><?=$states[5]?></option>
 										</select>
 									<?=form_close()?>
 								</div>
@@ -90,7 +88,23 @@ $template_header;
 													PHP <?=number_format($total_price, 2)?>
 												</td>
 												<td>
-													<?=$states[$row["state"]]?>
+													<?php if ($row["state"] == 0): ?>
+														<div class="border border-3 border-secondary text-secondary rounded-pill">
+															<?=$states[$row["state"]]?>
+														</div>
+													<?php elseif ($row["state"] == 1): ?>
+														<div class="border border-3 border-success text-success rounded-pill">
+															<?=$states[$row["state"]]?>
+														</div>
+													<?php elseif ($row["state"] == 2): ?>
+														<div class="border border-3 border-primary text-primary rounded-pill">
+															<?=$states[$row["state"]]?>
+														</div>
+													<?php else: ?>
+														<div class="border border-3 border-danger text-danger rounded-pill">
+															<?=$states[$row["state"]]?>
+														</div>
+													<?php endif; ?>
 												</td>
 												<td>
 													<a class="action_button" href="<?=base_url()?>admin/orders_view?id=<?=$row['order_id']?>">

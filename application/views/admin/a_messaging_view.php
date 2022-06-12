@@ -37,7 +37,7 @@ $template_header;
 								<h5 class="text-muted"><?=$user_info["name_last"]?> , <?=$user_info["name_first"]?></h5>
 							</div>
 							<div class="col-12 col-sm-10 mx-auto">
-								<div class="row mt-2">
+								<div class="row mt-2 justify-content-center">
 									<div id="message_container" class="col-12 col-sm-7 mt-1" style="max-height: 80vh; overflow-y: scroll;">
 										<?php 
 										$msg_remaining = $tbl_messages_all->num_rows() - ($tbl_page * 10);

@@ -13,38 +13,40 @@
 					</div>
 					<div class="col-12 col-md-6 text-center">
 						<h4 class="fw-bold mt-4 mt-md-1">SOCIAL</h4>
-						<ul class="nav flex-column">
-							<li>
+						<ul class="nav flex-row flex-md-column justify-content-center">
+							<li class="px-2">
 								<a href="https://www.facebook.com/TheAskit">
 									<i class="mdi mdi-facebook mdi-48px" aria-hidden="true"></i>
 								</a>
 							</li>
-							<!-- <li>
+							<!-- <li class="px-2">
 								<a href="#">
 									<i class="mdi mdi-twitter mdi-48px" aria-hidden="true"></i>
 								</a>
 							</li> -->
-							<li>
+							<li class="px-2">
 								<a href="https://www.instagram.com/dulobytheaskit/">
 									<i class="mdi mdi-instagram mdi-48px" aria-hidden="true"></i>
 								</a>
 							</li>
 						</ul>
 					</div>
-					<div class="col-12 col-md-4 text-center">
-						<a href="privacy_policy">
-							<h6 class="fw-bold mt-4 mt-md-1">PRIVACY POLICY</h6>
-						</a>
-					</div>
-					<div class="col-12 col-md-4 text-center">
-						<a href="terms_of_service">
-							<h6 class="fw-bold mt-4 mt-md-1">TERMS OF SERVICE</h6>
-						</a>
-					</div>
-					<div class="col-12 col-md-6 text-center">
-						<a href="data_deletion">
-							<h6 class="fw-bold mt-4 mt-md-1">DATA DELETION</h6>
-						</a>
+					<div class="row justify-content-center mt-4">
+						<div class="col-12 col-sm-6 col-lg-4 text-center mt-4 mt-md-1">
+							<a href="privacy_policy" class="text-decoration-none text-light">
+								<h6 class="fw-bold">PRIVACY POLICY</h6>
+							</a>
+						</div>
+						<div class="col-12 col-sm-6 col-lg-4 text-center mt-4 mt-md-1">
+							<a href="terms_of_service" class="text-decoration-none text-light">
+								<h6 class="fw-bold">TERMS OF SERVICE</h6>
+							</a>
+						</div>
+						<div class="col-12 col-sm-6 col-lg-4 text-center mt-4 mt-md-1">
+							<a href="data_deletion" class="text-decoration-none text-light">
+								<h6 class="fw-bold">DATA DELETION</h6>
+							</a>
+						</div>
 					</div>
 				</div>
 			</div>

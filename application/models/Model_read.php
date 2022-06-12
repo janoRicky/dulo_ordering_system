@@ -295,4 +295,11 @@ class Model_read extends CI_Model {
 		$query = "SELECT date_time FROM orders AS o WHERE status = '1' $where_state AND EXISTS(SELECT * FROM orders_items AS oi WHERE o.order_id = oi.order_id AND type = 'NORMAL') AND date_time BETWEEN '$date_from' AND '$date_to'";
 		return $this->db->query($query);
 	}
+	public function get_orders_pickup_w_date($state, $date) {
+		$date_from = date("Y-m-01", strtotime($date));
+		$date_to = date("Y-m-t", strtotime($date));
+		$where_state = ($state != "ALL" ? "AND state = '$state'" : "");
+		$query = "SELECT date_time FROM orders AS o WHERE status = '1' $where_state AND EXISTS(SELECT * FROM orders_items AS oi WHERE o.order_id = oi.order_id AND type = 'PICKUP') AND date_time BETWEEN '$date_from' AND '$date_to'";
+		return $this->db->query($query);
+	}
 }

@@ -24,7 +24,7 @@ $template_header;
 						</div>
 						<div class="row view_container">
 							<div class="col-12">
-								<div class="row mt-2">
+								<div class="row mt-2 justify-content-center">
 									<div class="col-12">
 										<?php
 										$user_info = $this->Model_read->get_user_acc_wid($row_info["user_id"])->row_array();

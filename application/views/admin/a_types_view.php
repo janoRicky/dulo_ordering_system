@@ -32,7 +32,7 @@ $template_header;
 								?>">
 							</div>
 							<div class="col-12 col-md-9">
-								<div class="row mt-2">
+								<div class="row mt-2 justify-content-center">
 									<div class="col-12 row border-0">
 										<div class="col-12 col-md-4">
 											<label>Type Name:</label><br>

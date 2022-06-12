@@ -211,12 +211,12 @@
 		$date = $this->input->post("inp_date");
 		$time = $this->input->post("inp_time");
 
-		$zip_code = $this->input->post("inp_zip_code");
-		$country = $this->input->post("inp_country");
-		$province = $this->input->post("inp_province");
-		$city = $this->input->post("inp_city");
-		$street = $this->input->post("inp_street");
-		$address = $this->input->post("inp_address");
+		// $zip_code = $this->input->post("inp_zip_code");
+		// $country = $this->input->post("inp_country");
+		// $province = $this->input->post("inp_province");
+		// $city = $this->input->post("inp_city");
+		// $street = $this->input->post("inp_street");
+		// $address = $this->input->post("inp_address");
 
 		$items_no = $this->input->post("items_no");
 		$items = array();
@@ -235,7 +235,7 @@
 			}
 		}
 
-		if ($order_id == NULL || $user_id == NULL || $description == NULL || $date == NULL || $time == NULL || count($items) < 1 || $zip_code == NULL || $country == NULL || $province == NULL || $city == NULL || $street == NULL) {
+		if ($order_id == NULL || $user_id == NULL) {
 			$this->session->set_flashdata("alert", array("warning", "One or more inputs are empty."));
 		} else {
 			$user = $this->Model_read->get_user_acc_wid($user_id);
@@ -246,12 +246,12 @@
 					"user_id" => $user_id,
 					"description" => $description,
 					"date_time" => $date ." ". $time,
-					"zip_code" => $zip_code,
-					"country" => $country,
-					"province" => $province,
-					"city" => $city,
-					"street" => $street,
-					"address" => $address
+					// "zip_code" => $zip_code,
+					// "country" => $country,
+					// "province" => $province,
+					// "city" => $city,
+					// "street" => $street,
+					// "address" => $address
 				);
 				if ($this->Model_update->update_order($order_id, $data)) {
 
@@ -299,239 +299,6 @@
 		}
 		redirect("admin/orders");
 	}
-	// = = = ORDERS CUSTOM
-	public function edit_order_custom() {
-		$order_id = $this->input->post("inp_id");
-		$user_id = $this->input->post("inp_user_id");
-		
-		$description = $this->input->post("inp_description");
-		$date = $this->input->post("inp_date");
-		$time = $this->input->post("inp_time");
-
-		$zip_code = $this->input->post("inp_zip_code");
-		$country = $this->input->post("inp_country");
-		$province = $this->input->post("inp_province");
-		$city = $this->input->post("inp_city");
-		$street = $this->input->post("inp_street");
-		$address = $this->input->post("inp_address");
-
-		$product_id = $this->input->post("inp_product_id");
-		$custom_description = $this->input->post("inp_custom_description");
-		$type_id = $this->input->post("inp_type_id");
-		$size = $this->input->post("inp_size");
-		$img_count = $this->input->post("inp_img_count");
-
-		$order_item_id = $this->input->post("inp_order_item_id");
-		$qty = $this->input->post("inp_qty");
-		$price = $this->input->post("inp_price");
-
-
-		if ($order_id == NULL || $user_id == NULL || $description == NULL || $date == NULL || $time == NULL || $zip_code == NULL || $country == NULL || $province == NULL || $city == NULL || $street == NULL) {
-			$this->session->set_flashdata("alert", array("warning", "One or more inputs are empty."));
-		} else {
-			$user = $this->Model_read->get_user_acc_wid($user_id);
-			if ($user->num_rows() < 1 && $user_id != 0) {
-				$this->session->set_flashdata("alert", array("warning", "User ID does not exist."));
-			} else {
-				$data = array(
-					"user_id" => $user_id,
-					"description" => $description,
-					"date_time" => $date ." ". $time,
-					"zip_code" => $zip_code,
-					"country" => $country,
-					"province" => $province,
-					"city" => $city,
-					"street" => $street,
-					"address" => $address
-				);
-				if ($this->Model_update->update_order($order_id, $data)) {
-
-					$row_info = $this->Model_read->get_product_custom_wid($product_id)->row_array();
-					
-					$imgs = explode("/", $row_info["img"]);
-					$img = NULL;
-
-					$product_folder = "custom_". $product_id;
-
-					$config["upload_path"] = "./uploads/". $product_folder;
-					$config["allowed_types"] = "gif|jpg|jpeg|png";
-					$config["max_size"] = 5000;
-					$config["encrypt_name"] = TRUE;
-
-					$this->load->library("upload", $config);
-
-					if (!is_dir("uploads")) {
-						mkdir("./uploads", 0777, TRUE);
-					}
-					if (!is_dir("uploads/". $product_folder)) {
-						mkdir("./uploads/". $product_folder, 0777, TRUE);
-					}
-
-					for ($i = 1; $i <= $img_count; $i++) {
-					    $img_check = $this->input->post("inp_img_". $i ."_check");
-					    
-						if (!empty($_FILES["inp_img_". $i]["name"])) {
-							if (!$this->upload->do_upload("inp_img_". $i)) {
-								$this->session->set_flashdata("alert", array("warning", $this->upload->display_errors()));
-								redirect("admin/orders_custom");
-							} else {
-								if (isset($imgs[$i - 1]) && !is_null($imgs[$i - 1]) && $imgs[$i - 1] != "") {
-									unlink("./uploads/". $product_folder ."/". $imgs[$i - 1]);
-								}
-								$imgs[$i - 1] = $this->upload->data("file_name");
-							}
-						} elseif (isset($img_check) && !is_null($img_check) && $img_check != "") {
-						    $imgs[$i - 1] = $img_check;
-						} else {
-						    $imgs[$i - 1] = "";
-						}
-						// elseif the checker is 0, then remove the image from the list
-						// else there is no new changes don't change anything
-						$img .= $imgs[$i - 1] . (($i < $img_count && isset($imgs[$i])) ? "/" : "");
-					}
-
-					$data_product = array(
-						"description" => $custom_description,
-						"type_id" => $type_id,
-						"size" => $size,
-						"img" => $img
-					);
-					if ($this->Model_update->update_product_custom($product_id, $data_product)) {
-						$data_item = array(
-							"qty" => $qty,
-							"price" => $price
-						);
-						$this->Model_update->update_order_item($order_id, $data_item);
-
-						$this->session->set_flashdata("alert", array("success", "Order is successfully updated."));
-					} else {
-						$this->session->set_flashdata("alert", array("danger", "Something went wrong, please try again."));
-					}
-				} else {
-					$this->session->set_flashdata("alert", array("danger", "Something went wrong, please try again."));
-				}
-			}
-		}
-		redirect("admin/orders_custom". (isset($order_id) ? "_view?id=". $order_id : ""));
-	}
-	// public function edit_order_state_custom() {
-	// 	$custom_id = $this->input->post("inp_custom_id");
-	// 	$order_id = $this->input->post("inp_id");
-	// 	$state = $this->input->post("inp_state");
-
-	// 	if ($custom_id == NULL || $order_id == NULL || $state == NULL) {
-	// 		$this->session->set_flashdata("alert", array("warning", "One or more inputs are empty."));
-	// 	} else {
-	// 		$error = NULL;
-
-	// 		$custom_product_info = $this->Model_read->get_product_custom_wid($custom_id)->row_array();
-	// 		$product_info = $this->Model_read->get_product_wid($custom_product_info["product_id"]);
-	// 		$order_info = $this->Model_read->get_order_custom_wid($order_id)->row_array();
-	// 		$order_item_info = $this->Model_read->get_order_items_worder_id($order_id)->row_array();
-	// 		if ($order_info["state"] > 5 && $state < 6) {
-	// 			$error = "Cancelled Orders can't be restored";
-	// 		} elseif ($order_info["state"] > 2 && $state < 3) {
-	// 			$error = "Order State can't be reverted";
-	// 		} elseif ($order_item_info["qty"] == NULL && $order_item_info["price"] == NULL && $state > 1) {
-	// 			$error = "Order qty and price need to be set first (by updating state to WAITING FOR PAYMENT)";
-	// 		} else {
-	// 			if ($state == 1) {
-	// 				$price = $this->input->post("inp_price_pw");
-	// 				$qty = $this->input->post("inp_qty_pw");
-
-	// 				if ($price == NULL || $qty == NULL) {
-	// 					$error = "One or more inputs are empty.";
-	// 				} else {
-	// 					$data = array(
-	// 						"price" => $price,
-	// 						"qty" => $qty
-	// 					);
-	// 					if (!$this->Model_update->update_order_item($order_id, $data)) {
-	// 						$error = "Order Item Error";
-	// 					}
-	// 				}
-	// 			} elseif ($state == 3) {
-	// 				if ($custom_product_info["product_id"] == NULL) {
-	// 					$name = $this->input->post("inp_name");
-	// 					$description = $this->input->post("inp_description");
-	// 					$type_id = $this->input->post("inp_type_id");
-	// 					$price = $this->input->post("inp_price_ps");
-	// 					$qty = $order_item_info["qty"];
-
-	// 					if ($name == NULL || $type_id == NULL || $description == NULL || $price == NULL || $qty == NULL) {
-	// 						$error = "One or more inputs are empty.";
-	// 					} else {
-	// 						$img = NULL;
-
-	// 						$product_folder = "product_". (intval($this->db->count_all("products")) + 1);
-
-	// 						$config["upload_path"] = "./uploads/". $product_folder;
-	// 						$config["allowed_types"] = "gif|jpg|jpeg|png";
-	// 						$config["max_size"] = 5000;
-	// 						$config["encrypt_name"] = TRUE;
-
-	// 						$this->load->library("upload", $config);
-	// 						if (!is_dir("uploads/". $product_folder)) {
-	// 							mkdir("./uploads/". $product_folder, 0777, TRUE);
-	// 						}
-
-	// 						if (isset($_FILES["inp_img"])) {
-	// 							if (!$this->upload->do_upload("inp_img")) {
-	// 								$this->session->set_flashdata("alert", array("warning", $this->upload->display_errors()));
-	// 							} else {
-	// 								$img = $this->upload->data("file_name");
-	// 							}
-	// 						}
-
-	// 						$data = array(
-	// 							"name" => $name,
-	// 							"img" => $img,
-	// 							"type_id" => $type_id,
-	// 							"description" => $description,
-	// 							"price" => $price,
-	// 							"qty" => $qty,
-	// 							"type" => "NORMAL",
-	// 							"date_added" => date("Y-m-d H:i:s"),
-	// 							"visibility" => "0",
-	// 							"status" => "1"
-	// 						);
-	// 						if (!$this->Model_create->create_product($data)) {
-	// 							$error = "Product Error";
-	// 						}
-	// 						$product_id = $this->db->insert_id();
-	// 						$data_custom = array(
-	// 							"product_id" => $product_id
-	// 						);
-	// 						if (!$this->Model_update->update_product_custom($custom_id, $data_custom)) {
-	// 							$error = "Product Custom Error";
-	// 						}
-	// 					}
-	// 				}
-	// 			} elseif ($state == 6 && $order_info["state"] > 2 && $custom_product_info["product_id"] != NULL) {
-	// 				$data = array(
-	// 					"qty" => $order_item_info["qty"]
-	// 				);
-	// 				if (!$this->Model_update->update_product($custom_product_info["product_id"], $data)) {
-	// 					$error = "Order Cancel Error";
-	// 				}
-	// 			}
-	// 		}
-	// 		if ($error == NULL) {
-	// 			$data_order = array(
-	// 				"state" => $state
-	// 			);
-	// 			if ($this->Model_update->update_order($order_id, $data_order)) {
-	// 				$this->session->set_flashdata("alert", array("success", "State is successfully updated."));
-	// 			} else {
-	// 				$this->session->set_flashdata("alert", array("danger", "Something went wrong, please try again."));
-	// 			}
-	// 		} else {
-	// 			$this->session->set_flashdata("alert", array("warning", "[". $error ."]"));
-	// 		}
-			
-	// 	}
-	// 	redirect("admin/orders_custom". (isset($order_id) ? "_view?id=". $order_id : ""));
-	// }
 	// = = = ORDERS BOTH
 	public function edit_order_payment() {
 		$order_id = $this->input->post("inp_id");
@@ -585,17 +352,17 @@
 		$name_extension = $this->input->post("inp_name_extension");
 		$gender = $this->input->post("inp_gender");
 
-		$zip_code = $this->input->post("inp_zip_code");
-		$country = $this->input->post("inp_country");
-		$province = $this->input->post("inp_province");
-		$city = $this->input->post("inp_city");
-		$street = $this->input->post("inp_street");
-		$address = $this->input->post("inp_address");
+		// $zip_code = $this->input->post("inp_zip_code");
+		// $country = $this->input->post("inp_country");
+		// $province = $this->input->post("inp_province");
+		// $city = $this->input->post("inp_city");
+		// $street = $this->input->post("inp_street");
+		// $address = $this->input->post("inp_address");
 
 		$contact_num = $this->input->post("inp_contact_num");
 
 
-		if ($user_id == NULL || $name_last == NULL || $name_first == NULL || $gender == NULL || $contact_num == NULL || $zip_code == NULL || $country == NULL || $province == NULL || $city == NULL || $street == NULL) {
+		if ($user_id == NULL || $name_last == NULL || $name_first == NULL || $gender == NULL || $contact_num == NULL) {
 			$this->session->set_flashdata("alert", array("warning", "One or more inputs are empty."));
 		} else {
 			$user_info = $this->Model_read->get_user_acc_wid($user_id)->row_array();
@@ -611,12 +378,12 @@
 					"name_extension" => $name_extension,
 					"gender" => $gender,
 
-					"zip_code" => $zip_code,
-					"country" => $country,
-					"province" => $province,
-					"city" => $city,
-					"street" => $street,
-					"address" => $address,
+					// "zip_code" => $zip_code,
+					// "country" => $country,
+					// "province" => $province,
+					// "city" => $city,
+					// "street" => $street,
+					// "address" => $address,
 					
 					"contact_num" => $contact_num
 				);

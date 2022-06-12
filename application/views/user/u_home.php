@@ -71,7 +71,7 @@ $template_header;
 					<div class="card shadow" style="border-radius: 15px;">
 						<div class="card-body">
 							<div class="row">
-								<div class="col-12 mx-5 mt-3">
+								<div class="col-12 px-5 pt-3">
 									<h3 class="fw-bold">Featured</h3>
 									<p>Discover your new favorites here!</p>
 								</div>
@@ -87,7 +87,7 @@ $template_header;
 												<div class="carousel-item <?=($key == 0 ? 'active' : '')?>">
 													<div class="row justify-content-center">
 											<?php endif; ?>
-												<div class="col mb-3">
+												<div class="col mb-3 btn_link" role="button" data-href="<?=base_url('product?id='.$row['product_id'])?>">
 													<div class="card shadow" style="border-radius: 15px;">
 														<img class="img-fluid w-100" style="height: 200px; object-fit: cover; border-radius: 15px 15px 0 0;" src="<?=base_url('uploads/products/product_'.$row['product_id'].'/'.$row['img'])?>" class="card-img-top" alt="<?=ucwords($row["name"])?>">
 														<div class="card-body">
@@ -127,7 +127,7 @@ $template_header;
 												<div class="carousel-item <?=($key == 0 ? 'active' : '')?>">
 													<div class="row justify-content-center">
 											<?php endif; ?>
-												<div class="col mb-3">
+												<div class="col mb-3 btn_link" role="button" data-href="<?=base_url('product?id='.$row['product_id'])?>">
 													<div class="card shadow" style="border-radius: 15px;">
 														<img class="img-fluid w-100" style="height: 200px; object-fit: cover; border-radius: 15px 15px 0 0;" src="<?=base_url('uploads/products/product_'.$row['product_id'].'/'.$row['img'])?>" class="card-img-top" alt="<?=ucwords($row["name"])?>">
 														<div class="card-body">
@@ -167,7 +167,7 @@ $template_header;
 												<div class="carousel-item <?=($key == 0 ? 'active' : '')?>">
 													<div class="row justify-content-center">
 											<?php endif; ?>
-												<div class="col mb-3">
+												<div class="col mb-3 btn_link" role="button" data-href="<?=base_url('product?id='.$row['product_id'])?>">
 													<div class="card shadow" style="border-radius: 15px;">
 														<img class="img-fluid w-100" style="height: 200px; object-fit: cover; border-radius: 15px 15px 0 0;" src="<?=base_url('uploads/products/product_'.$row['product_id'].'/'.$row['img'])?>" class="card-img-top" alt="<?=ucwords($row["name"])?>">
 														<div class="card-body">

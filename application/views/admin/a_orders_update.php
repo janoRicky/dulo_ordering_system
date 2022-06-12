@@ -38,7 +38,11 @@ $template_header;
 									</div>
 									<div class="col-12 col-md-6 text-start pb-3">
 										<label for="inp_description">Description:</label>
-										<textarea class="form-control" name="inp_description" placeholder="*Description" required=""><?=$row_info['description']?></textarea>
+										<textarea class="form-control" name="inp_description" placeholder="Description"><?=$row_info['description']?></textarea>
+									</div>
+									<div class="col-12 col-md-3 text-start pb-3">
+										<label for="inp_description">Pick-Up Time:</label>
+										<input type="datetime-local" class="form-control" name="inp_datetime_pickup" value="<?=date('Y-m-d\TH:i', strtotime($row_info['date_time']))?>" required="">
 									</div>
 									<div class="col-12 col-md-3 text-start pb-3">
 										<label for="inp_date">Date:</label>
@@ -47,22 +51,6 @@ $template_header;
 									<div class="col-12 col-md-3 text-start pb-3">
 										<label for="inp_time">Time:</label>
 										<input type="time" class="form-control" name="inp_time" autocomplete="off" value="<?=date('H:i', strtotime($row_info['date_time']))?>" required="">
-									</div>
-									<div class="col-12 col-md-6 text-start pb-3">
-										<label for="inp_province">Province:</label>
-										<input type="text" class="form-control" id="inp_province" name="inp_province" placeholder="*Province" value="<?=$row_info['province']?>" autocomplete="off" required="">
-									</div>
-									<div class="col-12 col-md-6 text-start pb-3">
-										<label for="inp_city">City:</label>
-										<input type="text" class="form-control" id="inp_city" name="inp_city" placeholder="*City" value="<?=$row_info['city']?>" autocomplete="off" required="">
-									</div>
-									<div class="col-12 col-md-6 text-start pb-3">
-										<label for="inp_street">Street/Road:</label>
-										<input type="text" class="form-control" id="inp_street" name="inp_street" placeholder="*Street/Road" value="<?=$row_info['street']?>" autocomplete="off" required="">
-									</div>
-									<div class="col-12 col-md-6 text-start pb-3">
-										<label for="inp_address">House Number/Floor/Bldg./etc.:</label>
-										<input type="text" class="form-control" id="inp_address" name="inp_address" placeholder="House Number/Floor/Bldg./etc." value="<?=$row_info['address']?>" autocomplete="off">
 									</div>
 									<div class="form-group">
 										<label for="inp_time">Ordered Items:</label>
@@ -87,7 +75,7 @@ $template_header;
 															<?=$product["name"]?>
 														</td>
 														<td>
-															<input class="item_qty" type="number" name="item_<?=$key + 1?>_qty" min="1" value="<?=$row["qty"]?>" max="<?=$product["qty"] + $row["qty"]?>">
+															<input class="item_qty" type="number" name="item_<?=$key + 1?>_qty" min="1" value="<?=$row["qty"]?>">
 														</td>
 														<td class="item_price">
 															<input type="hidden" name="item_<?=$key + 1?>_price" value="<?=$row["price"]?>">
@@ -118,7 +106,6 @@ $template_header;
 													<th>Image</th>
 													<th>Type</th>
 													<th>Price</th>
-													<th>Qty. (Stock)</th>
 													<th>Action</th>
 												</tr>
 											</thead>
@@ -148,9 +135,6 @@ $template_header;
 														</td>
 														<td class="price">
 															<?=$row["price"]?>
-														</td>
-														<td class="qty">
-															<?=$row["qty"]?>
 														</td>
 														<td>
 															<button class="btn btn-sm btn-primary btn_add_to_items" type="button" data-id="<?=$row['product_id']?>">Add</button>
@@ -185,42 +169,39 @@ $template_header;
 				var ctr = parseInt($("#items_no").val()) + 1;
 				var $product = $("#product_" + p_id);
 
-				if (parseInt($product.children(".qty").html()) > 0) {
-					var $description = $("<td>").append($("<input>").attr({
-						type: "hidden",
-						name: "item_" + ctr + "_id",
-						value: $.trim(p_id)
-					})).append($product.children(".name").html());
-					var $qty = $("<td>").append($("<input>").attr({
-						class: "item_qty",
-						type: "number",
-						name: "item_" + ctr + "_qty",
-						min: "1",
-						value: "1",
-						max: $.trim($product.children(".qty").html())
+				var $description = $("<td>").append($("<input>").attr({
+					type: "hidden",
+					name: "item_" + ctr + "_id",
+					value: $.trim(p_id)
+				})).append($product.children(".name").html());
+				var $qty = $("<td>").append($("<input>").attr({
+					class: "item_qty",
+					type: "number",
+					name: "item_" + ctr + "_qty",
+					min: "1",
+					value: "1"
+				}));
+				var $price = $("<td>").append($("<input>").attr({
+					type: "hidden",
+					name: "item_" + ctr + "_price",
+					value: $.trim($product.children(".price").html())
+				})).append($("<span>")).attr("class", "item_price");
+				var $action = $("<td>").append($("<button>").attr({
+					type: "button",
+					class: "btn btn-sm btn-primary btn_remove_item"
+				}).html("Remove"));
+
+				$("#total_info").before($("<tr>")
+					.append($description)
+					.append($qty)
+					.append($price)
+					.append($action).attr({
+						id: "item_" + ctr,
+						class: "item_product_" + p_id + " order_row"
 					}));
-					var $price = $("<td>").append($("<input>").attr({
-						type: "hidden",
-						name: "item_" + ctr + "_price",
-						value: $.trim($product.children(".price").html())
-					})).append($("<span>")).attr("class", "item_price");
-					var $action = $("<td>").append($("<button>").attr({
-						type: "button",
-						class: "btn btn-sm btn-primary btn_remove_item"
-					}).html("Remove"));
 
-					$("#total_info").before($("<tr>")
-						.append($description)
-						.append($qty)
-						.append($price)
-						.append($action).attr({
-							id: "item_" + ctr,
-							class: "item_product_" + p_id + " order_row"
-						}));
-
-					$("#items_no").val(ctr);
-					$(".item_product_" + p_id).find(".item_qty").trigger("change");
-				}
+				$("#items_no").val(ctr);
+				$(".item_product_" + p_id).find(".item_qty").trigger("change");
 			} else {
 				var item_qty = $item_product.find(".item_qty");
 				if (item_qty.val() < parseInt(item_qty.attr("max"))) {

@@ -465,12 +465,17 @@
 
 		$data["tbl_custom"] = $this->Model_read->get_orders_custom_w_date("ALL", date("Y-m"));
 		$data["tbl_regular"] = $this->Model_read->get_orders_w_date("ALL", date("Y-m"));
+		$data["tbl_pickup"] = $this->Model_read->get_orders_pickup_w_date("ALL", date("Y-m"));
 
 
 		$data["custom_count_0"] = $this->Model_read->get_orders_custom("0")->num_rows();
 		$data["regular_count_0"] = $this->Model_read->get_orders("0")->num_rows();
 		$data["custom_count_1"] = $this->Model_read->get_orders_custom("1")->num_rows();
 		$data["regular_count_1"] = $this->Model_read->get_orders("1")->num_rows();
+
+		$data["products_count"] = $this->Model_read->get_products()->num_rows();
+		$data["types_count"] = $this->Model_read->get_types()->num_rows();
+		$data["users_count"] = $this->Model_read->get_user_accounts()->num_rows();
 
 		$this->load->view("admin/a_dashboard", $data);
 	}

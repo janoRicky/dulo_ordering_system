@@ -32,7 +32,7 @@ $template_header;
 						</div>
 						<div class="row col-12 col-md-9 mx-auto view_container">
 							<div class="col-12">
-								<div class="row mt-2">
+								<div class="row mt-2 justify-content-center">
 									<div class="col-12 col-md-6 row border-0">
 										<?php
 										$user_info = $this->Model_read->get_user_acc_wid($row_info["user_id"])->row_array();
@@ -67,18 +67,18 @@ $template_header;
 									</div>
 									<div class="col-12 col-md-6 row border-0">
 										<div class="col-12 col-md-4">
-											<label>Date / Time:</label>
+											<label>Pick-Up Time:</label>
 										</div>
 										<div class="col-12 col-md-8">
-											<?=date("Y-m-d / h:i:s A", strtotime($row_info["date_time"]))?>
+											<?=date("Y-m-d / h:i:s A", strtotime($row_info["datetime_pickup"]))?>
 										</div>
 									</div>
 									<div class="col-12 col-md-6 row border-0">
 										<div class="col-12 col-md-4">
-											<label>Full Address:</label>
+											<label>Date / Time:</label>
 										</div>
 										<div class="col-12 col-md-8">
-											<?=$row_info["province"] ." / ". $row_info["city"] ." / ". $row_info["street"] ." / ". $row_info["address"]?>
+											<?=date("Y-m-d / h:i:s A", strtotime($row_info["date_time"]))?>
 										</div>
 									</div>
 
@@ -88,6 +88,7 @@ $template_header;
 											<thead>
 												<tr>
 													<th>Item</th>
+													<th>Adtl Note</th>
 													<th>Qty.</th>
 													<th>Unit Price</th>
 													<th>Total Price</th>
@@ -108,6 +109,11 @@ $template_header;
 																	<i class="fa fa-eye fa-lg text-primary p-1" aria-hidden="true"></i> <?=$this->Model_read->get_product_wid($row["product_id"])->row_array()["name"]?>
 																</a>
 															</td>
+															<td>
+																<div class="text-wrap w-100">
+																	<?=($row["adtl_note"] ? $row["adtl_note"] : "---")?>
+																</div>
+															</td>
 															<td><?=$row["qty"]?></td>
 															<?php $total_qty += $row["qty"]; ?>
 															<td>
@@ -127,7 +133,7 @@ $template_header;
 												<?php endif; ?>
 											</tbody>
 											<tr>
-												<td class="fw-bold">Total</td>
+												<td class="fw-bold" colspan="2">Total</td>
 												<td id="total_qty">
 													<?=$total_qty?>
 												</td>

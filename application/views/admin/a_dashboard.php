@@ -18,43 +18,81 @@ $template_header;
 							</div>
 						</div>
 						<div class="row col-12 col-md-9 mx-auto">
-							<div class="col-12 col-md-7 mt-2">
+							<div class="col-12 col-md-8 mt-2">
 								<div class="row">
 									<div class="col-12">
 										<h5 class="fw-bold">
 											<i class="fa fa-calendar" aria-hidden="true"></i> Total New Orders This Month (<?=date("M")?>)
 										</h5>
 									</div>
-									<div class="col-12 col-md-10 col-lg-7 mx-auto">
+									<div class="col-12 mx-auto">
 										<canvas id="lineChart" height="200"></canvas>
 									</div>
 								</div>
 							</div>
-							<div class="col-12 col-md-3 mt-5">
-								<div class="card">
-									<a href="orders">
-										<h5 class="card-header fw-bold">
-											<i class="fa fa-list fa-lg" aria-hidden="true"></i> Current Orders
-										</h5>
-									</a>
-									<div class="card-body">
-										<div class="row align-items-center">
-											<div class="col-12 my-2">
-												<a href="orders?state=0">
-													<div class="card text-center bg-info text-dark py-3 px-2">
-														<h6 class="my-auto fw-bold">PENDING (<?=$regular_count_0?>)</h6>
-													</div>
-												</a>
-											</div>
-											<div class="col-12 my-2">
-												<a href="orders?state=1">
-													<div class="card text-center bg-warning text-dark py-3 px-2">
-														<h6 class="my-auto fw-bold">WAITING FOR PAYMENT (<?=$regular_count_1?>)</h6>
-													</div>
-												</a>
+							<div class="col-12 col-md-4">
+								<div class="col-12 mt-5">
+									<div class="card">
+										<a href="orders">
+											<h5 class="card-header fw-bold py-3">
+												<i class="fa fa-list fa-lg" aria-hidden="true"></i> Current Orders
+											</h5>
+										</a>
+										<div class="card-body">
+											<div class="row align-items-center">
+												<div class="col-12 my-2">
+													<a href="orders?state=0">
+														<div class="card text-center bg-secondary text-light py-3 px-2">
+															<h6 class="my-auto fw-bold">PENDING (<?=$regular_count_0?>)</h6>
+														</div>
+													</a>
+												</div>
+												<div class="col-12 my-2">
+													<a href="orders?state=1">
+														<div class="card text-center bg-success text-light py-3 px-2">
+															<h6 class="my-auto fw-bold">ACCEPTED (<?=$regular_count_1?>)</h6>
+														</div>
+													</a>
+												</div>
 											</div>
 										</div>
 									</div>
+								</div>
+								<div class="col-12 mt-4">
+									<a href="products">
+										<div class="card bg-warning text-light py-3">
+											<div>
+												<i class="fa fa-shopping-bag fa-3x" style="position: absolute; left: 1em; color: rgba(255,255,255, 0.4);"></i>
+											</div>
+											<span class="card-title fw-bold" style="font-size: 1.5em; z-index: 10; color: #fff;">
+												Products (<?=$products_count?>)
+											</span>
+										</div>
+									</a>
+								</div>
+								<div class="col-12 mt-4">
+									<a href="products">
+										<div class="card bg-info text-light py-3">
+											<div>
+												<i class="fa fa-tags fa-3x" style="position: absolute; left: 1em; color: rgba(255,255,255, 0.4);"></i>
+											</div>
+											<span class="card-title fw-bold" style="font-size: 1.5em; z-index: 10; color: #fff;">
+												Types (<?=$types_count?>)
+											</span>
+										</div>
+									</a>
+								</div>
+								<div class="col-12 mt-4">
+									<a href="products">
+										<div class="card bg-primary text-light py-3">
+											<div>
+												<i class="fa fa-users fa-3x" style="position: absolute; left: 1em; color: rgba(255,255,255, 0.4);"></i>
+											</div>
+											<span class="card-title fw-bold" style="font-size: 1.5em; z-index: 10; color: #fff;">
+												Users (<?=$users_count?>)
+											</span>
+										</div>
+									</a>
 								</div>
 							</div>
 						</div>
@@ -71,40 +109,40 @@ $template_header;
 
 		<?php
 		$arr_regular = array();
-		foreach ($tbl_regular->result_array() as $row) {
+		foreach ($tbl_pickup->result_array() as $row) {
 			$arr_regular[] = date("d", strtotime($row["date_time"]));
 		}
 		$days_regular = array_count_values($arr_regular);
 
-		$arr_custom = array();
-		foreach ($tbl_custom->result_array() as $row) {
-			$arr_custom[] = date("d", strtotime($row["date_time"]));
-		}
-		$days_custom = array_count_values($arr_custom);
+		// $arr_custom = array();
+		// foreach ($tbl_custom->result_array() as $row) {
+		// 	$arr_custom[] = date("d", strtotime($row["date_time"]));
+		// }
+		// $days_custom = array_count_values($arr_custom);
 
 		$days_t = date("t");
 		$days = array();
 		$data_regular = array();
-		$data_custom = array();
+		// $data_custom = array();
 
 		$day_ctr_regular = 0;
-		$day_ctr_custom = 0;
+		// $day_ctr_custom = 0;
 		for ($i = 1; $i < $days_t; $i++) {
 
 			if (isset($days_regular[$i])) {
 				$day_ctr_regular += $days_regular[$i];
 			}
-			if (isset($days_custom[$i])) {
-				$day_ctr_custom += $days_custom[$i];
-			}
+			// if (isset($days_custom[$i])) {
+			// 	$day_ctr_custom += $days_custom[$i];
+			// }
 			if (($i - 1) % 4 == 0) {
 				array_push($days, $i);
 				array_push($data_regular, $day_ctr_regular);
-				array_push($data_custom, $day_ctr_custom);
+				// array_push($data_custom, $day_ctr_custom);
 				if ($i + 4 > $days_t && $i != $days_t) {
 					array_push($days, $days_t);
 					array_push($data_regular, $day_ctr_regular);
-					array_push($data_custom, $day_ctr_custom);
+					// array_push($data_custom, $day_ctr_custom);
 				}
 				$day_ctr_regular = 0;
 			}
@@ -112,7 +150,7 @@ $template_header;
 
 		echo "var days_label = ". json_encode($days) .";";
 		echo "var data_regular = ". json_encode($data_regular) .";";
-		echo "var data_custom = ". json_encode($data_custom) .";";
+		// echo "var data_custom = ". json_encode($data_custom) .";";
 		?>
 
 		var ctxL = document.getElementById("lineChart").getContext("2d");
@@ -120,24 +158,26 @@ $template_header;
 			type: "line",
 			data: {
 				labels: days_label,
-				datasets: [{
-					label: "Custom Orders",
-					data: data_custom,
-					backgroundColor: [ "rgba(105, 0, 132, .2)" ],
-					borderColor: [ "rgba(200, 99, 132, .7)" ],
-					borderWidth: 2
-				},
-				{
-					label: "Regular Orders",
-					data: data_regular,
-					backgroundColor: [
-					"rgba(0, 137, 132, .2)",
-					],
-					borderColor: [
-					"rgba(0, 10, 130, .7)",
-					],
-					borderWidth: 2
-				}]
+				datasets: [
+					// {
+					// 	label: "Custom Orders",
+					// 	data: data_custom,
+					// 	backgroundColor: [ "rgba(105, 0, 132, .2)" ],
+					// 	borderColor: [ "rgba(200, 99, 132, .7)" ],
+					// 	borderWidth: 2
+					// },
+					{
+						label: "Orders",
+						data: data_regular,
+						backgroundColor: [
+						"rgba(0, 137, 132, .2)",
+						],
+						borderColor: [
+						"rgba(0, 10, 130, .7)",
+						],
+						borderWidth: 2
+					}
+				]
 			},
 			options: {
 				responsive: true

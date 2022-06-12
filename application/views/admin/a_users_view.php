@@ -23,17 +23,8 @@ $template_header;
 							</div>
 						</div>
 						<div class="row col-12 col-md-9 mx-auto view_container">
-							<?php if ($row_info["email"] != NULL): ?>
-								<div class="col-12 col-sm-6 text-end">
-									<a href="<?=base_url();?>admin/messaging_view?id=<?=$row_info['user_id']?>">
-										<button class="btn btn-primary fw-bold">
-											<i class="fa fa-comments-o p-1" aria-hidden="true"></i> Messaging
-										</button>
-									</a>
-								</div>
-							<?php endif; ?>
 							<div class="col-12">
-								<div class="row mt-2">
+								<div class="row mt-2 justify-content-center">
 									<?php if ($row_info["email"] != NULL): ?>
 										<div class="col-12 col-md-6 row border-0">
 											<div class="col-12 col-md-4">
@@ -66,14 +57,6 @@ $template_header;
 										</div>
 										<div class="col-12 col-md-8">
 											<?=$row_info["contact_num"]?>
-										</div>
-									</div>
-									<div class="col-12 col-md-6 row border-0">
-										<div class="col-12 col-md-4">
-											<label>Full Address:</label>
-										</div>
-										<div class="col-12 col-md-8">
-											<?=$row_info["province"] ." / ". $row_info["city"] ." / ". $row_info["street"] ." / ". $row_info["address"]?>
 										</div>
 									</div>
 									<div class="col-12">

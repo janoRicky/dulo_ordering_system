@@ -30,7 +30,6 @@ $template_header;
 											<th>Gender</th>
 											<th>Email</th>
 											<th>Contact #</th>
-											<th>Address</th>
 											<th>Action</th>
 										</tr>
 									</thead>
@@ -55,9 +54,6 @@ $template_header;
 												</td>
 												<td>
 													<?=$row["contact_num"]?>
-												</td>
-												<td>
-													<?=$row["province"] ." / ". $row["city"] ." / ". $row["street"] ." / ". $row["address"]?>
 												</td>
 												<td>
 													<a class="action_button" href="<?=base_url();?>admin/users_view?id=<?=$row['user_id']?>">
@@ -127,22 +123,6 @@ $template_header;
 								<option value="female">Female</option>
 								<option value="other">Other</option>
 							</select>
-						</div>
-						<div class="form-group">
-							<label for="inp_province">Province:</label>
-							<input type="text" class="form-control" name="inp_province" placeholder="*Province" autocomplete="off" required="">
-						</div>
-						<div class="form-group">
-							<label for="inp_city">City:</label>
-							<input type="text" class="form-control" name="inp_city" placeholder="*City" autocomplete="off" required="">
-						</div>
-						<div class="form-group">
-							<label for="inp_street">Street/Road:</label>
-							<input type="text" class="form-control" name="inp_street" placeholder="*Street/Road" autocomplete="off" required="">
-						</div>
-						<div class="form-group">
-							<label for="inp_address">House Number/Floor/Bldg./etc.:</label>
-							<input type="text" class="form-control" name="inp_address" placeholder="House Number/Floor/Bldg./etc." autocomplete="off">
 						</div>
 						<div class="form-group">
 							<label for="inp_contact_num">Contact Number:</label>
