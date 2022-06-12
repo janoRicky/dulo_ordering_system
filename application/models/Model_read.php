@@ -128,6 +128,10 @@ class Model_read extends CI_Model {
 	}
 
 
+	public function get_orders_all() {
+		$query = "SELECT * FROM orders";
+		return $this->db->query($query);
+	}
 
 	public function get_order_unshared_all_wid($id, $user_id) {
 		return $this->db->get_where("orders", array("order_id" => $id, "user_id" => $user_id, "shared" => 0));
