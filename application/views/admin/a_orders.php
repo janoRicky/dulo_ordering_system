@@ -208,26 +208,28 @@ $template_header;
 						<div class="form-group">
 							<label>Ordered Items:</label>
 							<input id="items_no" type="hidden" name="items_no" value="0" required="">
-							<table id="table_items" class="table table-striped table-hover table-responsive-md table-bordered">
-								<thead>
-									<tr>
-										<th>Item</th>
-										<th>Qty.</th>
-										<th>Price</th>
-										<th>Action</th>
-									</tr>
-								</thead>
-								<tbody>
-									<tr id="total_info">
-										<td>Total</td>
-										<td id="total_qty">0</td>
-										<td id="total_price">0.00</td>
-										<td>
-											<button id="btn_remove_all" type="button" class="btn btn-sm btn-primary">Remove All</button>
-										</td>
-									</tr>
-								</tbody>
-							</table>
+							<div class="table-responsive">
+								<table id="table_items" class="table table-striped table-hover table-bordered">
+									<thead>
+										<tr>
+											<th>Item</th>
+											<th>Qty.</th>
+											<th>Price</th>
+											<th>Action</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr id="total_info">
+											<td>Total</td>
+											<td id="total_qty">0</td>
+											<td id="total_price">0.00</td>
+											<td>
+												<button id="btn_remove_all" type="button" class="btn btn-sm btn-primary">Remove All</button>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
 						</div>
 						<div class="form-group border px-3 py-2" style="background-color: #f1f1f1">
 							<label>Products:</label>
