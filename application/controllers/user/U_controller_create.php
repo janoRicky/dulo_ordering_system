@@ -16,7 +16,8 @@
 			"smtp_host" => "ssl://mail.bytemerchant.info",
 			"smtp_port" => 465,
 			"smtp_user" => $this->Model_read->get_config_wkey("smtp_user"), 
-			"smtp_pass" => $this->Model_read->get_config_wkey("smtp_pass")
+			"smtp_pass" => $this->Model_read->get_config_wkey("smtp_pass"),
+			"mailtype" => "html"
 		));
  	}
 
@@ -39,18 +40,33 @@
 
 		$password = $this->input->post("inp_password");
 
-		if ($name_last == NULL || $name_first == NULL || $gender == NULL || $email == NULL || $contact_num == NULL
+		if ($name_last == NULL || $name_first == NULL || $gender == NULL || $email == NULL
 		 // || $province == NULL || $city == NULL || $street == NULL
 		  || $password == NULL) {
 			$this->session->set_flashdata("notice", array("warning", "One or more inputs are empty."));
 		} else {
-			if ($this->Model_read->get_user_acc_wemail($email)->num_rows() > 0) {
-				$this->session->set_flashdata("notice", array("warning", "Email is aready registered."));
+
+			$check_email = $this->Model_read->get_user_acc_wemail($email);
+			
+			if ($check_email->num_rows() > 0) {
+				$user_info = $check_email->row_array();
+				if (!empty($user_info['email_verification_expiry']) 
+					&& $user_info['email_verification_expiry'] > time() // link not expired
+					&& $user_info['email_verified'] == 0) { // not verified
+					$this->session->set_flashdata("notice", array("warning", "Verification link has already been sent."));
+				} else {
+					$this->session->set_flashdata("notice", array("warning", "Email is aready registered."));
+				}
 			} else {
 
 				do {
 					$uid = uniqid('', true);
 				} while ($this->Model_read->get_user_acc_wuid($uid)->num_rows() > 0);
+
+
+				// FOR EMAIL VERIFICATION
+				$verification_code = bin2hex(random_bytes(16));
+				$verification_expiry = time() + 86400; // current time + 24hrs
 
 
 				$data = array(
@@ -73,9 +89,23 @@
 					// "address" => $address,
 
 					"password" => password_hash($password, PASSWORD_BCRYPT),
-					"status" => "1"
+					"status" => "1",
+
+					"email_verification_code" => $verification_code,
+					"email_verification_expiry" => $verification_expiry,
 				);
 				if ($this->Model_create->create_user_account($data)) {
+
+					$this->email->set_newline("\r\n");
+					$this->email->clear();
+					$this->email->from("dulo.ordering@gmail.com");
+					$this->email->to($email);
+					$this->email->subject("Email Verification - Dulo Ordering System");
+					$this->email->message(
+						"Click <a href=". base_url("verify_email?em=". $email ."&vc=". $verification_code) .">here</a> to verify your email."
+					);
+					$this->email->send();
+
 					$this->session->set_flashdata("notice", array("success", "Registration Successful!"));
 				} else {
 					$this->session->set_flashdata("notice", array("danger", "Something went wrong, please try again."));
@@ -362,7 +392,7 @@
 					// send email
 					$this->email->set_newline("\r\n");
 					$this->email->clear();
-					$this->email->from("dulo.ordering@gmail.com");
+					$this->email->from($this->Model_read->get_config_wkey("mail_sender"));
 					$this->email->to($this->Model_read->get_config_wkey("alerts_email_send_to"));
 					$this->email->subject("Payment for Order has been made!");
 					$this->email->message(

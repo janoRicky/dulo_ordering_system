@@ -210,3 +210,6 @@ $route['login_with_fb'] = 'user/U_controller_facebook/login_with_facebook';
 
 
 
+$route['verify_email'] = 'user/U_controller_update/email_verification';
+
+

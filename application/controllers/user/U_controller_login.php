@@ -19,19 +19,23 @@
 				$this->session->set_flashdata("notice", array("warning", "Account does not exist."));
 			} else {
 				$account_info = $account->row_array();
-				if (password_verify($password, $account_info["password"])) {
-					$data = array(
-						"user_id" => $account_info["user_id"],
-						"user_uid" => $account_info["user_uid"],
-						"user_name" => ucwords($account_info["name_first"] ." ". $account_info["name_last"]),
-						"user_email" => $account_info["email"],
-						"user_in" => TRUE
-					);
-					$this->session->set_userdata($data);
-					$this->session->set_flashdata("notice", array("success", "Welcome ". $data["user_name"] ."!"));
-					redirect($_SERVER['HTTP_REFERER']);
+				if ($account_info['email_verified'] == 0) {
+					$this->session->set_flashdata("notice", array("warning", "Please verify your email first.". $account_info['email_verified']));
 				} else {
-					$this->session->set_flashdata("notice", array("warning", "Password is incorrect."));
+					if (password_verify($password, $account_info["password"])) {
+						$data = array(
+							"user_id" => $account_info["user_id"],
+							"user_uid" => $account_info["user_uid"],
+							"user_name" => ucwords($account_info["name_first"] ." ". $account_info["name_last"]),
+							"user_email" => $account_info["email"],
+							"user_in" => TRUE
+						);
+						$this->session->set_userdata($data);
+						$this->session->set_flashdata("notice", array("success", "Welcome ". $data["user_name"] ."!"));
+						redirect($_SERVER['HTTP_REFERER']);
+					} else {
+						$this->session->set_flashdata("notice", array("warning", "Password is incorrect."));
+					}
 				}
 			}
 		}

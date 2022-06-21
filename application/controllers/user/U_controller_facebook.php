@@ -61,7 +61,9 @@
 					"email" => $email,
 					"fb_id" => $fb_id,
 
-					"status" => "1"
+					"status" => "1",
+
+					"email_verified" => 1 // verify if logged in from facebook
 				);
 				if ($this->Model_create->create_user_account($data)) {
 					$account = $this->Model_read->get_user_acc_wemail($email); // get freshly input details

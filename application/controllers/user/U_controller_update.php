@@ -42,22 +42,18 @@
 	public function user_account_update() {
 		$user_id = ($this->session->has_userdata("user_id") ? $this->session->userdata("user_id") : NULL);
 
-		$email = $this->input->post("inp_email");
 		$password = $this->input->post("inp_password");
 
-		if ($user_id == NULL || $email == NULL) {
+		if ($user_id == NULL || $password == NULL) {
 			$this->session->set_flashdata("notice", array("warning", "One or more inputs are empty."));
 		} else {
-			$acc_info = $this->Model_read->get_user_acc_wid($user_id)->row_array();
-			if ($this->Model_read->get_user_acc_wemail($email)->num_rows() > 0 && $acc_info["email"] != $email) {
-				$this->session->set_flashdata("notice", array("warning", "Email has already been used."));
+			$acc = $this->Model_read->get_user_acc_wid($user_id);
+			if ($acc->num_rows() < 1) {
+				$this->session->set_flashdata("notice", array("warning", "Something went wrong, please try again."));
 			} else {
 				$data = array(
-					"email" => $email
+					"password" => password_hash($password, PASSWORD_BCRYPT)
 				);
-				if ($password != NULL) {
-					$data["password"] = password_hash($password, PASSWORD_BCRYPT);
-				}
 
 				if ($this->Model_update->update_user_account($user_id, $data)) {
 					$this->session->set_flashdata("notice", array("success", "Account info is successfully updated."));
@@ -197,5 +193,42 @@
 			}
 		}
 		redirect($_SERVER['HTTP_REFERER']);
+	}
+
+	
+	
+	// EMAIL CONFIRMATION
+	public function email_verification() {
+		$email = $this->input->get("em");
+		$verification_code = $this->input->get("vc");
+
+		if ($email == NULL || $verification_code == NULL) {
+			$this->session->set_flashdata("notice", array("warning", "Something went wrong, please try again.[0]"));
+		} else {
+			$acc = $this->Model_read->get_user_acc_wemail($email);
+			if ($acc->num_rows() < 1) {
+				$this->session->set_flashdata("notice", array("warning", "Something went wrong, please try again.[1]"));
+			} else {
+				$acc_info = $acc->row_array();
+				if ($acc_info['email_verified'] == 1) {
+					$this->session->set_flashdata("notice", array("warning", "Email already verified."));
+				} elseif ($acc_info['email_verification_code'] != $verification_code) {
+					$this->session->set_flashdata("notice", array("warning", "Something went wrong, please try again.[2]"));
+				} elseif ($acc_info['email_verification_expiry'] < time()) {
+					$this->session->set_flashdata("notice", array("warning", "Link has expired."));
+				} else {
+					$data = array(
+						"email_verified" => 1
+					);
+
+					if ($this->Model_update->update_user_account($acc_info["user_id"], $data)) {
+						$this->session->set_flashdata("notice", array("success", "Email is successfully verified, please proceed to login."));
+					} else {
+						$this->session->set_flashdata("notice", array("danger", "Something went wrong, please try again.[3]"));
+					}
+				}
+			}
+		}
+		redirect("home");
 	}
 }

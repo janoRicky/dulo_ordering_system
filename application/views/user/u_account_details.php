@@ -94,14 +94,6 @@ $template_header;
 														<div class="col-12 text-center">
 															<div class="row mt-2">
 																<div class="col-12 text-start">
-																	<h5 class="fw-bold">Email: </h5>
-																</div>
-																<div class="col-12">
-																	<input class="form-control" type="email" name="inp_email" placeholder="*Email Address" value="<?=$account_details['email']?>" autocomplete="off" required="">
-																</div>
-															</div>
-															<div class="row mt-2">
-																<div class="col-12 text-start">
 																	<h5 class="fw-bold">Password: </h5>
 																</div>
 																<div class="col-12">
