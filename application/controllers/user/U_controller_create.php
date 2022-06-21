@@ -364,9 +364,9 @@
 					$this->email->clear();
 					$this->email->from("dulo.ordering@gmail.com");
 					$this->email->to($this->Model_read->get_config_wkey("alerts_email_send_to"));
-					$this->email->subject("Payment for Custom Order has been made!");
+					$this->email->subject("Payment for Order has been made!");
 					$this->email->message(
-						"Payment for a custom order [custom order #". $order_id ."] has been made by ". $user_info["email"] ."[user_id: ". $user_id ."] at ". $date_time
+						"Payment for a order [order #". $order_id ."] has been made by ". $user_info["email"] ."[user_id: ". $user_id ."] at ". $date_time
 					);
 					$this->email->send();
 
