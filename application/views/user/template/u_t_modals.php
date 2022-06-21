@@ -74,7 +74,7 @@
 									<h6 class="fw-bold">Password: </h6>
 								</div>
 								<div class="col-12">
-									<input class="form-control bg-dark text-light border-dark" type="password" name="inp_password" placeholder="*Password" autocomplete="off" required="">
+									<input class="form-control bg-dark text-light border-dark" type="password" minlength="8" name="inp_password" placeholder="*Password" autocomplete="off" required="">
 								</div>
 							</div>
 							<div class="row mt-2">
@@ -163,7 +163,7 @@
 									<h6 class="fw-bold">Password: </h6>
 								</div>
 								<div class="col-12">
-									<input class="form-control bg-dark text-light border-dark" type="password" name="inp_password" placeholder="*Password" required="">
+									<input class="form-control bg-dark text-light border-dark" type="password" minlength="8" name="inp_password" placeholder="*Password" required="">
 								</div>
 							</div>
 						</div>
@@ -183,6 +183,9 @@
 					</div>
 					<div class="row mt-4 mb-4 text-center">
 						<span>Don't have an account? <a data-bs-target="#modal_sign_up" data-bs-toggle="modal" data-bs-dismiss="modal" style="color: red;" href="#">Sign Up Here.</a></span>
+					</div>
+					<div class="row mt-1 mb-4 text-center">
+						<span>Forgot Password? <a data-bs-target="#modal_forgot_password" data-bs-toggle="modal" data-bs-dismiss="modal" style="color: red;" href="#">Click Here.</a></span>
 					</div>
 				</div>
 			<?=form_close()?>
@@ -240,6 +243,9 @@
 					<div class="row mt-4 mb-4 text-center">
 						<span>Don't have an account? <a data-bs-target="#modal_sign_up" data-bs-toggle="modal" data-bs-dismiss="modal" style="color: red;" href="#">Sign Up Here.</a></span>
 					</div>
+					<div class="row mt-1 mb-4 text-center">
+						<span>Forgot Password? <a data-bs-target="#modal_forgot_password" data-bs-toggle="modal" data-bs-dismiss="modal" style="color: red;" href="#">Click Here.</a></span>
+					</div>
 				</div>
 			<?=form_close()?>
 		</div>
@@ -280,10 +286,102 @@
 						</div>
 					</div>
 					<div class="row mt-4 mb-4 text-center">
-						<span>Don't have an account? <a data-bs-target="#modal_sign_up" data-bs-toggle="modal" data-bs-dismiss="modal" style="color: red;" href="#">Sign Up Here.</a></span>
+						<span><a data-bs-target="#modal_sign_up" data-bs-toggle="modal" data-bs-dismiss="modal" style="color: red;" href="#">Return to Sign Up.</a></span>
 					</div>
 				</div>
 			<?=form_close()?>
 		</div>
 	</div>
 </div>
+<!-- FORGOT PASSWORD MODAL -->
+<div id="modal_forgot_password" class="modal">
+	<div class="modal-dialog modal-md">
+		<div class="modal-content text-light" style="background-color: #000;">
+			<?=form_open(base_url() . "forgot_password", "method='POST'")?>
+				<div class="modal-body">
+					<div class="row justify-content-end pe-3 pt-2">
+						<button type="button" class="btn-close btn-close-white rounded-circle" data-bs-dismiss="modal" aria-label="Close"></button>
+					</div>
+					<div class="row text-center">
+						<div class="col-12 text-light pt-3 text-center">
+							<h2 class="fw-bold">Forgot password?</h2>
+							<p>Enter your email and we'll send you a link to reset your account password.</p>
+						</div>
+					</div>
+					<div class="row mt-5 mb-5 px-5">
+						<div class="col-12 px-3">
+							<div class="row mt-2">
+								<div class="col-12">
+									<h6 class="fw-bold">Email: </h6>
+								</div>
+								<div class="col-12">
+									<input class="form-control bg-dark text-light border-dark" type="email" name="inp_email" placeholder="*Email Address" required="">
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="row mt-4">
+						<div class="col-12 px-3 text-center">
+							<button class="btn btn-light btn-md rounded-pill fw-bold px-5" type="submit">
+								<i class="mdi" aria-hidden="true"></i> Send Email
+							</button>
+						</div>
+					</div>
+					<div class="row mt-4 mb-4 text-center">
+						<span><a data-bs-target="#modal_sign_in" data-bs-toggle="modal" data-bs-dismiss="modal" style="color: red;" href="#">Return to Sign In.</a></span>
+					</div>
+				</div>
+			<?=form_close()?>
+		</div>
+	</div>
+</div>
+<?php if ($this->input->get("em") && $this->input->get("rc")): ?>
+	<!-- RESET PASSWORD MODAL -->
+	<div id="modal_reset_password" class="modal">
+		<div class="modal-dialog modal-md">
+			<div class="modal-content text-light" style="background-color: #000;">
+				<?=form_open(base_url() . "reset_password", "method='POST'")?>
+					<input type="hidden" name="inp_email" value="<?=$this->input->get("em")?>">
+					<input type="hidden" name="inp_verification_code" value="<?=$this->input->get("rc")?>">
+
+					<div class="modal-body">
+						<div class="row justify-content-end pe-3 pt-2">
+							<button type="button" class="btn-close btn-close-white rounded-circle" data-bs-dismiss="modal" aria-label="Close"></button>
+						</div>
+						<div class="row text-center">
+							<div class="col-12 text-light pt-3 text-center">
+								<h2 class="fw-bold">Enter your new account password.</h2>
+							</div>
+						</div>
+						<div class="row mt-5 mb-5 px-5">
+							<div class="col-12 px-3">
+								<div class="row mt-2">
+									<div class="col-12">
+										<h6 class="fw-bold">Password: </h6>
+									</div>
+									<div class="col-12">
+										<input class="form-control bg-dark text-light border-dark" type="password" minlength="8" name="inp_password" placeholder="*Password" required="">
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="row mt-4 mb-4">
+							<div class="col-12 px-3 text-center">
+								<button class="btn btn-light btn-md rounded-pill fw-bold px-5" type="submit">
+									<i class="mdi" aria-hidden="true"></i> Reset Password
+								</button>
+							</div>
+						</div>
+					</div>
+				<?=form_close()?>
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript">
+		$(document).ready(function () {
+			$('#modal_reset_password').modal('show');
+		});
+	</script>
+<?php endif; ?>

@@ -214,3 +214,5 @@ $route['verify_email'] = 'user/U_controller_update/email_verification';
 
 $route['resend_email'] = 'user/U_controller_update/email_resend';
 
+$route['forgot_password'] = 'user/U_controller_update/password_forgot';
+$route['reset_password'] = 'user/U_controller_update/password_reset';

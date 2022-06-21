@@ -44,14 +44,16 @@
 		 // || $province == NULL || $city == NULL || $street == NULL
 		  || $password == NULL) {
 			$this->session->set_flashdata("notice", array("warning", "One or more inputs are empty."));
+		} elseif (strlen($password) < 8) {
+			$this->session->set_flashdata("notice", array("warning", "Password too short."));
 		} else {
 
 			$check_email = $this->Model_read->get_user_acc_wemail($email);
 			
 			if ($check_email->num_rows() > 0) {
 				$user_info = $check_email->row_array();
-				if (!empty($user_info['email_verification_expiry']) 
-					&& $user_info['email_verification_expiry'] > time() // link not expired
+				if (!empty($user_info['email_send_expiry']) 
+					&& $user_info['email_send_expiry'] > time() // link not expired
 					&& $user_info['email_verified'] == 0) { // not verified
 					$this->session->set_flashdata("notice", array("warning", "Verification link has already been sent."));
 				} else {
@@ -91,8 +93,8 @@
 					"password" => password_hash($password, PASSWORD_BCRYPT),
 					"status" => "1",
 
-					"email_verification_code" => $verification_code,
-					"email_verification_expiry" => $verification_expiry,
+					"email_send_code" => $verification_code,
+					"email_send_expiry" => $verification_expiry,
 				);
 				if ($this->Model_create->create_user_account($data)) {
 
@@ -113,7 +115,7 @@
 								<p>Click the button below to verify your email and activate your account.</p>
 								<div style="width: 100%; margin: 3rem 0;">
 									<a href="'. base_url("verify_email?em=". $email ."&vc=". $verification_code) .'" style="border-radius: 1rem; border-radius: 50rem; background-color: #fff; padding: 1rem 2rem; text-decoration: none; color: #000;">
-										<span style="font-weight: bold;">Verify my email.</span>
+										<span style="font-weight: bold;">Verify my email</span>
 									</a>
 								</div>
 								<small>This link will expire in 24 hours</small>

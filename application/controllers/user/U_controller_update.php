@@ -57,6 +57,8 @@
 
 		if ($user_id == NULL || $password == NULL) {
 			$this->session->set_flashdata("notice", array("warning", "One or more inputs are empty."));
+		} elseif (strlen($password) < 8) {
+			$this->session->set_flashdata("notice", array("warning", "Password too short."));
 		} else {
 			$acc = $this->Model_read->get_user_acc_wid($user_id);
 			if ($acc->num_rows() < 1) {
@@ -223,13 +225,16 @@
 				$acc_info = $acc->row_array();
 				if ($acc_info['email_verified'] == 1) {
 					$this->session->set_flashdata("notice", array("warning", "Email already verified."));
-				} elseif ($acc_info['email_verification_code'] != $verification_code) {
+				} elseif ($acc_info['email_send_code'] == NULL) {
+					$this->session->set_flashdata("notice", array("warning", "Link has expired."));
+				} elseif ($acc_info['email_send_code'] != $verification_code) {
 					$this->session->set_flashdata("notice", array("warning", "Something went wrong, please try again.[2]"));
-				} elseif ($acc_info['email_verification_expiry'] < time()) {
+				} elseif ($acc_info['email_send_expiry'] < time()) {
 					$this->session->set_flashdata("notice", array("warning", "Link has expired."));
 				} else {
 					$data = array(
-						"email_verified" => 1
+						"email_verified" => 1,
+						"email_send_code" => NULL // reset code, disable repeating
 					);
 
 					if ($this->Model_update->update_user_account($acc_info["user_id"], $data)) {
@@ -251,17 +256,17 @@
 		} else {
 			$acc = $this->Model_read->get_user_acc_wemail($email);
 			if ($acc->num_rows() < 1) {
-				$this->session->set_flashdata("notice", array("warning", "Something went wrong, please try again.[1]"));
+				$this->session->set_flashdata("notice", array("warning", "Email is not registered."));
 			} else {
 				$acc_info = $acc->row_array();
 				if ($acc_info['email_verified'] == 1) {
 					$this->session->set_flashdata("notice", array("warning", "Email already verified."));
-				} elseif (!empty($acc_info['email_verification_resend_cooldown']) && $acc_info['email_verification_resend_cooldown'] > time()) {
-					$this->session->set_flashdata("notice", array("warning", "Please wait ". date('s', $acc_info['email_verification_resend_cooldown']) ." seconds before trying again."));
+				} elseif (!empty($acc_info['email_send_cooldown']) && $acc_info['email_send_cooldown'] > time()) {
+					$this->session->set_flashdata("notice", array("warning", "Please wait ". date('s', $acc_info['email_send_cooldown']) ." seconds before trying again."));
 				} else {
 					$data = array(
-						"email_verification_expiry" => time() + 86400, // current time + 24hrs
-						"email_verification_resend_cooldown" => time() + 60, // current time + 60 seconds
+						"email_send_expiry" => time() + 86400, // current time + 24hrs
+						"email_send_cooldown" => time() + 60, // current time + 60 seconds
 					);
 
 					if ($this->Model_update->update_user_account($acc_info["user_id"], $data)) {
@@ -281,8 +286,8 @@
 									<h2>WELCOME TO DULO ORDERING SYSTEM!</h2>
 									<p>Click the button below to verify your email and activate your account.</p>
 									<div style="width: 100%; margin: 3rem 0;">
-										<a href="'. base_url("verify_email?em=". $email ."&vc=". $acc_info["email_verification_code"]) .'" style="border-radius: 1rem; border-radius: 50rem; background-color: #fff; padding: 1rem 2rem; text-decoration: none; color: #000;">
-											<span style="font-weight: bold;">Verify my email.</span>
+										<a href="'. base_url("verify_email?em=". $email ."&vc=". $acc_info["email_send_code"]) .'" style="border-radius: 1rem; border-radius: 50rem; background-color: #fff; padding: 1rem 2rem; text-decoration: none; color: #000;">
+											<span style="font-weight: bold;">Verify my email</span>
 										</a>
 									</div>
 									<small>This link will expire in 24 hours</small>
@@ -292,6 +297,104 @@
 						$this->email->send();
 
 						$this->session->set_flashdata("notice", array("success", "Verification link is successfully sent, please check your email."));
+					} else {
+						$this->session->set_flashdata("notice", array("danger", "Something went wrong, please try again.[3]"));
+					}
+				}
+			}
+		}
+		redirect("home");
+	}
+	// PASSWORD FORGOT
+	public function password_forgot() {
+		$email = $this->input->post("inp_email");
+
+		if ($email == NULL) {
+			$this->session->set_flashdata("notice", array("warning", "Something went wrong, please try again.[0]"));
+		} else {
+			$acc = $this->Model_read->get_user_acc_wemail($email);
+			if ($acc->num_rows() < 1) {
+				$this->session->set_flashdata("notice", array("warning", "Email is not yet registered."));
+			} else {
+				$acc_info = $acc->row_array();
+				if ($acc_info['email_verified'] == 0) {
+					$this->session->set_flashdata("notice", array("warning", "Email not yet verified. Please check the bottom of the sign up form to resend an email verification link."));
+				} elseif (!empty($acc_info['email_send_cooldown']) && $acc_info['email_send_cooldown'] > time()) {
+					$this->session->set_flashdata("notice", array("warning", "Please wait ". date('s', $acc_info['email_send_cooldown']) ." seconds before trying again."));
+				} else {
+					$verification_code = bin2hex(random_bytes(16));
+					$data = array(
+						"email_send_code" => $verification_code,
+						"email_send_expiry" => time() + 86400, // current time + 24hrs
+						"email_send_cooldown" => time() + 60, // current time + 60 seconds
+					);
+
+					if ($this->Model_update->update_user_account($acc_info["user_id"], $data)) {
+						$this->email->set_newline("\r\n");
+						$this->email->clear();
+						$this->email->from("dulo.ordering@gmail.com");
+						$this->email->to($email);
+						$this->email->subject("Forgot Password - Dulo Ordering System");
+						$this->email->message(
+							'<div style="width: 100%; background-color: #fff;">
+								<div style="width: auto; background-color: #000; padding: 2rem 1rem 0 2rem;">
+									<div style="width: 80%; max-width: 250px; margin: 0 auto;">
+										<img style="width: 100%;" src="'. base_url("assets/img/dulo-logo.png") .'">
+									</div>
+								</div>
+								<div style="width: auto; background-color: #000; padding: 2rem; text-align: center; color: #fff; padding-bottom: 3rem;">
+									<h2>WELCOME TO DULO ORDERING SYSTEM!</h2>
+									<p>Click the button below to reset your password. This will take you to a form where you can enter your new password.</p>
+									<div style="width: 100%; margin: 3rem 0;">
+										<a href="'. base_url("home?em=". $email ."&rc=". $verification_code) .'" style="border-radius: 1rem; border-radius: 50rem; background-color: #fff; padding: 1rem 2rem; text-decoration: none; color: #000;">
+											<span style="font-weight: bold;">Reset my password</span>
+										</a>
+									</div>
+									<small>This link will expire in 24 hours</small>
+								</div>
+							</div>'
+						);
+						$this->email->send();
+
+						$this->session->set_flashdata("notice", array("success", "Password reset link is successfully sent, please check your email."));
+					} else {
+						$this->session->set_flashdata("notice", array("danger", "Something went wrong, please try again.[3]"));
+					}
+				}
+			}
+		}
+		redirect("home");
+	}
+	// PASSWORD RESET
+	public function password_reset() {
+		$email = $this->input->post("inp_email");
+		$verification_code = $this->input->post("inp_verification_code");
+		$new_password = $this->input->post("inp_password");
+
+		if ($email == NULL || $verification_code == NULL || $new_password == NULL) {
+			$this->session->set_flashdata("notice", array("warning", "Something went wrong, please try again.[0]"));
+		} else {
+			$acc = $this->Model_read->get_user_acc_wemail($email);
+			if ($acc->num_rows() < 1) {
+				$this->session->set_flashdata("notice", array("warning", "Something went wrong, please try again.[1]"));
+			} else {
+				$acc_info = $acc->row_array();
+				if ($acc_info['email_verified'] == 0) {
+					$this->session->set_flashdata("notice", array("warning", "Email not yet verified. Please check the bottom of the sign up form to resend an email verification link."));
+				} elseif ($acc_info['email_send_code'] == NULL) {
+					$this->session->set_flashdata("notice", array("warning", "Link has expired."));
+				} elseif ($acc_info['email_send_code'] != $verification_code) {
+					$this->session->set_flashdata("notice", array("warning", "Something went wrong, please try again.[2]"));
+				} elseif ($acc_info['email_send_expiry'] < time()) {
+					$this->session->set_flashdata("notice", array("warning", "Link has expired."));
+				} else {
+					$data = array(
+						"password" => password_hash($new_password, PASSWORD_BCRYPT),
+						"email_send_code" => NULL // reset code, disable repeating
+					);
+
+					if ($this->Model_update->update_user_account($acc_info["user_id"], $data)) {
+						$this->session->set_flashdata("notice", array("success", "Password has been successfully updated, please proceed to login."));
 					} else {
 						$this->session->set_flashdata("notice", array("danger", "Something went wrong, please try again.[3]"));
 					}
