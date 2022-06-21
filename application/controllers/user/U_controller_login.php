@@ -20,7 +20,7 @@
 			} else {
 				$account_info = $account->row_array();
 				if ($account_info['email_verified'] == 0) {
-					$this->session->set_flashdata("notice", array("warning", "Please verify your email first.". $account_info['email_verified']));
+					$this->session->set_flashdata("notice", array("warning", "Please verify your email first."));
 				} else {
 					if (password_verify($password, $account_info["password"])) {
 						$data = array(

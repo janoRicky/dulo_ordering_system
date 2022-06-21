@@ -100,13 +100,29 @@
 					$this->email->clear();
 					$this->email->from("dulo.ordering@gmail.com");
 					$this->email->to($email);
-					$this->email->subject("Email Verification - Dulo Ordering System");
+					$this->email->subject("Account Verification - Dulo Ordering System");
 					$this->email->message(
-						"Click <a href=". base_url("verify_email?em=". $email ."&vc=". $verification_code) .">here</a> to verify your email."
+						'<div style="width: 100%; background-color: #fff;">
+							<div style="width: auto; background-color: #000; padding: 2rem 1rem 0 2rem;">
+								<div style="width: 80%; max-width: 250px; margin: 0 auto;">
+									<img style="width: 100%;" src="'. base_url("assets/img/dulo-logo.png") .'">
+								</div>
+							</div>
+							<div style="width: auto; background-color: #000; padding: 2rem; text-align: center; color: #fff; padding-bottom: 3rem;">
+								<h2>WELCOME TO DULO ORDERING SYSTEM!</h2>
+								<p>Click the button below to verify your email and activate your account.</p>
+								<div style="width: 100%; margin: 3rem 0;">
+									<a href="'. base_url("verify_email?em=". $email ."&vc=". $verification_code) .'" style="border-radius: 1rem; border-radius: 50rem; background-color: #fff; padding: 1rem 2rem; text-decoration: none; color: #000;">
+										<span style="font-weight: bold;">Verify my email.</span>
+									</a>
+								</div>
+								<small>This link will expire in 24 hours</small>
+							</div>
+						</div>'
 					);
 					$this->email->send();
 
-					$this->session->set_flashdata("notice", array("success", "Registration Successful!"));
+					$this->session->set_flashdata("notice", array("success", "Registration Successful! Please check your email to verify your account."));
 				} else {
 					$this->session->set_flashdata("notice", array("danger", "Something went wrong, please try again."));
 				}

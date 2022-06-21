@@ -7,6 +7,17 @@
 		parent::__construct();
 		$this->load->model("Model_read");
 		$this->load->model("Model_update");
+
+ 		date_default_timezone_set('Asia/Manila');
+
+		$this->load->library("email", array(
+			"protocol" => "smtp",
+			"smtp_host" => "ssl://mail.bytemerchant.info",
+			"smtp_port" => 465,
+			"smtp_user" => $this->Model_read->get_config_wkey("smtp_user"), 
+			"smtp_pass" => $this->Model_read->get_config_wkey("smtp_pass"),
+			"mailtype" => "html"
+		));
 	}
 
 	public function user_details_update() {
@@ -196,7 +207,7 @@
 	}
 
 	
-	
+
 	// EMAIL CONFIRMATION
 	public function email_verification() {
 		$email = $this->input->get("em");
@@ -223,6 +234,64 @@
 
 					if ($this->Model_update->update_user_account($acc_info["user_id"], $data)) {
 						$this->session->set_flashdata("notice", array("success", "Email is successfully verified, please proceed to login."));
+					} else {
+						$this->session->set_flashdata("notice", array("danger", "Something went wrong, please try again.[3]"));
+					}
+				}
+			}
+		}
+		redirect("home");
+	}
+	// EMAIL VERIFICATION RESEND
+	public function email_resend() {
+		$email = $this->input->post("inp_email");
+
+		if ($email == NULL) {
+			$this->session->set_flashdata("notice", array("warning", "Something went wrong, please try again.[0]"));
+		} else {
+			$acc = $this->Model_read->get_user_acc_wemail($email);
+			if ($acc->num_rows() < 1) {
+				$this->session->set_flashdata("notice", array("warning", "Something went wrong, please try again.[1]"));
+			} else {
+				$acc_info = $acc->row_array();
+				if ($acc_info['email_verified'] == 1) {
+					$this->session->set_flashdata("notice", array("warning", "Email already verified."));
+				} elseif (!empty($acc_info['email_verification_resend_cooldown']) && $acc_info['email_verification_resend_cooldown'] > time()) {
+					$this->session->set_flashdata("notice", array("warning", "Please wait ". date('s', $acc_info['email_verification_resend_cooldown']) ." seconds before trying again."));
+				} else {
+					$data = array(
+						"email_verification_expiry" => time() + 86400, // current time + 24hrs
+						"email_verification_resend_cooldown" => time() + 60, // current time + 60 seconds
+					);
+
+					if ($this->Model_update->update_user_account($acc_info["user_id"], $data)) {
+						$this->email->set_newline("\r\n");
+						$this->email->clear();
+						$this->email->from("dulo.ordering@gmail.com");
+						$this->email->to($email);
+						$this->email->subject("Account Verification - Dulo Ordering System");
+						$this->email->message(
+							'<div style="width: 100%; background-color: #fff;">
+								<div style="width: auto; background-color: #000; padding: 2rem 1rem 0 2rem;">
+									<div style="width: 80%; max-width: 250px; margin: 0 auto;">
+										<img style="width: 100%;" src="'. base_url("assets/img/dulo-logo.png") .'">
+									</div>
+								</div>
+								<div style="width: auto; background-color: #000; padding: 2rem; text-align: center; color: #fff; padding-bottom: 3rem;">
+									<h2>WELCOME TO DULO ORDERING SYSTEM!</h2>
+									<p>Click the button below to verify your email and activate your account.</p>
+									<div style="width: 100%; margin: 3rem 0;">
+										<a href="'. base_url("verify_email?em=". $email ."&vc=". $acc_info["email_verification_code"]) .'" style="border-radius: 1rem; border-radius: 50rem; background-color: #fff; padding: 1rem 2rem; text-decoration: none; color: #000;">
+											<span style="font-weight: bold;">Verify my email.</span>
+										</a>
+									</div>
+									<small>This link will expire in 24 hours</small>
+								</div>
+							</div>'
+						);
+						$this->email->send();
+
+						$this->session->set_flashdata("notice", array("success", "Verification link is successfully sent, please check your email."));
 					} else {
 						$this->session->set_flashdata("notice", array("danger", "Something went wrong, please try again.[3]"));
 					}

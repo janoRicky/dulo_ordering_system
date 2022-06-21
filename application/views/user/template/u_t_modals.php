@@ -1,6 +1,6 @@
 <!-- SIGN UP MODAL -->
 <div id="modal_sign_up" class="modal">
-	<div class="modal-dialog modal-md">
+	<div class="modal-dialog modal-lg">
 		<div class="modal-content text-light" style="background-color: #000;">
 			<?=form_open(base_url() . "register_account", "method='POST'")?>
 				<div class="modal-body">
@@ -118,8 +118,11 @@
 							</button>
 						</div>
 					</div>
-					<div class="row mt-2 mb-4 text-center">
+					<div class="row mt-4 mb-4 text-center">
 						<span>Already have an account? <a data-bs-target="#modal_sign_in" data-bs-toggle="modal" data-bs-dismiss="modal" style="color: red;" href="#">Sign In Here.</a></span>
+					</div>
+					<div class="row mt-1 mb-4 text-center">
+						<span>Haven't received account verification email yet? <a data-bs-target="#modal_resend_verification" data-bs-toggle="modal" data-bs-dismiss="modal" style="color: red;" href="#">Click Here.</a></span>
 					</div>
 				</div>
 			<?=form_close()?>
@@ -178,7 +181,7 @@
 							</button>
 						</div>
 					</div>
-					<div class="row mt-2 mb-4 text-center">
+					<div class="row mt-4 mb-4 text-center">
 						<span>Don't have an account? <a data-bs-target="#modal_sign_up" data-bs-toggle="modal" data-bs-dismiss="modal" style="color: red;" href="#">Sign Up Here.</a></span>
 					</div>
 				</div>
@@ -191,7 +194,7 @@
 	<div class="modal-dialog modal-md">
 		<div class="modal-content text-light" style="background-color: #000;">
 			<?=form_open(base_url() . "login_verify", "method='POST'")?>
-			<input type="hidden" name="from_cart" value="1">
+				<input type="hidden" name="from_cart" value="1">
 				<div class="modal-body">
 					<div class="row justify-content-end pe-3 pt-2">
 						<button type="button" class="btn-close btn-close-white rounded-circle" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -234,7 +237,49 @@
 							</button>
 						</div>
 					</div>
-					<div class="row mt-2 mb-4 text-center">
+					<div class="row mt-4 mb-4 text-center">
+						<span>Don't have an account? <a data-bs-target="#modal_sign_up" data-bs-toggle="modal" data-bs-dismiss="modal" style="color: red;" href="#">Sign Up Here.</a></span>
+					</div>
+				</div>
+			<?=form_close()?>
+		</div>
+	</div>
+</div>
+<!-- RESEND EMAIL MODAL -->
+<div id="modal_resend_verification" class="modal">
+	<div class="modal-dialog modal-md">
+		<div class="modal-content text-light" style="background-color: #000;">
+			<?=form_open(base_url() . "resend_email", "method='POST'")?>
+				<div class="modal-body">
+					<div class="row justify-content-end pe-3 pt-2">
+						<button type="button" class="btn-close btn-close-white rounded-circle" data-bs-dismiss="modal" aria-label="Close"></button>
+					</div>
+					<div class="row text-center">
+						<div class="col-12 text-light pt-3 text-center">
+							<h2 class="fw-bold">Resend account verification email.</h2>
+						</div>
+					</div>
+					<div class="row mt-5 mb-5 px-5">
+						<div class="col-12 px-3">
+							<div class="row mt-2">
+								<div class="col-12">
+									<h6 class="fw-bold">Email: </h6>
+								</div>
+								<div class="col-12">
+									<input class="form-control bg-dark text-light border-dark" type="email" name="inp_email" placeholder="*Email Address" required="">
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="row mt-4">
+						<div class="col-12 px-3 text-center">
+							<button class="btn btn-light btn-md rounded-pill fw-bold px-5" type="submit">
+								<i class="mdi" aria-hidden="true"></i> Resend Email
+							</button>
+						</div>
+					</div>
+					<div class="row mt-4 mb-4 text-center">
 						<span>Don't have an account? <a data-bs-target="#modal_sign_up" data-bs-toggle="modal" data-bs-dismiss="modal" style="color: red;" href="#">Sign Up Here.</a></span>
 					</div>
 				</div>
