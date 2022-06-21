@@ -48,7 +48,7 @@
 		$type = $this->input->get("type");
 		$page = intval($this->input->get("page"));
 		
-		$page_total = intval($this->Model_read->get_products_user_view_search_type($search, $type)->num_rows() / 10) + 1;
+		$page_total = intval($this->Model_read->get_products_user_view_search_type($search, $type)->num_rows() / 12) + 1;
 
 		$page_no = (!is_null($page) && $page >= 0 ? ($page > $page_total-1 ? $page_total-1 : $page) : 0);
 

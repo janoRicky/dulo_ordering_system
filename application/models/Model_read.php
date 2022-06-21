@@ -41,9 +41,9 @@ class Model_read extends CI_Model {
 	}
 	public function get_products_user_view($search, $type, $page) {
 		$search_query = (!is_null($type) && !empty($type) ? "AND type_id = '$type' " : "") . (!is_null($search) ? "AND (name LIKE '%$search%' OR description LIKE '%$search%') " : "");
-		$pg_no = (!is_null($page) && !empty($page) ? $page * 10 : 0);
+		$pg_no = (!is_null($page) && !empty($page) ? $page * 12 : 0);
 
-		$query = "SELECT * FROM products AS p WHERE status = '1' AND visibility = '1' $search_query AND EXISTS(SELECT * FROM types AS t WHERE p.type_id = t.type_id) ORDER BY p.date_added DESC LIMIT 10 OFFSET $pg_no";
+		$query = "SELECT * FROM products AS p WHERE status = '1' AND visibility = '1' $search_query AND EXISTS(SELECT * FROM types AS t WHERE p.type_id = t.type_id) ORDER BY p.date_added DESC LIMIT 12 OFFSET $pg_no";
 		return $this->db->query($query);
 	}
 	public function get_product_wid($id) {

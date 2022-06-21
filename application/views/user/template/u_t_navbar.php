@@ -69,12 +69,3 @@
 		</div>
 	</div>
 <?php endif; ?>
-
-<script type="text/javascript">
-	setTimeout(function() {
-		$(".notice").fadeOut(12000, function() {
-			$(this).remove();
-		});
-	}, 5000);
-</script>
-

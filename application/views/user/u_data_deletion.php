@@ -10,7 +10,7 @@ $template_header;
 		<div class="container-fluid">
 			<div class="row my-4 justify-content-center">
 				<div class="col-12 col-md-10 col-lg-8 mb-5">
-					<div class="card shadow" style="border-radius: 15px;">
+					<div class="card shadow" style="border-radius: 15px; min-height: 350px;">
 						<div class="card-body p-0">
 							<div class="row m-0 p-0 justify-content-center pb-4 pt-2">
 								<div class="col-12 px-5 py-4">

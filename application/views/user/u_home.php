@@ -84,11 +84,11 @@ $template_header;
 									<?php if ($tbl_products->num_rows() > 0): ?>
 										<?php foreach ($tbl_products->result_array() as $key => $row): ?>
 											<?php if ($key % $per_slide == 0): ?>
-												<div class="carousel-item <?=($key == 0 ? 'active' : '')?>">
+												<div class="carousel-item <?=($key == 0 ? 'active' : '')?>" style="height: 350px;">
 													<div class="row justify-content-center">
 											<?php endif; ?>
 												<div class="col mb-3 btn_link" role="button" data-href="<?=base_url('product?id='.$row['product_id'])?>">
-													<div class="card shadow" style="border-radius: 15px;">
+													<div class="card shadow" style="border-radius: 15px; height: 100%;">
 														<img class="img-fluid w-100" style="height: 200px; object-fit: cover; border-radius: 15px 15px 0 0;" src="<?=base_url('uploads/products/product_'.$row['product_id'].'/'.$row['img'])?>" class="card-img-top" alt="<?=ucwords($row["name"])?>">
 														<div class="card-body">
 															<h5 class="fw-bold"><?=ucwords($row["name"])?></h5>
@@ -124,11 +124,11 @@ $template_header;
 									<?php if ($tbl_products->num_rows() > 0): ?>
 										<?php foreach ($tbl_products->result_array() as $key => $row): ?>
 											<?php if ($key % $per_slide == 0): ?>
-												<div class="carousel-item <?=($key == 0 ? 'active' : '')?>">
+												<div class="carousel-item <?=($key == 0 ? 'active' : '')?>" style="height: 350px;">
 													<div class="row justify-content-center">
 											<?php endif; ?>
 												<div class="col mb-3 btn_link" role="button" data-href="<?=base_url('product?id='.$row['product_id'])?>">
-													<div class="card shadow" style="border-radius: 15px;">
+													<div class="card shadow" style="border-radius: 15px; height: 100%;">
 														<img class="img-fluid w-100" style="height: 200px; object-fit: cover; border-radius: 15px 15px 0 0;" src="<?=base_url('uploads/products/product_'.$row['product_id'].'/'.$row['img'])?>" class="card-img-top" alt="<?=ucwords($row["name"])?>">
 														<div class="card-body">
 															<h5 class="fw-bold"><?=ucwords($row["name"])?></h5>
@@ -164,11 +164,11 @@ $template_header;
 									<?php if ($tbl_products->num_rows() > 0): ?>
 										<?php foreach ($tbl_products->result_array() as $key => $row): ?>
 											<?php if ($key % $per_slide == 0): ?>
-												<div class="carousel-item <?=($key == 0 ? 'active' : '')?>">
+												<div class="carousel-item <?=($key == 0 ? 'active' : '')?>" style="height: 350px;">
 													<div class="row justify-content-center">
 											<?php endif; ?>
 												<div class="col mb-3 btn_link" role="button" data-href="<?=base_url('product?id='.$row['product_id'])?>">
-													<div class="card shadow" style="border-radius: 15px;">
+													<div class="card shadow" style="border-radius: 15px; height: 100%;">
 														<img class="img-fluid w-100" style="height: 200px; object-fit: cover; border-radius: 15px 15px 0 0;" src="<?=base_url('uploads/products/product_'.$row['product_id'].'/'.$row['img'])?>" class="card-img-top" alt="<?=ucwords($row["name"])?>">
 														<div class="card-body">
 															<h5 class="fw-bold"><?=ucwords($row["name"])?></h5>

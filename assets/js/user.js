@@ -32,4 +32,10 @@ $(document).ready(function () {
 		window.location.href = $(this).children("a").attr("href");
 		// console.log($(this).children("a").attr("href"));
 	});
+
+	setTimeout(function() {
+		$(".notice").fadeOut(12000, function() {
+			$(this).remove();
+		});
+	}, 5000);
 });

@@ -30,7 +30,7 @@ $template_header;
 			</div>
 			<div class="row my-4 justify-content-center">
 				<div class="col-12 col-sm-10 col-md-10">
-					<div class="row justify-content-center">
+					<div class="row justify-content-center d-flex align-items-center">
 						<?php if ($tbl_products->num_rows() > 0): ?>
 							<?php foreach ($tbl_products->result_array() as $row): ?>
 								<div class="col-12 col-md-6 col-xl-4 my-3">
