@@ -96,6 +96,10 @@ $route['place_order'] = 'user/U_controller_create/new_order';
 $route['place_custom_order'] = 'user/U_controller_create/new_order_custom';
 $route['payment'] = 'user/U_controller_create/submit_payment';
 
+$route['add_to_order'] = 'user/U_controller_create/new_order_item';
+$route['remove_item'] = 'user/U_controller_delete/delete_item';
+
+
 $route['update_personal_info'] = 'user/U_controller_update/user_details_update';
 $route['update_account_info'] = 'user/U_controller_update/user_account_update';
 $route['update_address_info'] = 'user/U_controller_update/user_address_update';

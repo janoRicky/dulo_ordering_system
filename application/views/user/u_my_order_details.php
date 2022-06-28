@@ -31,21 +31,6 @@ $template_header;
 						<div class="card-body p-0">
 							<div class="row m-0 p-0 justify-content-center py-4">
 								<div class="col-12">
-									<div class="row">
-										<div class="col px-5 text-end">
-											<?php if ($my_order["state"] != 3): ?>
-												<?php if ($my_order["shared"] != '1'): ?>
-													<button class="btn_link btn btn-primary rounded-pill fw-bold px-4 py-2" data-href="<?=base_url()?>share_order?oid=<?=$my_order["order_id"]?>">
-														<i class="mdi mdi-share-variant"></i> SHARE
-													</button>
-												<?php else: ?>
-													<button class="btn_share_order btn btn-primary rounded-pill fw-bold px-4 py-2" data-bs-toggle="modal" data-bs-target="#modal_share_order">
-														<i class="mdi mdi-share-variant"></i> SHARE
-													</button>
-												<?php endif; ?>
-											<?php endif; ?>
-										</div>
-									</div>
 									<div class="row justify-content-center">
 										<div class="col-10 p-4">
 											<div class="row">
@@ -134,16 +119,24 @@ $template_header;
 																	<td class="text-center"><?=number_format($row["qty"] * $row["price"], 2)?></td>
 																	<?php $total_price += $row["qty"] * $row["price"]; ?>
 																	<td class="text-center">
-																		<a href="<?=base_url();?>product?id=<?=$row['product_id']?>">
+																		<a class="text-decoration-none" href="<?=base_url();?>product?id=<?=$row['product_id']?>">
 																			<button class="btn fw-bold rounded-pill product_btn px-3 py-2">
 																				<i class="mdi mdi-eye"></i> View
 																			</button>
 																		</a>
+
+																		<?php if ($my_order["state"] == 0): ?>
+																			<a class="text-decoration-none remove_item" href="<?=base_url();?>remove_item?id=<?=$row['item_id']?>&oid=<?=$order_id?>">
+																				<button class="btn btn-danger fw-bold rounded-pill px-3 py-2">
+																					<i class="mdi mdi-trash-can"></i>
+																				</button>
+																			</a>
+																		<?php endif; ?>
 																	</td>
 																</tr>
 															<?php endforeach; ?>
 															<tr>
-																<td class="text-center">Total</td>
+																<td class="text-center fw-bold">Total</td>
 																<td class="text-center"><?=$total_qty?></td>
 																<td class="text-center"></td>
 																<td class="text-center"><?=number_format($total_price, 2)?></td>
@@ -235,49 +228,6 @@ $template_header;
 		</div>
 		<?php $this->load->view("user/template/u_t_footer"); ?>
 	</div>
-
-	<?php if ($my_order["shared"] == '1'): ?>
-		<script type="text/javascript">
-			function copyToClipboard(element) {
-			    var $temp = $("<input>");
-			    $("body").append($temp);
-			    $temp.val($(element).text()).select();
-			    document.execCommand("copy");
-			    $temp.remove();
-			}
-		</script>
-		<!-- SHARE ORDER MODAL -->
-		<div id="modal_share_order" class="modal">
-			<div class="modal-dialog modal-md">
-				<div class="modal-content text-light" style="background-color: #000;">
-					<div class="modal-body">
-						<div class="row justify-content-end pe-3 pt-2">
-							<button type="button" class="btn-close btn-close-white rounded-circle" data-bs-dismiss="modal" aria-label="Close"></button>
-						</div>
-						<div class="row justify-content-center">
-							<div class="col-12 text-light pt-3 text-center">
-								<h2 class="fw-bold">SHARE!</h2>
-							</div>
-							<div class="col-10 col-sm-8 text-light pt-3 text-center">
-								<img class="w-100" src="<?=base_url()?>uploads/orders/<?=$my_order["img_qr"]?>">
-							</div>
-							<div class="col-11 col-md-10 text-dark mt-3 text-center bg-light py-2 px-2" style="border-radius: 10px;">
-								<h6 class="fw-bold">Click to copy</h6>
-								<a href="#" class="text-decoration-none" onclick="copyToClipboard(this)"><?=base_url()?>order?ouid=<?=$my_order["order_uid"]?></a>
-							</div>
-						</div>
-						<div class="row mt-4">
-							<div class="col-12 px-1 text-center my-2">
-								<div class="fb_share btn btn-lg btn-primary rounded-pill fw-bold px-4 text-light" role="button" style="background-color: #4267b2 !important;" data-href="<?=base_url()?>order?ouid=<?=$my_order["order_uid"]?>">
-								    <i class="mdi mdi-facebook mdi-24px" aria-hidden="true"></i> Share
-							    </div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	<?php endif; ?>
 </body>
 <script type="text/javascript">
 	$(document).ready(function () {
@@ -291,12 +241,11 @@ $template_header;
 				e.preventDefault();
 			}
 		});
-
-
-		
-		if(window.location.hash == "#share") {
-			$("#modal_share_order").modal("show");
-		}
+		$(document).on("click", ".remove_item", function(e) {
+			if (!confirm("Are you sure you want to remove this item?")) {
+				e.preventDefault();
+			}
+		});
 	});
 </script>
 </html>

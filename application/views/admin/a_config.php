@@ -27,7 +27,7 @@ $template_header;
 												<label><?=$row["c_key"]?>:</label>
 											</div>
 											<div class="col-12 col-sm-8">
-												<input type="text" class="form-control" name="inp_<?=$row["c_key"]?>" placeholder="<?=$row["c_key"]?>" autocomplete="off" value="<?=$row['c_val']?>" required="">
+												<input <?=($row["c_key"] == "smtp_pass" ? 'type="password"' : 'type="text"')?> class="form-control" name="inp_<?=$row["c_key"]?>" placeholder="<?=$row["c_key"]?>" autocomplete="off" value="<?=$row['c_val']?>" required="">
 											</div>
 										</div>
 									<?php endforeach; ?>

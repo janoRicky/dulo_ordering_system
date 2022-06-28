@@ -327,6 +327,14 @@ $template_header;
 								<?php endforeach; ?>
 							</select>
 						</div>
+						<div class="form-group">
+							<div class="form-check">
+								<input class="form-check-input" type="checkbox" name="inp_send_email" id="state_check_email">
+								<label class="form-check-label" for="state_check_email">
+									Send email notification to user?
+								</label>
+							</div>
+						</div>
 					</div>
 					<div class="modal-footer">
 						<input type="submit" class="btn btn-primary" value="Update State">

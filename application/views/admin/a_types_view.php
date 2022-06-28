@@ -49,14 +49,6 @@ $template_header;
 											<?=$row_info["description"]?>
 										</div>
 									</div>
-									<div class="col-12 row border-0">
-										<div class="col-12 col-md-4">
-											<label>Price Range:</label><br>
-										</div>
-										<div class="col-12 col-md-8">
-											PHP <?=$row_info["price_range"]?>
-										</div>
-									</div>
 								</div>
 							</div>
 						</div>

@@ -100,7 +100,7 @@
 
 					$this->email->set_newline("\r\n");
 					$this->email->clear();
-					$this->email->from("dulo.ordering@gmail.com");
+					$this->email->from($this->Model_read->get_config_wkey("mail_sender"));
 					$this->email->to($email);
 					$this->email->subject("Account Verification - Dulo Ordering System");
 					$this->email->message(
@@ -243,7 +243,7 @@
 					if ($payment_method == 0) {
 						$this->email->set_newline("\r\n");
 						$this->email->clear();
-						$this->email->from("dulo.ordering@gmail.com");
+						$this->email->from($this->Model_read->get_config_wkey("mail_sender"));
 						$this->email->to($this->Model_read->get_config_wkey("alerts_email_send_to"));
 						$this->email->subject("New Order!");
 						$this->email->message(
@@ -306,7 +306,7 @@
 
 							$this->email->set_newline("\r\n");
 							$this->email->clear();
-							$this->email->from("dulo.ordering@gmail.com");
+							$this->email->from($this->Model_read->get_config_wkey("mail_sender"));
 							$this->email->to($this->Model_read->get_config_wkey("alerts_email_send_to"));
 							$this->email->subject("New Order!");
 							$this->email->message(
@@ -428,32 +428,50 @@
 		}
 		redirect("my_orders");
 	}
-	// = = = MESSAGES
-	public function new_message_user() {
-		$user_id = $this->session->userdata("user_id");
-		$message = $this->input->post("inp_message");
 
-		if ($user_id == NULL || $message == NULL) {
+	public function new_order_item() {
+		$user_id = ($this->session->has_userdata("user_id") ? $this->session->userdata("user_id") : NULL);
+
+		$order_id = $this->input->post("inp_oid");
+
+		$product_id = $this->input->post('inp_product_id');
+		$product_qty = $this->input->post('inp_product_qty');
+		$adtl_note = $this->input->post('inp_adtl_note');
+
+		if ($user_id == NULL || $order_id == NULL || $product_id == NULL || $product_qty < 1) {
 			$this->session->set_flashdata("notice", array("warning", "One or more inputs are empty."));
 		} else {
-			$user = $this->Model_read->get_user_wacc_wid($user_id);
-			if ($user->num_rows() < 1 && $user_id != 0) {
-				$this->session->set_flashdata("notice", array("warning", "User ID does not exist."));
-			} else {
-				$data = array(
-					"user_id" => $user_id,
-					"message" => $message,
-					"date_time" => date("Y-m-d H:i:s"),
-					"seen" => "1",
-					"status" => "1"
-				);
-				if ($this->Model_create->create_message($data)) {
-					$this->session->set_flashdata("notice", array("success", "Message is successfully sent."));
+			$order = $this->Model_read->get_order_all_wid_user_id_state($order_id, $user_id, "0");
+			if ($order->num_rows() > 0) {
+				$order_info = $order->row_array();
+				if ($order_info['state'] == '0') { // if order is pending
+					$p_details = $this->Model_read->get_product_wid_user($product_id)->row_array();
+
+					$data_order_item = array(
+						"product_id" => $product_id,
+						"qty" => $product_qty,
+						"price" => $p_details["price"],
+						"type" => "PICKUP",
+
+						"adtl_note" => $adtl_note,
+						"order_id" => $order_id
+					);
+
+					if ($this->Model_create->create_order_item($data_order_item)) {
+						$this->session->set_flashdata("notice", array("success", "Item is successfully added."));
+						redirect("my_order_details?id=". $order_id);
+					} else {
+						$this->session->set_flashdata("notice", array("danger", "Something went wrong, please try again.[0]"));
+					}
 				} else {
-					$this->session->set_flashdata("notice", array("danger", "Something went wrong, please try again."));
+					$this->session->set_flashdata("notice", array("danger", "Something went wrong, please try again.[1]"));
 				}
+			} else {
+				$this->session->set_flashdata("notice", array("danger", "Something went wrong, please try again.[2]"));
 			}
 		}
-		redirect("customer_support");
+
+		redirect("products");
 	}
+
 }

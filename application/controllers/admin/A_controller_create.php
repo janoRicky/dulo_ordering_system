@@ -75,9 +75,9 @@
 	public function new_type() {
 		$name = $this->input->post("inp_name");
 		$description = $this->input->post("inp_description");
-		$price_range = $this->input->post("inp_price_range");
+		// $price_range = $this->input->post("inp_price_range");
 
-		if ($name == NULL || $description == NULL || $price_range == NULL) {
+		if ($name == NULL || $description == NULL) {
 			$this->session->set_flashdata("alert", array("warning", "One or more inputs are empty."));
 		} else {
 			$img = NULL;

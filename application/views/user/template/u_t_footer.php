@@ -10,6 +10,7 @@
 						<div class="iframe-container">
 							<iframe class="m-0" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d965.2877337274475!2d121.15228671002153!3d14.590473911378117!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3397b90a13a62671%3A0x303f770181983525!2sTheAskit!5e0!3m2!1sen!2sph!4v1652653681022!5m2!1sen!2sph" width="400" height="300" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
 						</div>
+						<p class="mt-2">JDC Compound Beside Palmera 5, Calabarzon, Philippines, Taytay, Philippines</p>
 					</div>
 					<div class="col-12 col-md-6 text-center">
 						<h4 class="fw-bold mt-4 mt-md-1">SOCIAL</h4>

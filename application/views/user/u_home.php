@@ -12,13 +12,13 @@ $template_header;
 					<div id="test1" class="carousel slide" data-bs-ride="carousel">
 						<div class="carousel-inner" style="max-height: 500px; border-radius: 2rem;">
 							<div class="carousel-item active">
-								<img src="<?=base_url('assets/img/test-1.jpg')?>" alt="Los Angeles" class="d-block w-100">
+								<img src="<?=base_url('assets/img/test-1.jpg')?>" class="d-block w-100">
 							</div>
 							<div class="carousel-item">
-								<img src="<?=base_url('assets/img/test-1.jpg')?>" alt="Chicago" class="d-block w-100">
+								<img src="<?=base_url('assets/img/test-1.jpg')?>" class="d-block w-100">
 							</div>
 							<div class="carousel-item">
-								<img src="<?=base_url('assets/img/test-1.jpg')?>" alt="New York" class="d-block w-100">
+								<img src="<?=base_url('assets/img/test-1.jpg')?>" class="d-block w-100">
 							</div>
 						</div>
 						
@@ -69,133 +69,35 @@ $template_header;
 			<div class="row my-4 justify-content-center">
 				<div class="col-12 col-sm-10 col-md-8">
 					<div class="card shadow" style="border-radius: 15px;">
-						<div class="card-body">
+						<div class="card-body featured_container">
 							<div class="row">
 								<div class="col-12 px-5 pt-3">
 									<h3 class="fw-bold">Featured</h3>
 									<p>Discover your new favorites here!</p>
 								</div>
 							</div>
-							<div id="featured_items_xl" class="carousel slide d-none d-xl-block" data-bs-ride="carousel">
-								<div class="carousel-inner p-4 pt-0" style="">
-									<?php
-									$per_slide = 4;
-									?>
-									<?php if ($tbl_products->num_rows() > 0): ?>
-										<?php foreach ($tbl_products->result_array() as $key => $row): ?>
-											<?php if ($key % $per_slide == 0): ?>
-												<div class="carousel-item <?=($key == 0 ? 'active' : '')?>" style="height: 350px;">
-													<div class="row justify-content-center">
-											<?php endif; ?>
-												<div class="col mb-3 btn_link" role="button" data-href="<?=base_url('product?id='.$row['product_id'])?>">
-													<div class="card shadow" style="border-radius: 15px; height: 100%;">
-														<img class="img-fluid w-100" style="height: 200px; object-fit: cover; border-radius: 15px 15px 0 0;" src="<?=base_url('uploads/products/product_'.$row['product_id'].'/'.$row['img'])?>" class="card-img-top" alt="<?=ucwords($row["name"])?>">
-														<div class="card-body">
-															<h5 class="fw-bold"><?=ucwords($row["name"])?></h5>
-															<h5>PHP <?=number_format($row["price"], 2)?></h5>
-														</div>
-													</div>
+							<div class="featured_carousel">
+								<?php if ($tbl_products->num_rows() > 0): ?>
+									<?php foreach ($tbl_products->result_array() as $key => $row): ?>
+										<div class="featured_item mb-3 btn_link" role="button" data-href="<?=base_url('product?id='.$row['product_id'])?>">
+											<div class="card shadow h-100" style="border-radius: 15px;">
+												<img class="img img-fluid w-100" src="<?=base_url('uploads/products/product_'.$row['product_id'].'/'.$row['img'])?>" class="card-img-top" alt="<?=ucwords($row["name"])?>">
+												<div class="card-body w-100">
+													<h5 class="fw-bold"><?=ucwords($row["name"])?></h5>
+													<h5 class="price">PHP <?=number_format($row["price"], 2)?></h5>
 												</div>
-											<?php if ($key % $per_slide == $per_slide - 1 && $key != 0): ?>
-													</div>
-												</div>
-											<?php endif; ?>
-										<?php endforeach; ?>
-									<?php endif; ?>
-									<!-- IF FEATURED PRODUCT LAST -->
-									<?php if ($tbl_products->num_rows() % $per_slide != 0): ?>
 											</div>
 										</div>
-									<?php endif; ?>
+									<?php endforeach; ?>
+								<?php endif; ?>
+								<div class="control left" role="button" style="left: 40px;">
+									<i class="nav-icon mdi mdi-chevron-left mdi-48px"></i>
 								</div>
-								
-								<button class="carousel-control-prev text-dark" type="button" data-bs-target="#featured_items_xl" data-bs-slide="prev">
-									<i class="nav-icon mdi mdi-chevron-left mdi-48px car-control"></i>
-								</button>
-								<button class="carousel-control-next" type="button" data-bs-target="#featured_items_xl" data-bs-slide="next">
-									<i class="nav-icon mdi mdi-chevron-right mdi-48px car-control"></i>
-								</button>
-							</div>
-							<div id="featured_items_lg" class="carousel slide d-none d-lg-block d-xl-none" data-bs-ride="carousel">
-								<div class="carousel-inner p-4 pt-0" style="">
-									<?php
-									$per_slide = 3;
-									?>
-									<?php if ($tbl_products->num_rows() > 0): ?>
-										<?php foreach ($tbl_products->result_array() as $key => $row): ?>
-											<?php if ($key % $per_slide == 0): ?>
-												<div class="carousel-item <?=($key == 0 ? 'active' : '')?>" style="height: 350px;">
-													<div class="row justify-content-center">
-											<?php endif; ?>
-												<div class="col mb-3 btn_link" role="button" data-href="<?=base_url('product?id='.$row['product_id'])?>">
-													<div class="card shadow" style="border-radius: 15px; height: 100%;">
-														<img class="img-fluid w-100" style="height: 200px; object-fit: cover; border-radius: 15px 15px 0 0;" src="<?=base_url('uploads/products/product_'.$row['product_id'].'/'.$row['img'])?>" class="card-img-top" alt="<?=ucwords($row["name"])?>">
-														<div class="card-body">
-															<h5 class="fw-bold"><?=ucwords($row["name"])?></h5>
-															<h5>PHP <?=number_format($row["price"], 2)?></h5>
-														</div>
-													</div>
-												</div>
-											<?php if ($key % $per_slide == $per_slide - 1 && $key != 0): ?>
-													</div>
-												</div>
-											<?php endif; ?>
-										<?php endforeach; ?>
-									<?php endif; ?>
-									<!-- IF FEATURED PRODUCT LAST -->
-									<?php if ($tbl_products->num_rows() % $per_slide != 0): ?>
-											</div>
-										</div>
-									<?php endif; ?>
+								<div class="control right" role="button" style="right: 40px;">
+									<i class="nav-icon mdi mdi-chevron-right mdi-48px"></i>
 								</div>
-								
-								<button class="carousel-control-prev text-dark" type="button" data-bs-target="#featured_items_lg" data-bs-slide="prev">
-									<i class="nav-icon mdi mdi-chevron-left mdi-48px car-control"></i>
-								</button>
-								<button class="carousel-control-next" type="button" data-bs-target="#featured_items_lg" data-bs-slide="next">
-									<i class="nav-icon mdi mdi-chevron-right mdi-48px car-control"></i>
-								</button>
 							</div>
-							<div id="featured_items_md" class="carousel slide d-block d-lg-none" data-bs-ride="carousel">
-								<div class="carousel-inner p-4 pt-0" style="">
-									<?php
-									$per_slide = 2;
-									?>
-									<?php if ($tbl_products->num_rows() > 0): ?>
-										<?php foreach ($tbl_products->result_array() as $key => $row): ?>
-											<?php if ($key % $per_slide == 0): ?>
-												<div class="carousel-item <?=($key == 0 ? 'active' : '')?>" style="height: 350px;">
-													<div class="row justify-content-center">
-											<?php endif; ?>
-												<div class="col mb-3 btn_link" role="button" data-href="<?=base_url('product?id='.$row['product_id'])?>">
-													<div class="card shadow" style="border-radius: 15px; height: 100%;">
-														<img class="img-fluid w-100" style="height: 200px; object-fit: cover; border-radius: 15px 15px 0 0;" src="<?=base_url('uploads/products/product_'.$row['product_id'].'/'.$row['img'])?>" class="card-img-top" alt="<?=ucwords($row["name"])?>">
-														<div class="card-body">
-															<h5 class="fw-bold"><?=ucwords($row["name"])?></h5>
-															<h5>PHP <?=number_format($row["price"], 2)?></h5>
-														</div>
-													</div>
-												</div>
-											<?php if ($key % $per_slide == $per_slide - 1 && $key != 0): ?>
-													</div>
-												</div>
-											<?php endif; ?>
-										<?php endforeach; ?>
-									<?php endif; ?>
-									<!-- IF FEATURED PRODUCT LAST -->
-									<?php if ($tbl_products->num_rows() % $per_slide != 0): ?>
-											</div>
-										</div>
-									<?php endif; ?>
-								</div>
-								
-								<button class="carousel-control-prev text-dark" type="button" data-bs-target="#featured_items_md" data-bs-slide="prev">
-									<i class="nav-icon mdi mdi-chevron-left mdi-48px car-control"></i>
-								</button>
-								<button class="carousel-control-next" type="button" data-bs-target="#featured_items_md" data-bs-slide="next">
-									<i class="nav-icon mdi mdi-chevron-right mdi-48px car-control"></i>
-								</button>
-							</div>
+
 						</div>
 					</div>
 				</div>
@@ -207,7 +109,16 @@ $template_header;
 </body>
 <script type="text/javascript">
 	$(document).ready(function () {
-
+		$(document).on('click', '.control.left', function() {
+			$('.featured_carousel').animate({
+			    scrollLeft: $('.featured_carousel').scrollLeft() - 700
+			}, 400);
+		});
+		$(document).on('click', '.control.right', function() {
+			$('.featured_carousel').animate({
+			    scrollLeft: $('.featured_carousel').scrollLeft() + 700
+			}, 400);
+		});
 	});
 </script>
 </html>

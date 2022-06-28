@@ -58,7 +58,7 @@ $template_header;
 												<h5 class="fw-bold">ADDITIONAL NOTE <span class="text-muted">[OPTIONAL]</span>:</h5>
 											</div>
 											<div class="col-11 col-sm-7">
-												<textarea class="form-control text-center" name="adtl_note" maxlength="255" rows="3"><?=(isset($product_note) ? $product_note : "")?></textarea>
+												<textarea id="adtl_note" class="form-control text-center" name="adtl_note" maxlength="255" rows="3"><?=(isset($product_note) ? $product_note : "")?></textarea>
 											</div>
 										</div>
 										<div class="row justify-content-center mt-1 mt-md-4">
@@ -83,6 +83,14 @@ $template_header;
 													<i class="mdi mdi-cash" aria-hidden="true"></i> BUY NOW
 												</button>
 											</div>
+
+											<?php if (isset($my_orders_pending)): ?>
+												<div class="col-10 col-md-12 text-center">
+													<button class="btn btn-success fw-bold px-4 py-3 mb-2 rounded-pill btn-add-to-order" type="button">
+														ADD TO ORDER
+													</button>
+												</div>
+											<?php endif; ?>
 										</div>
 									<?=form_close()?>
 								</div>
@@ -93,16 +101,102 @@ $template_header;
 			</div>
 		</div>
 		<?php $this->load->view("user/template/u_t_footer"); ?>
+		<?php if (isset($my_orders_pending)): ?>
+			<!-- ADD TO ORDER MODAL -->
+			<div id="modal_add_to_order" class="modal">
+				<div class="modal-dialog modal-xl">
+					<div class="modal-content text-light" style="background-color: #000;">
+						<?=form_open(base_url() . "add_to_order", "id='add_item' method='POST'")?>
+							<input id="item_order_id" type="hidden" name="inp_oid">
+
+							<input id="item_product_id" type="hidden" name="inp_product_id" value="<?=$product_details['product_id']?>">
+							<input id="item_product_qty" type="hidden" name="inp_product_qty">
+							<input id="item_adtl_note" type="hidden" name="inp_adtl_note">
+
+							<div class="modal-body">
+								<div class="row justify-content-end pe-3 pt-2">
+									<button type="button" class="btn-close btn-close-white rounded-circle" data-bs-dismiss="modal" aria-label="Close"></button>
+								</div>
+								<div class="row text-center">
+									<div class="col-12 text-light pt-3 text-center">
+										<h2 class="fw-bold">Select order.</h2>
+									</div>
+								</div>
+								<div class="row mt-5 mb-5 px-5">
+									<div class="col-12 p-4 table-responsive bg-light rounded">
+										<div class="col-12 text-dark pt-3 text-center">
+											<h5 class="fw-bold">My Orders (PENDING)</h5>
+										</div>
+										<table id="table_my_orders" class="table">
+											<thead>
+												<tr>
+													<th>Order #</th>
+													<th>Date Ordered</th>
+													<th></th>
+												</tr>
+											</thead>
+											<tbody>
+												<?php foreach ($my_orders_pending->result_array() as $row): ?>
+													<tr>
+														<td class="text-center">
+															<?=date("Y-m", strtotime($row["date_time"]))?>-<?= str_pad($row["order_id"], 6, '0', STR_PAD_LEFT) ?>
+														</td>
+														<td class="text-center">
+															<?=date("Y-m-d", strtotime($row["date_time"]))?>
+														</td>
+														<td class="text-center">
+															<a class="btn fw-bold rounded-pill btn-success px-3 py-2 mb-1 btn-add-item" data-oid="<?=$row["order_id"]?>">
+																<i class="mdi mdi-plus"></i> Add
+															</a>
+															<a class="btn fw-bold rounded-pill product_btn px-3 py-2 mb-1" href="my_order_details?id=<?=$row["order_id"]?>">
+																<i class="mdi mdi-eye"></i> Details
+															</a>
+														</td>
+													</tr>
+												<?php endforeach; ?>
+											</tbody>
+										</table>
+									</div>
+								</div>
+
+							</div>
+						<?=form_close()?>
+					</div>
+				</div>
+			</div>
+		<?php endif; ?>
 	</div>
 </body>
 <script type="text/javascript">
 	$(document).ready(function () {
+		<?php if (isset($my_orders_pending)): ?>
+			$("#table_my_orders").DataTable({
+				"order": [[0, "desc"]],
+				"bLengthChange": false,
+				createdRow: function (row, data, index) {
+					$(row).addClass("order");
+				}
+			});
+		<?php endif; ?>
+
 		$('.btn-qty-add').on('click', function() {
 			$('#product_qty').val(parseInt($('#product_qty').val()) + 1);
 		});
 		$('.btn-qty-subtract').on('click', function() {
 			if (parseInt($('#product_qty').val()) - 1 > 0) {
 				$('#product_qty').val(parseInt($('#product_qty').val()) - 1);
+			}
+		});
+
+		$('.btn-add-to-order').on('click', function() {
+			$('#item_adtl_note').val($('#adtl_note').val());
+			$('#item_product_qty').val($('#product_qty').val());
+			$('#modal_add_to_order').modal('toggle');
+		});
+
+		$(document).on('click', '.btn-add-item', function() {
+			if ($('#item_order_id').val($(this).data('oid'))) {
+				$('#add_item').submit();
 			}
 		});
 	});

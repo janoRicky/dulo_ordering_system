@@ -59,6 +59,9 @@ html, body {
     width: 100%;
 }
 
+.featured_type img {
+	max-width: 110px !important;	
+}
 .featured_type:hover, .featured_type.active {
 	background-color: rgba(0, 0, 0, 0.1);
 	border-radius: 1rem;
@@ -155,4 +158,67 @@ input[type=number] {
 
 
 
+.featured_container {
+	overflow: hidden;
+	height: 530px;
+}
+.featured_carousel {
+	overflow: auto;
+	white-space: nowrap;
+	height: 530px;
+}
+.featured_item {
+	display: inline-block;
+	white-space: normal;
+
+	width: 260px;
+	height: 360px;
+	margin: 0 10px;
+}
+.featured_item .card {
+	height: 100%;
+}
+.featured_item .card-body {
+	position: inherit;
+}
+.featured_item .img {
+	height: 260px;
+	object-fit: cover;
+	border-radius: 15px 15px 0 0;
+}
+.featured_item .price {
+	position: absolute;
+	left: 1.5rem;
+	bottom: 0.7rem;
+}
+
+.featured_carousel .control {
+	position: absolute;
+	top: 48%;
+	display: none;
+}
+.featured_carousel .control:hover {
+	color: rgba(0, 0, 0, 0.5);
+}
+
+@media (min-width: 768px) {
+	.featured_container {
+		height: 600px;
+	}
+	.featured_carousel {
+		height: 600px;
+		margin: 0 5rem;
+	}
+	.featured_item {
+		width: 320px;
+		height: 450px;
+		margin: 0 15px;
+	}
+	.featured_item .img {
+		height: 300px;
+	}
+	.featured_carousel .control {
+		display: block;
+	}
+}
 

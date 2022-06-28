@@ -28,7 +28,6 @@ $template_header;
 											<th>ID</th>
 											<th>Img</th>
 											<th>Name</th>
-											<th>Price Range</th>
 											<th>Featured</th>
 											<th>Action</th>
 										</tr>
@@ -50,9 +49,6 @@ $template_header;
 												</td>
 												<td>
 													<?=$row["name"]?>
-												</td>
-												<td>
-													<?=$row["price_range"]?>
 												</td>
 												<td>
 													<?php if ($row["featured"] == 1): ?>
@@ -104,10 +100,6 @@ $template_header;
 						<div class="form-group">
 							<label>Description:</label>
 							<textarea class="form-control" name="inp_description" placeholder="*Description"style="resize: none;" required=""></textarea>
-						</div>
-						<div class="form-group">
-							<label>Price Range:</label>
-							<input type="text" class="form-control" name="inp_price_range" placeholder="*e.g. 150.00 - 200.00" autocomplete="off" required="">
 						</div>
 					</div>
 					<div class="modal-footer">

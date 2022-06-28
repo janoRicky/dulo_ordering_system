@@ -11,6 +11,15 @@
  		$this->load->model("Model_delete");
 
 		date_default_timezone_set("Asia/Manila");
+
+		$this->load->library("email", array(
+			"protocol" => "smtp",
+			"smtp_host" => "ssl://mail.bytemerchant.info",
+			"smtp_port" => 465,
+			"smtp_user" => $this->Model_read->get_config_wkey("smtp_user"), 
+			"smtp_pass" => $this->Model_read->get_config_wkey("smtp_pass"),
+			"mailtype" => "html"
+		));
  	}
 
 	// = = = PRODUCTS
@@ -129,9 +138,9 @@
 		$type_id = $this->input->post("inp_id");
 		$name = $this->input->post("inp_name");
 		$description = $this->input->post("inp_description");
-		$price_range = $this->input->post("inp_price_range");
+		// $price_range = $this->input->post("inp_price_range");
 
-		if ($name == NULL || $description == NULL || $price_range == NULL) {
+		if ($name == NULL || $description == NULL) {
 			$this->session->set_flashdata("alert", array("warning", "One or more inputs are empty."));
 		} else {
 
@@ -285,17 +294,70 @@
 		$order_id = $this->input->post("inp_id");
 		$state = $this->input->post("inp_state");
 
+		$send_email = $this->input->post("inp_send_email");
+
 		if ($order_id == NULL || $state == NULL) {
 			$this->session->set_flashdata("alert", array("warning", "One or more inputs are empty."));
 		} else {
-			$data = array(
-				"state" => $state
-			);
-			if ($this->Model_update->update_order($order_id, $data)) {
-				$this->session->set_flashdata("alert", array("success", "State is successfully updated."));
+			$order = $this->Model_read->get_order_wid($order_id);
+
+			if ($order->num_rows() > 0) {
+
+				$data = array(
+					"state" => $state
+				);
+				if ($this->Model_update->update_order($order_id, $data)) {
+
+					if ($send_email == 'on') {
+						$order_info = $order->row_array();
+						$user = $this->Model_read->get_user_acc_wid($order_info['user_id']);
+
+						if ($user->num_rows() > 0) {
+							$user_info = $user->row_array();
+
+							$states = array(
+								"PENDING", 
+								"ACCEPTED", 
+								"COMPLETED", 
+								"CANCELLED"
+							);
+
+							$this->email->set_newline("\r\n");
+							$this->email->clear();
+							$this->email->from($this->Model_read->get_config_wkey("mail_sender"));
+							$this->email->to($user_info['email']);
+							$this->email->subject("Your Order - Dulo Ordering System");
+							$this->email->message(
+								'<div style="width: 100%; background-color: #fff;">
+									<div style="width: auto; background-color: #000; padding: 2rem 1rem 0 2rem;">
+										<div style="width: 80%; max-width: 250px; margin: 0 auto;">
+											<img style="width: 100%;" src="'. base_url("assets/img/dulo-logo.png") .'">
+										</div>
+									</div>
+									<div style="width: auto; background-color: #000; padding: 2rem; text-align: center; color: #fff; padding-bottom: 3rem;">
+										<h2>THE STATE OF YOUR ORDER HAS BEEN UPDATED!</h2>
+										<p>The state of your order that is due for pickup on '. date('Y-m-d h:i A', strtotime($order_info['datetime_pickup'])) .' has been updated to '. $states[$state] .'.</p>
+										<div style="width: 100%; margin: 3rem 0;">
+											<a href="'. base_url("my_order_details?id=". $order_info["order_id"]) .'" style="border-radius: 1rem; border-radius: 50rem; background-color: #fff; padding: 1rem 2rem; text-decoration: none; color: #000;">
+												<span style="font-weight: bold;">View Order</span>
+											</a>
+										</div>
+									</div>
+								</div>'
+							);
+							$this->email->send();
+						}
+					}
+
+
+					$this->session->set_flashdata("alert", array("success", "State is successfully updated."));
+				} else {
+					$this->session->set_flashdata("alert", array("danger", "Something went wrong, please try again.[0]"));
+				}
 			} else {
-				$this->session->set_flashdata("alert", array("danger", "Something went wrong, please try again."));
+				$this->session->set_flashdata("alert", array("danger", "Something went wrong, please try again.[1]"));
 			}
+			redirect("admin/orders". (isset($order_id) ? "_view?id=". $order_id : ""));
 		}
 		redirect("admin/orders");
 	}

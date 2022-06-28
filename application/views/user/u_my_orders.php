@@ -54,7 +54,7 @@ $template_header;
 																<?=date("Y-m", strtotime($row["date_time"]))?>-<?= str_pad($row["order_id"], 6, '0', STR_PAD_LEFT) ?>
 															</td>
 															<td class="text-center">
-																<?=date("Y-m-d / h:i:s A", strtotime($row["date_time"]))?>
+																<?=date("Y-m-d", strtotime($row["date_time"]))?>
 															</td>
 															<td class="text-center">
 																<?php if ($row["state"] == 0): ?>

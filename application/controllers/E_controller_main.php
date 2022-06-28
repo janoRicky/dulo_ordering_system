@@ -93,6 +93,11 @@
 				$data["product_note"] = (isset($cart_notes[$id]) ? $cart_notes[$id] : "");;
 			}
 
+			if ($this->session->has_userdata("user_in")) {
+				$user_id = $this->session->userdata("user_id");
+				$data["my_orders_pending"] = $this->Model_read->get_order_wuser_id($user_id, '0');
+			}
+
 			$data["product_details"] = $product->row_array();
 			$data["type"] = $this->Model_read->get_type_wid($data["product_details"]["type_id"])->row_array()["name"];
 			$this->load->view("user/u_product", $data);
@@ -272,7 +277,10 @@
 
 		// get order details
 		$order = $this->Model_read->get_order_all_wid_user_id($id, $user_id);
-		if ($id == NULL || $order->num_rows() < 1) {
+		if (!$this->session->has_userdata("user_in")) {
+			$this->session->set_flashdata("notice", array("warning", "Please log-in first."));
+			redirect("home");
+		} elseif ($id == NULL || $order->num_rows() < 1) {
 			redirect("my_orders");
 		} else {
 			// get state count

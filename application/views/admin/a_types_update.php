@@ -40,10 +40,6 @@ $template_header;
 											<label for="inp_type">Description:</label>
 											<textarea class="form-control" name="inp_description" placeholder="*Description" required=""><?=$row_info['description']?></textarea>
 										</div>
-										<div class="col-12 text-start pb-3">
-											<label for="inp_type">Price Range:</label>
-											<input type="text" class="form-control" name="inp_price_range" placeholder="*e.g. 150.00 - 200.00" value="<?=$row_info['price_range']?>" autocomplete="off" required="">
-										</div>
 									</div>
 									<div class="form-group mt-4">
 										<input type="submit" class="btn btn-primary" value="Update">

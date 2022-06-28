@@ -272,7 +272,7 @@
 					if ($this->Model_update->update_user_account($acc_info["user_id"], $data)) {
 						$this->email->set_newline("\r\n");
 						$this->email->clear();
-						$this->email->from("dulo.ordering@gmail.com");
+						$this->email->from($this->Model_read->get_config_wkey("mail_sender"));
 						$this->email->to($email);
 						$this->email->subject("Account Verification - Dulo Ordering System");
 						$this->email->message(
@@ -332,7 +332,7 @@
 					if ($this->Model_update->update_user_account($acc_info["user_id"], $data)) {
 						$this->email->set_newline("\r\n");
 						$this->email->clear();
-						$this->email->from("dulo.ordering@gmail.com");
+						$this->email->from($this->Model_read->get_config_wkey("mail_sender"));
 						$this->email->to($email);
 						$this->email->subject("Forgot Password - Dulo Ordering System");
 						$this->email->message(

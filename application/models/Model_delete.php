@@ -20,6 +20,9 @@ class Model_delete extends CI_Model {
 	public function delete_order_item_worder_id($id) {
 		return $this->db->delete("orders_items", array("order_id" => $id));
 	}
+	public function delete_order_item_witem_id($id) {
+		return $this->db->delete("orders_items", array("item_id" => $id));
+	}
 
 	public function delete_payment($id) {
 		return $this->db->delete("orders_payments", array("payment_id" => $id));

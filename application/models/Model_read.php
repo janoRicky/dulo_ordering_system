@@ -105,6 +105,9 @@ class Model_read extends CI_Model {
 	public function get_order_items_worder_id($id) {
 		return $this->db->get_where("orders_items", array("order_id" => $id));
 	}
+	public function get_order_items_wid_order_id($id,$order_id) {
+		return $this->db->get_where("orders_items", array("item_id" => $id, "order_id" => $order_id));
+	}
 	public function get_order_items_qty_price_worder_id($id) {
 		$this->db->select("qty, price");
 		return $this->db->get_where("orders_items", array("order_id" => $id));

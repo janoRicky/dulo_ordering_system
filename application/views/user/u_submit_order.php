@@ -73,7 +73,7 @@ $template_header;
 																		</span>
 																		<select id="payment_method" name="inp_payment_method" class="form-control fw-bold" style="font-size: 16px;">
 																			<option value="0">Payment On Pick-Up</option>
-																			<option value="1">Online Payment</option>
+																			<option value="1">GCash Payment</option>
 																		</select>
 																	</div>
 																</div>
