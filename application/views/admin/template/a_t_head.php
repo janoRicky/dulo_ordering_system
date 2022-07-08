@@ -15,7 +15,7 @@
 	<!-- BOOTSTRAP -->
 	<link rel="stylesheet" href="<?=base_url()?>assets/bootstrap-5.0.2-dist/css/bootstrap.min.css">
 	<!-- DATATABLES -->
-	<link rel="stylesheet" href="<?=base_url()?>assets/css/datatables.min.css">
+	<link rel="stylesheet" href="<?=base_url()?>assets/DataTables/datatables.min.css"/>
 	
 	<link rel="stylesheet" href="<?=base_url()?>assets/mdb.min.css">
 	<!-- CUSTOM STYLE -->

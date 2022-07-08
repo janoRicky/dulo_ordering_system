@@ -83,7 +83,7 @@ $template_header;
 															<div class="row mt-2 justify-content-center">
 																<div class="col-12 col-md-10 col-lg-8 rounded-pill text-center pt-3 pb-3 mb-4 text-light" style="background-color: #007dfe;">
 																	<img class="mb-2" src="https://www.gcash.com/wp-content/uploads/2019/07/gcash-logo.png" alt="GCash">
-																	<h5 class="fw-bold">(Send Payment to GCash # 0999999999)</h5>
+																	<h5 class="fw-bold">(Send Payment to GCash # <?=$gcash_number?>)</h5>
 																</div>
 															</div>
 															<div class="row mt-2">

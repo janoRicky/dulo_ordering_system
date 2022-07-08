@@ -4,7 +4,7 @@
 <!-- BOOTSTRAP -->
 <script type="text/javascript" src="<?=base_url()?>assets/bootstrap-5.0.2-dist/js/bootstrap.bundle.min.js"></script>
 <!-- DATATABLES -->
-<script type="text/javascript" src="<?=base_url()?>assets/js/datatables.min.js"></script>
+<script type="text/javascript" src="<?=base_url()?>assets/DataTables/datatables.min.js"></script>
 
 <script type="text/javascript" src="<?=base_url()?>assets/mdb.min.js"></script>
 

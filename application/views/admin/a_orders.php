@@ -13,12 +13,13 @@ $template_header;
 					<div class="container-fluid p-2 py-5 p-sm-5 justify-content-center">
 						
 						<div class="row py-3 col-12 col-md-9 mx-auto border-bottom mb-4 title_bar">
-							<div class="col-12 col-sm-6 text-start">
+							<div class="col text-start">
 								<h2 class="fw-bold">Orders <small class="text-muted">x<?=$tbl_orders->num_rows()?></small></h2>
 							</div>
-							<div class="col-12 col-sm-6 text-end">
+							<div class="col-auto text-end">
 								<button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal_scan_order"><i class="fa fa-qrcode p-1" aria-hidden="true"></i> Scan Order</button>
 								<button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal_new_order"><i class="fa fa-plus p-1" aria-hidden="true"></i> New Order</button>
+								<?php $this->load->view("admin/template/a_t_export_buttons"); ?>
 							</div>
 						</div>
 						<div class="row col-12 col-md-9 mx-auto">
@@ -39,16 +40,16 @@ $template_header;
 						</div>
 						<div class="row col-12 col-md-9 mx-auto">
 							<div class="col-12 table-responsive table-striped table-hover table-bordered">
-								<table id="table_orders" class="table table-striped table-hover table-responsive-md table-bordered">
+								<table id="table_main" class="table table-striped table-hover table-responsive-md table-bordered">
 									<thead>
 										<tr>
-											<th>ID</th>
-											<th>User</th>
-											<th>Pick-Up Time</th>
-											<th>Date / Time</th>
-											<th>Ordered Qty.</th>
-											<th>Ordered Price</th>
-											<th>State</th>
+											<th data-included="yes">ID</th>
+											<th data-included="yes">User</th>
+											<th data-included="yes">Pick-Up Time</th>
+											<th data-included="yes">Date / Time</th>
+											<th data-included="yes">Ordered Qty.</th>
+											<th data-included="yes">Ordered Price</th>
+											<th data-included="yes">State</th>
 											<th>Action</th>
 										</tr>
 									</thead>
@@ -362,6 +363,7 @@ $template_header;
 </body>
 
 <script src="<?=base_url()?>assets/js/qr-scanner.umd.min.js"></script>
+<script src="<?=base_url()?>assets/js/admin_tables.js"></script>
 
 <script type="text/javascript">
 	$(document).ready(function () {
@@ -369,8 +371,6 @@ $template_header;
 			$("#delete_id").text($(this).data("id"));
 			$("#delete_inp_id").val($(this).data("id"));
 		});
-
-		$("#table_orders").DataTable({ "order": [[0, "desc"]] });
 
 		$(document).on("click", ".btn_no_account", function() {
 			if ($(this).hasClass("w-100")) {

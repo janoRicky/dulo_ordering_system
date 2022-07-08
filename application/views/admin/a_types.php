@@ -13,21 +13,22 @@ $template_header;
 					<div class="container-fluid p-2 py-5 p-sm-5 justify-content-center">
 						
 						<div class="row py-3 col-12 col-md-9 mx-auto border-bottom mb-4 title_bar">
-							<div class="col-12 col-sm-6 text-start">
+							<div class="col text-start">
 								<h2 class="fw-bold">Types <small class="text-muted">x<?=$tbl_types->num_rows()?></small></h2>
 							</div>
-							<div class="col-12 col-sm-6 text-end">
+							<div class="col-auto text-end">
 								<button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal_new_type"><i class="fa fa-plus p-1" aria-hidden="true"></i> New Type</button>
+								<?php $this->load->view("admin/template/a_t_export_buttons"); ?>
 							</div>
 						</div>
 						<div class="row col-12 col-md-9 mx-auto">
 							<div class="col-12 table-responsive table-striped table-hover table-bordered">
-								<table id="table_types" class="table table-striped table-hover table-responsive-md table-bordered">
+								<table id="table_main" class="table table-striped table-hover table-responsive-md table-bordered">
 									<thead>
 										<tr>
-											<th>ID</th>
+											<th data-included="yes">ID</th>
 											<th>Img</th>
-											<th>Name</th>
+											<th data-included="yes">Name</th>
 											<th>Featured</th>
 											<th>Action</th>
 										</tr>
@@ -147,6 +148,7 @@ $template_header;
 		</div>
 	</div>
 </body>
+<script src="<?=base_url()?>assets/js/admin_tables.js"></script>
 <script type="text/javascript">
 	$(document).ready(function () {
 		$(".btn_featured").on("click", function() {
@@ -156,8 +158,6 @@ $template_header;
 			$("#delete_id").text($(this).data("id"));
 			$("#delete_inp_id").val($(this).data("id"));
 		});
-
-		$("#table_types").DataTable({ "order": [[0, "desc"]] });
 
 		$(document).on("change", "#type_image", function() {
 			if (this.files && this.files[0]) {

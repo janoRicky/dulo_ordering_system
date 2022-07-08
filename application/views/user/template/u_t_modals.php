@@ -163,7 +163,7 @@
 									<h6 class="fw-bold">Password: </h6>
 								</div>
 								<div class="col-12">
-									<input class="form-control bg-dark text-light border-dark" type="password" minlength="8" name="inp_password" placeholder="*Password" required="">
+									<input class="form-control bg-dark text-light border-dark" type="password" name="inp_password" placeholder="*Password" required="">
 								</div>
 							</div>
 						</div>

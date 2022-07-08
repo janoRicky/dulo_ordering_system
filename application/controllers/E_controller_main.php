@@ -161,6 +161,7 @@
 				} else {
 					$user_details = NULL;
 				}
+				$data["gcash_number"] = $this->Model_read->get_config_wkey("gcash_number");
 				$data["grand_total"] = $grand_total;
 				// $data["delivery_method"] = $delivery_method;
 				$data["account_details"] = $user_details;

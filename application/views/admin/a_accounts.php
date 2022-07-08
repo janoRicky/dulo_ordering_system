@@ -13,21 +13,22 @@ $template_header;
 					<div class="container-fluid p-2 py-5 p-sm-5 justify-content-center">
 						
 						<div class="row py-3 col-12 col-md-9 mx-auto border-bottom mb-4 title_bar">
-							<div class="col-12 col-sm-6 text-start">
+							<div class="col text-start">
 								<h2 class="fw-bold">Accounts <small class="text-muted">x<?=$tbl_accounts->num_rows()?></small></h2>
 							</div>
-							<div class="col-12 col-sm-6 text-end">
+							<div class="col-auto text-end">
 								<button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal_new_account"><i class="fa fa-plus p-1" aria-hidden="true"></i> New Account</button>
+								<?php $this->load->view("admin/template/a_t_export_buttons"); ?>
 							</div>
 						</div>
 						<div class="row col-12 col-md-9 mx-auto">
 							<div class="col-12 table-responsive table-striped table-hover table-bordered">
-								<table id="table_accounts" class="table table-striped table-hover table-responsive-sm table-bordered">
+								<table id="table_main" class="table table-striped table-hover table-responsive-sm table-bordered">
 									<thead>
 										<tr>
-											<th>ID</th>
-											<th>Name</th>
-											<th>Email</th>
+											<th data-included="yes">ID</th>
+											<th data-included="yes">Name</th>
+											<th data-included="yes">Email</th>
 											<th>Action</th>
 										</tr>
 									</thead>
@@ -114,14 +115,13 @@ $template_header;
 		</div>
 	</div>
 </body>
+<script src="<?=base_url()?>assets/js/admin_tables.js"></script>
 <script type="text/javascript">
 	$(document).ready(function () {
 		$(".btn_delete").on("click", function() {
 			$("#delete_id").text($(this).data("id"));
 			$("#delete_inp_id").val($(this).data("id"));
 		});
-
-		$("#table_accounts").DataTable({ "order": [[0, "desc"]] });
 	});
 </script>
 </html>
