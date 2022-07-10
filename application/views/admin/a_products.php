@@ -172,7 +172,7 @@ $template_header;
 				<?=form_open(base_url() . "admin/product_update_qty", "method='POST'");?>
 					<input id="qty_product_inp_id" type="hidden" name="inp_id_upd">
 					<div class="modal-header">
-						<h4 class="modal-title">Delete Product</h4>
+						<h4 class="modal-title">Update Qty</h4>
 						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 					</div>
 					<div class="modal-body">
