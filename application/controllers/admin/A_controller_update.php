@@ -135,7 +135,7 @@
 	}
 	public function edit_product_qty() {
 		$product_id = $this->input->post("inp_id_upd");
-		$qty = $this->input->post("inp_qty_upd");
+		$qty = intval($this->input->post("inp_qty_upd"));
 
 		if ($product_id == NULL) {
 			$this->session->set_flashdata("alert", array("warning", "One or more inputs are empty."));
