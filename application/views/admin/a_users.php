@@ -161,12 +161,12 @@ $template_header;
 <script src="<?=base_url()?>assets/js/admin_tables.js"></script>
 <script type="text/javascript">
 	$(document).ready(function () {
-		$(".btn_delete").on("click", function() {
+		$(document).on("click", ".btn_delete", function() {
 			$("#delete_id").text($(this).data("id"));
 			$("#delete_inp_id").val($(this).data("id"));
 		});
 
-		$(".btn_no_account").on("click", function() {
+		$(document).on("click", ".btn_no_account", function() {
 			if ($(".a_info").is(":visible")) {
 				$(".user_email").removeAttr("required");
 				$(".user_password").removeAttr("required");

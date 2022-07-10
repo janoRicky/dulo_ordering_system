@@ -371,7 +371,7 @@ $template_header;
 
 <script type="text/javascript">
 	$(document).ready(function () {
-		$(".btn_delete").on("click", function() {
+		$(document).on("click", ".btn_delete", function() {
 			$("#delete_id").text($(this).data("id"));
 			$("#delete_inp_id").val($(this).data("id"));
 		});
@@ -506,7 +506,7 @@ $template_header;
 
 		$("#table_products").DataTable();
 
-		$(".user_email").on("keyup", function(e) {
+		$(document).on("keyup", ".user_email", function(e) {
 			if ($(this).val().length > 0) {
 				if (!$(".email_dropdown").hasClass("show")) {
 					$(".user_email").dropdown("toggle");
@@ -552,7 +552,7 @@ $template_header;
 				});
 			});
 		});
-		$(".no_account_last_name").on("keydown", function(e) {
+		$(document).on("keydown", ".no_account_last_name", function(e) {
 			if (!$(".no_account_dropdown").hasClass("show")) {
 				$(".no_account_last_name").dropdown("toggle");
 			}

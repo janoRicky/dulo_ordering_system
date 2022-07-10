@@ -81,8 +81,8 @@ $template_header;
 													<?php endif; ?>
 												</td>
 												<td>
-													<button class="btn btn-success btn-sm btn_featured" data-bs-toggle="modal" data-bs-target="#modal_featured" data-id="<?=$row['product_id']?>">Feature</button><br>
 													<button class="btn btn-info btn-sm mt-1 btn_visibility" data-bs-toggle="modal" data-bs-target="#modal_visibility" data-id="<?=$row['product_id']?>">Visibility</button><br>
+													<button class="btn btn-success btn-sm btn_featured" data-bs-toggle="modal" data-bs-target="#modal_featured" data-id="<?=$row['product_id']?>">Feature</button><br>
 													<button class="btn btn-warning btn-sm mt-1 btn_qty" data-bs-toggle="modal" data-bs-target="#modal_update_qty" data-id="<?=$row['product_id']?>" data-qty="<?=$row['qty']?>">Qty</button><br>
 													<a class="action_button" href="<?=base_url();?>admin/products_view?id=<?=$row['product_id']?>">
 														<i class="fa fa-eye fa-lg text-primary p-1" aria-hidden="true"></i>
@@ -193,23 +193,6 @@ $template_header;
 			<div class="modal-content">
 				<?=form_open(base_url() . "admin/product_update_featured", "method='POST'");?>
 					<input id="featured_inp_id" type="hidden" name="inp_id">
-					<!-- <div class="modal-header">
-						<h4 class="modal-title">Feature Product</h4>
-						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-					</div>
-					<div class="modal-body">
-						<div class="form-group">
-							<label>Featured:</label>
-							<select name="inp_featured_no" class="form-control" required="">
-								<option value="1">1</option>
-								<option value="2">2</option>
-								<option value="3">3</option>
-							</select>
-						</div>
-					</div>
-					<div class="modal-footer">
-						<input type="submit" class="btn btn-primary" value="Feature">
-					</div> -->
 					<div class="modal-header">
 						<h4 class="modal-title">Feature Type</h4>
 						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -243,17 +226,17 @@ $template_header;
 <script src="<?=base_url()?>assets/js/admin_tables.js"></script>
 <script type="text/javascript">
 	$(document).ready(function () {
-		$(".btn_featured").on("click", function() {
+		$(document).on("click", ".btn_featured", function() {
 			$("#featured_inp_id").val($(this).data("id"));
 		});
-		$(".btn_visibility").on("click", function() {
+		$(document).on("click", ".btn_visibility", function() {
 			$("#visibility_inp_id").val($(this).data("id"));
 		});
-		$(".btn_delete").on("click", function() {
+		$(document).on("click", ".btn_delete", function() {
 			$("#delete_id").text($(this).data("id"));
 			$("#delete_inp_id").val($(this).data("id"));
 		});
-		$(".btn_qty").on("click", function() {
+		$(document).on("click", ".btn_qty", function() {
 			$("#qty_product_inp_id").val($(this).data("id"));
 			$("#qty_product_current").val($(this).data("qty"));
 		});
