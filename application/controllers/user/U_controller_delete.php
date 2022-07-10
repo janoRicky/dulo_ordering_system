@@ -7,6 +7,7 @@
  		parent::__construct();
  		$this->load->model("Model_read");
  		$this->load->model("Model_delete");
+        $this->load->model("Model_update");
  	}
 
 
@@ -42,6 +43,12 @@
             $item = $this->Model_read->get_order_items_wid_order_id($item_id, $order_id);
             if ($item->num_rows() > 0) {
                 $this->Model_delete->delete_order_item_witem_id($item_id);
+
+                $item_details = $item->row_array();
+                $p_details = $this->Model_read->get_product_wid_user($item_details['product_id'])->row_array();
+                $data_product["qty"] = $p_details['qty'] + $item_details['qty'];
+                $this->Model_update->update_product($item_details['product_id'], $data_product);
+
                 $this->session->set_flashdata("notice", array("success", "Successfully removed item."));
             } else {
                 $this->session->set_flashdata("notice", array("danger", "Something went wrong, please try again.[1]"));

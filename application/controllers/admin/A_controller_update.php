@@ -133,6 +133,28 @@
 		}
 		redirect("admin/products");
 	}
+	public function edit_product_qty() {
+		$product_id = $this->input->post("inp_id_upd");
+		$qty = $this->input->post("inp_qty_upd");
+
+		if ($product_id == NULL) {
+			$this->session->set_flashdata("alert", array("warning", "One or more inputs are empty."));
+		} else {
+			$row_info = $this->Model_read->get_product_wid($product_id)->row_array();
+
+			$data = array(
+				"qty" => $qty
+			);
+
+			if ($this->Model_update->update_product($product_id, $data)) {
+				$this->session->set_flashdata("alert", array("success", "Product qty is successfully updated."));
+				redirect("admin/products");
+			} else {
+				$this->session->set_flashdata("alert", array("danger", "Something went wrong, please try again."));
+			}
+		}
+		redirect("admin/products". (isset($product_id) ? "_view?id=". $product_id : ""));
+	}
 	// = = = TYPES
 	public function edit_type() {
 		$type_id = $this->input->post("inp_id");
@@ -278,7 +300,7 @@
 						$this->Model_update->update_product($row["product_id"], $data_product);
 
 						$row["order_id"] = $order_id;
-						$row["type"] = "NORMAL";
+						$row["type"] = "PICKUP";
 						$this->Model_create->create_order_item($row);
 					}
 

@@ -241,6 +241,7 @@ $template_header;
 											<th>Name</th>
 											<th>Img</th>
 											<th>Type</th>
+											<th>Qty</th>
 											<th>Price</th>
 											<th>Action</th>
 										</tr>
@@ -268,6 +269,9 @@ $template_header;
 														echo "Deleted Type (Edit Required)";
 													}
 													?>
+												</td>
+												<td class="qty">
+													<?=$row["qty"]?>
 												</td>
 												<td class="price">
 													<?=$row["price"]?>
@@ -427,6 +431,7 @@ $template_header;
 					type: "number",
 					name: "item_" + ctr + "_qty",
 					min: "1",
+					max: $.trim($product.children(".qty").html()),
 					value: "1",
 				}));
 				var $price = $("<td>").append($("<input>").attr({
@@ -614,8 +619,7 @@ $template_header;
 
 
 
-
-
+		// QR SCANNER
 
 		const video = document.getElementById('qr-video');
 		const videoContainer = document.getElementById('video-container');

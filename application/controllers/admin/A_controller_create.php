@@ -169,6 +169,25 @@
 			if ($user->num_rows() < 1 && $user_id != 0) {
 				$this->session->set_flashdata("alert", array("warning", "User ID does not exist."));
 			} else {
+				$total_qty = 0;
+				foreach ($items as $row) { // check if qty is enough
+					$p_details = $this->Model_read->get_product_wid_user($id)->row_array();
+					$total_qty = $p_details["qty"] - $qty;
+					if ($total_qty < 0) {
+						$unstocked_product = $p_details["name"];
+						break;
+					}
+				}
+
+				if ($total_qty < 0) {
+					$this->session->set_flashdata("alert", array("danger", $unstocked_product ." does not have enough stock. [Available: ". $p_details['qty'] ."]"));
+				} else {
+
+				}
+
+
+
+
 				$error = NULL;
 				if ($user_id == 0) {
 					$name_last = $this->input->post("inp_name_last");
@@ -265,10 +284,11 @@
 
 						foreach ($items as $row) {
 							$product_info = $this->Model_read->get_product_wid($row["product_id"])->row_array();
-							// $this->Model_update->update_product($row["product_id"], $data_product);
+							$data_product["qty"] = $product_info["qty"] - $row["qty"];
+							$this->Model_update->update_product($row["product_id"], $data_product);
 
 							$row["order_id"] = $item_id;
-							$row["type"] = "NORMAL";
+							$row["type"] = "PICKUP";
 							$this->Model_create->create_order_item($row);
 						}
 

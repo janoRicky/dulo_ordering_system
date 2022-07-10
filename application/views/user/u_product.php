@@ -22,77 +22,86 @@ $template_header;
 									?>">
 									<div class="row mt-2">
 										<div class="col-12 text-center">
-											<h2 class="fw-bold"><?=$product_details["name"]?></h2>
+											<h3 class="fw-bold"><?=$product_details["name"]?></h3>
 										</div>
 									</div>
-									<div class="row mt-1 mb-2">
-										<div class="col-0 col-sm-3"></div>
-										<div class="col-12 col-sm-6 text-center">
-											<h3 class="text-muted price" style="color: #dd0000 !important;">
+									<div class="row mt-1 mb-1 text-center">
+										<div class="col-12 text-center">
+											<h4 class="text-muted price" style="color: #dd0000 !important;">
 												PHP <?=number_format($product_details["price"], 2)?>
-											</h3>
+											</h4>
 										</div>
-										<div class="col-0 col-sm-3"></div>
+									</div>
+									<div class="row mt-1 mb-2 text-center">
+										<div class="col-12 rounded-pill bg-secondary text-center py-2 text-light">
+											<span class="fw-bold">Qty Available: </span> <?=$product_details["qty"]?>
+										</div>
 									</div>
 									<div class="row mb-2 px-4">
 										<div class="col-12">
-											<h4 class="font-weight-light"><?=$product_details["description"]?></h4>
+											<h5 class="font-weight-light"><?=$product_details["description"]?></h5>
 										</div>
 									</div>
 								</div>
 								<div class="col-12 col-md-7">
-									<?php
-									$current_qty = $product_details["qty"];
-									if ($this->session->has_userdata("cart")) {
-										$cart = $this->session->userdata("cart");
-										$item_key = array_search($product_details["product_id"], array_column($cart, 0));
-										if ($item_key !== FALSE) {
-											$current_qty = $product_details["qty"] - $cart[$item_key][1];
+									<?php if ($product_details["qty"] < 1): ?>
+										<div class="rounded-pill bg-warning text-center p-3 mx-5" style="margin-top: 40%;">
+											<h5 class="fw-bold">PRODUCT IS CURRENTLY UNAVAILABLE</h5>
+										</div>
+									<?php else: ?>
+										<?php
+										$current_qty = $product_details["qty"];
+										if ($this->session->has_userdata("cart")) {
+											$cart = $this->session->userdata("cart");
+											$item_key = array_search($product_details["product_id"], array_column($cart, 0));
+											if ($item_key !== FALSE) {
+												$current_qty = $product_details["qty"] - $cart[$item_key][1];
+											}
 										}
-									}
-									?>
-									<?=form_open(base_url() . "to_cart", "method='GET'")?>
-										<input type="hidden" name="id" value="<?=$product_details['product_id']?>">
-										<div class="row justify-content-center mt-5">
-											<div class="col-11 col-sm-12 text-center">
-												<h5 class="fw-bold">ADDITIONAL NOTE <span class="text-muted">[OPTIONAL]</span>:</h5>
-											</div>
-											<div class="col-11 col-sm-7">
-												<textarea id="adtl_note" class="form-control text-center" name="adtl_note" maxlength="255" rows="3"><?=(isset($product_note) ? $product_note : "")?></textarea>
-											</div>
-										</div>
-										<div class="row justify-content-center mt-1 mt-md-4">
-											<div class="col-12 col-md-12">
-												<div class="row justify-content-center py-3">
-													<button class="btn btn-qty-subtract" type="button" style="width: 72px; height: 72px; border-radius: 100%;">
-														<i class="mdi mdi-minus-circle-outline mdi-36px"></i>
-													</button>
-													<input class="form-control text-center mx-2" id="product_qty" style="width: 120px; font-size: 24px;" type="number" name="amount" min="1" value="<?=(isset($product_qty) ? $product_qty : '1')?>" required="" placeholder="*Qty">
-													<button class="btn btn-qty-add" type="button" style="width: 72px; height: 72px; border-radius: 100%;">
-														<i class="mdi mdi-plus-circle-outline mdi-36px"></i>
-													</button>
+										?>
+										<?=form_open(base_url() . "to_cart", "method='GET'")?>
+											<input type="hidden" name="id" value="<?=$product_details['product_id']?>">
+											<div class="row justify-content-center mt-5">
+												<div class="col-11 col-sm-12 text-center">
+													<h5 class="fw-bold">ADDITIONAL NOTE <span class="text-muted">[OPTIONAL]</span>:</h5>
+												</div>
+												<div class="col-11 col-sm-7">
+													<textarea id="adtl_note" class="form-control text-center" name="adtl_note" maxlength="255" rows="3"><?=(isset($product_note) ? $product_note : "")?></textarea>
 												</div>
 											</div>
-										</div>
-										<div class="row justify-content-center mt-1 mt-md-4 pb-4">
-											<div class="col-10 col-md-12 text-center">
-												<button class="btn fw-bold px-4 py-3 mb-2 rounded-pill product_btn" type="submit" name="submit" value="AC">
-													<i class="mdi mdi-cart-arrow-down"></i> ADD TO CART
-												</button>
-												<button class="btn fw-bold px-4 py-3 mb-2 rounded-pill product_btn" type="submit" name="submit" value="BN">
-													<i class="mdi mdi-cash" aria-hidden="true"></i> BUY NOW
-												</button>
+											<div class="row justify-content-center mt-1 mt-md-4">
+												<div class="col-12 col-md-12">
+													<div class="row justify-content-center py-3">
+														<button class="btn btn-qty-subtract" type="button" style="width: 72px; height: 72px; border-radius: 100%;">
+															<i class="mdi mdi-minus-circle-outline mdi-36px"></i>
+														</button>
+														<input class="form-control text-center mx-2" id="product_qty" style="width: 120px; font-size: 24px;" type="number" name="amount" min="1" max="<?=$product_details["qty"]?>" value="<?=(isset($product_qty) ? $product_qty : '1')?>" required="" placeholder="*Qty">
+														<button class="btn btn-qty-add" type="button" style="width: 72px; height: 72px; border-radius: 100%;">
+															<i class="mdi mdi-plus-circle-outline mdi-36px"></i>
+														</button>
+													</div>
+												</div>
 											</div>
-
-											<?php if (isset($my_orders_pending)): ?>
+											<div class="row justify-content-center mt-1 mt-md-4 pb-4">
 												<div class="col-10 col-md-12 text-center">
-													<button class="btn btn-success fw-bold px-4 py-3 mb-2 rounded-pill btn-add-to-order" type="button">
-														ADD TO ORDER
+													<button class="btn fw-bold px-4 py-3 mb-2 rounded-pill product_btn" type="submit" name="submit" value="AC">
+														<i class="mdi mdi-cart-arrow-down"></i> ADD TO CART
+													</button>
+													<button class="btn fw-bold px-4 py-3 mb-2 rounded-pill product_btn" type="submit" name="submit" value="BN">
+														<i class="mdi mdi-cash" aria-hidden="true"></i> BUY NOW
 													</button>
 												</div>
-											<?php endif; ?>
-										</div>
-									<?=form_close()?>
+
+												<?php if (isset($my_orders_pending)): ?>
+													<div class="col-10 col-md-12 text-center">
+														<button class="btn btn-success fw-bold px-4 py-3 mb-2 rounded-pill btn-add-to-order" type="button">
+															ADD TO ORDER
+														</button>
+													</div>
+												<?php endif; ?>
+											</div>
+										<?=form_close()?>
+									<?php endif; ?>
 								</div>
 							</div>
 						</div>
@@ -180,7 +189,9 @@ $template_header;
 		<?php endif; ?>
 
 		$('.btn-qty-add').on('click', function() {
+			if (parseInt($('#product_qty').val()) < parseInt($('#product_qty').attr('max'))) {
 			$('#product_qty').val(parseInt($('#product_qty').val()) + 1);
+			}
 		});
 		$('.btn-qty-subtract').on('click', function() {
 			if (parseInt($('#product_qty').val()) - 1 > 0) {

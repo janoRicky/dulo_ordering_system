@@ -30,6 +30,7 @@ $template_header;
 											<th>Img</th>
 											<th data-included="yes">Name</th>
 											<th data-included="yes">Type</th>
+											<th>Qty</th>
 											<th>Visible</th>
 											<th>Featured</th>
 											<th>Action</th>
@@ -63,6 +64,9 @@ $template_header;
 													?>
 												</td>
 												<td>
+													<?=$row["qty"]?>
+												</td>
+												<td>
 													<?php if ($row["visibility"] == 1): ?>
 														<i class="fa fa-check-circle text-success fa-lg" aria-hidden="true"></i>
 													<?php else: ?>
@@ -79,6 +83,7 @@ $template_header;
 												<td>
 													<button class="btn btn-success btn-sm btn_featured" data-bs-toggle="modal" data-bs-target="#modal_featured" data-id="<?=$row['product_id']?>">Feature</button><br>
 													<button class="btn btn-info btn-sm mt-1 btn_visibility" data-bs-toggle="modal" data-bs-target="#modal_visibility" data-id="<?=$row['product_id']?>">Visibility</button><br>
+													<button class="btn btn-warning btn-sm mt-1 btn_qty" data-bs-toggle="modal" data-bs-target="#modal_update_qty" data-id="<?=$row['product_id']?>" data-qty="<?=$row['qty']?>">Qty</button><br>
 													<a class="action_button" href="<?=base_url();?>admin/products_view?id=<?=$row['product_id']?>">
 														<i class="fa fa-eye fa-lg text-primary p-1" aria-hidden="true"></i>
 													</a>
@@ -161,6 +166,28 @@ $template_header;
 			</div>
 		</div>
 	</div>
+	<div id="modal_update_qty" class="modal">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<?=form_open(base_url() . "admin/product_update_qty", "method='POST'");?>
+					<input id="qty_product_inp_id" type="hidden" name="inp_id_upd">
+					<div class="modal-header">
+						<h4 class="modal-title">Delete Product</h4>
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					</div>
+					<div class="modal-body">
+						<div class="form-group">
+							<label>Qty:</label>
+							<input id="qty_product_current" type="number" class="form-control" name="inp_qty_upd" placeholder="*Qty" autocomplete="off" required="">
+						</div>
+					</div>
+					<div class="modal-footer">
+						<input type="submit" class="btn btn-primary" value="Update">
+					</div>
+				<?=form_close()?>
+			</div>
+		</div>
+	</div>
 	<div id="modal_featured" class="modal">
 		<div class="modal-dialog">
 			<div class="modal-content">
@@ -225,6 +252,10 @@ $template_header;
 		$(".btn_delete").on("click", function() {
 			$("#delete_id").text($(this).data("id"));
 			$("#delete_inp_id").val($(this).data("id"));
+		});
+		$(".btn_qty").on("click", function() {
+			$("#qty_product_inp_id").val($(this).data("id"));
+			$("#qty_product_current").val($(this).data("qty"));
 		});
 
 

@@ -189,6 +189,7 @@ $route['admin/acc_update'] = 'admin/A_controller_update/edit_admin_account';
 $route['admin/product_update_featured'] = 'admin/A_controller_update/edit_product_featured';
 $route['admin/type_update_featured'] = 'admin/A_controller_update/edit_type_featured';
 $route['admin/product_update_visibility'] = 'admin/A_controller_update/edit_product_visibility';
+$route['admin/product_update_qty'] = 'admin/A_controller_update/edit_product_qty';
 $route['admin/order_update_state'] = 'admin/A_controller_update/edit_order_state';
 $route['admin/order_update_state_custom'] = 'admin/A_controller_update/edit_order_state_custom';
 $route['admin/order_update_payment'] = 'admin/A_controller_update/edit_order_payment';

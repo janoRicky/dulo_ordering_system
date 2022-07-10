@@ -170,140 +170,87 @@
 
 			    $user_info = $user->row_array();
 
+				$data_products = array();
 				$data_items = array();
 				foreach ($items as $id => $qty) {
 					if ($id != NULL && $qty != NULL) {
 						$p_details = $this->Model_read->get_product_wid_user($id)->row_array();
+						$total_qty = $p_details["qty"] - $qty;
+						if ($total_qty < 0) {
+							$unstocked_product = $p_details["name"];
+							break;
+						} else {
+							$data_products[$id] = $total_qty;
 
-						$data_temp = array(
-							"product_id" => $id,
-							"qty" => $qty,
-							"price" => $p_details["price"],
-							"type" => "PICKUP"
-						);
-						$data_temp["adtl_note"] = (isset($items_notes[$id]) ? $items_notes[$id] : "");
-
-						$data_items[] = $data_temp;
+							$data_items[] = array(
+								"product_id" => $id,
+								"qty" => $qty,
+								"price" => $p_details["price"],
+								"type" => "PICKUP"
+							);
+						}
 					}
 				}
 
+				if ($total_qty >= 0) {
+					// generate unique id
+					do {
+						$ouid = uniqid('', true);
+					} while ($this->Model_read->get_order_all_w_ouid($ouid)->num_rows() > 0);
 
-				// generate unique id
-				do {
-					$ouid = uniqid('', true);
-				} while ($this->Model_read->get_order_all_w_ouid($ouid)->num_rows() > 0);
-
-				// make directories
-				if (!is_dir("uploads")) {
-					mkdir("./uploads", 0755, TRUE);
-				}
-				if (!is_dir("uploads/orders")) {
-					mkdir("./uploads/orders", 0755, TRUE);
-				}
-
-				// make file path
-				$file_name = $ouid .'.png';
-				$file_path = 'uploads/orders/'. $file_name;
-				$qr_link = base_url() .'order?ouid='. $ouid;
-
-
-				$data = array(
-					"order_uid" => $ouid,
-
-					"user_id" => $user_id,
-					"date_time" => $date_time,
-					// "zip_code" => $zip_code,
-					// "country" => $country,
-					// "province" => $province,
-					// "city" => $city,
-					// "street" => $street,
-					// "address" => $address,
-					"datetime_pickup" => $datetime_pickup,
-
-					"img_qr" => $file_name,
-
-					"state" => "0",
-					"status" => "1"
-				);
-				if ($this->Model_create->create_order($data)) {
-					$order_id = $this->db->insert_id();
-
-					foreach ($data_items as $row) {
-						$row["order_id"] = $order_id;
-						$this->Model_create->create_order_item($row);
+					// make directories
+					if (!is_dir("uploads")) {
+						mkdir("./uploads", 0755, TRUE);
+					}
+					if (!is_dir("uploads/orders")) {
+						mkdir("./uploads/orders", 0755, TRUE);
 					}
 
-					$this->session->unset_userdata("cart");
+					// make file path
+					$file_name = $ouid .'.png';
+					$file_path = 'uploads/orders/'. $file_name;
+					$qr_link = base_url() .'order?ouid='. $ouid;
 
-					// generating
-					if (!file_exists($file_path)) {
-						QRcode::png($qr_link, $file_path, QR_ECLEVEL_L, 6, 4);
-					}
 
-					if ($payment_method == 0) {
-						$this->email->set_newline("\r\n");
-						$this->email->clear();
-						$this->email->from($this->Model_read->get_config_wkey("mail_sender"));
-						$this->email->to($this->Model_read->get_config_wkey("alerts_email_send_to"));
-						$this->email->subject("New Order!");
-						$this->email->message(
-							"A new order has been placed by ". $user_info["email"] ."[user #". $user_id ."] at ". $date_time
-						);
-						$this->email->send();
+					$data = array(
+						"order_uid" => $ouid,
 
-						$this->session->set_flashdata("notice", array("success", "Order is successfully added."));
-						
-						redirect("my_orders");
-					} else { // ONLINE PAYMENT
-						// insert order payment
-						$img = NULL;
+						"user_id" => $user_id,
+						"date_time" => $date_time,
+						// "zip_code" => $zip_code,
+						// "country" => $country,
+						// "province" => $province,
+						// "city" => $city,
+						// "street" => $street,
+						// "address" => $address,
+						"datetime_pickup" => $datetime_pickup,
 
-						$user_folder = "user_". $user_id;
-						$payment_folder = "order_". $order_id;
+						"img_qr" => $file_name,
 
-						$config["upload_path"] = "./uploads/users/". $user_folder ."/payments/". $payment_folder;
-						$config["allowed_types"] = "gif|jpg|jpeg|png";
-						$config["max_size"] = 5000;
-						$config["encrypt_name"] = TRUE;
+						"state" => "0",
+						"status" => "1"
+					);
+					if ($this->Model_create->create_order($data)) {
+						$order_id = $this->db->insert_id();
 
-						$this->load->library("upload", $config);
-						if (!is_dir("uploads")) {
-							mkdir("./uploads", 0777, TRUE);
-						}
-						if (!is_dir("uploads/users")) {
-							mkdir("./uploads/users", 0777, TRUE);
-						}
-						if (!is_dir("uploads/users/". $user_folder)) {
-							mkdir("./uploads/users/". $user_folder, 0777, TRUE);
-						}
-						if (!is_dir("uploads/users/". $user_folder ."/payments")) {
-							mkdir("./uploads/users/". $user_folder ."/payments", 0777, TRUE);
-						}
-						if (!is_dir("uploads/users/". $user_folder ."/payments/". $payment_folder)) {
-							mkdir("./uploads/users/". $user_folder ."/payments/". $payment_folder, 0777, TRUE);
+						foreach ($data_products as $id => $qty) {
+							$data_product["qty"] = $qty;
+							$this->Model_update->update_product($id, $data_product);
 						}
 
-						if (isset($_FILES["inp_img"])) {
-							if (!$this->upload->do_upload("inp_img")) {
-								$this->session->set_flashdata("notice", array("warning", $this->upload->display_errors()));
-							} else {
-								$img = $this->upload->data("file_name");
-							}
+						foreach ($data_items as $row) {
+							$row["order_id"] = $order_id;
+							$this->Model_create->create_order_item($row);
 						}
 
-						$data = array(
-							"payment_method" => $payment_method,
-							
-							"order_id" => $order_id,
-							// "ref_no" => $ref_no,
-							"img" => $img,
-							"date_time" => $date_time,
-							"type" => "0",
-							"status" => "1"
-						);
+						$this->session->unset_userdata("cart");
 
-						if ($this->Model_create->create_order_payment($data)) {
+						// generating
+						if (!file_exists($file_path)) {
+							QRcode::png($qr_link, $file_path, QR_ECLEVEL_L, 6, 4);
+						}
 
+						if ($payment_method == 0) {
 							$this->email->set_newline("\r\n");
 							$this->email->clear();
 							$this->email->from($this->Model_read->get_config_wkey("mail_sender"));
@@ -317,12 +264,78 @@
 							$this->session->set_flashdata("notice", array("success", "Order is successfully added."));
 							
 							redirect("my_orders");
-						} else {
-							$this->session->set_flashdata("notice", array("danger", "Something went wrong, please try again. [0]"));
+						} else { // ONLINE PAYMENT
+							// insert order payment
+							$img = NULL;
+
+							$user_folder = "user_". $user_id;
+							$payment_folder = "order_". $order_id;
+
+							$config["upload_path"] = "./uploads/users/". $user_folder ."/payments/". $payment_folder;
+							$config["allowed_types"] = "gif|jpg|jpeg|png";
+							$config["max_size"] = 5000;
+							$config["encrypt_name"] = TRUE;
+
+							$this->load->library("upload", $config);
+							if (!is_dir("uploads")) {
+								mkdir("./uploads", 0777, TRUE);
+							}
+							if (!is_dir("uploads/users")) {
+								mkdir("./uploads/users", 0777, TRUE);
+							}
+							if (!is_dir("uploads/users/". $user_folder)) {
+								mkdir("./uploads/users/". $user_folder, 0777, TRUE);
+							}
+							if (!is_dir("uploads/users/". $user_folder ."/payments")) {
+								mkdir("./uploads/users/". $user_folder ."/payments", 0777, TRUE);
+							}
+							if (!is_dir("uploads/users/". $user_folder ."/payments/". $payment_folder)) {
+								mkdir("./uploads/users/". $user_folder ."/payments/". $payment_folder, 0777, TRUE);
+							}
+
+							if (isset($_FILES["inp_img"])) {
+								if (!$this->upload->do_upload("inp_img")) {
+									$this->session->set_flashdata("notice", array("warning", $this->upload->display_errors()));
+								} else {
+									$img = $this->upload->data("file_name");
+								}
+							}
+
+							$data = array(
+								"payment_method" => $payment_method,
+								
+								"order_id" => $order_id,
+								// "ref_no" => $ref_no,
+								"img" => $img,
+								"date_time" => $date_time,
+								"type" => "0",
+								"status" => "1"
+							);
+
+							if ($this->Model_create->create_order_payment($data)) {
+
+								$this->email->set_newline("\r\n");
+								$this->email->clear();
+								$this->email->from($this->Model_read->get_config_wkey("mail_sender"));
+								$this->email->to($this->Model_read->get_config_wkey("alerts_email_send_to"));
+								$this->email->subject("New Order!");
+								$this->email->message(
+									"A new order has been placed by ". $user_info["email"] ."[user #". $user_id ."] at ". $date_time
+								);
+								$this->email->send();
+
+								$this->session->set_flashdata("notice", array("success", "Order is successfully added."));
+								
+								redirect("my_orders");
+							} else {
+								$this->session->set_flashdata("notice", array("danger", "Something went wrong, please try again. [0]"));
+							}
 						}
+					} else {
+						$this->session->set_flashdata("notice", array("danger", "Something went wrong, please try again. [1]"));
 					}
 				} else {
-					$this->session->set_flashdata("notice", array("danger", "Something went wrong, please try again. [1]"));
+					$this->session->set_flashdata("notice", array("danger", $unstocked_product ." does not have enough stock. [Available: ". $p_details['qty'] ."]"));
 				}
 			}
 		}
@@ -447,21 +460,28 @@
 				if ($order_info['state'] == '0') { // if order is pending
 					$p_details = $this->Model_read->get_product_wid_user($product_id)->row_array();
 
-					$data_order_item = array(
-						"product_id" => $product_id,
-						"qty" => $product_qty,
-						"price" => $p_details["price"],
-						"type" => "PICKUP",
+					if ($p_details['qty'] >= $product_qty) {
+						$data_order_item = array(
+							"product_id" => $product_id,
+							"qty" => $product_qty,
+							"price" => $p_details["price"],
+							"type" => "PICKUP",
 
-						"adtl_note" => $adtl_note,
-						"order_id" => $order_id
-					);
+							"adtl_note" => $adtl_note,
+							"order_id" => $order_id
+						);
 
-					if ($this->Model_create->create_order_item($data_order_item)) {
-						$this->session->set_flashdata("notice", array("success", "Item is successfully added."));
-						redirect("my_order_details?id=". $order_id);
+						if ($this->Model_create->create_order_item($data_order_item)) {
+							$data_product["qty"] = $p_details['qty'] - $product_qty;
+							$this->Model_update->update_product($product_id, $data_product);
+
+							$this->session->set_flashdata("notice", array("success", "Item is successfully added."));
+							redirect("my_order_details?id=". $order_id);
+						} else {
+							$this->session->set_flashdata("notice", array("danger", "Something went wrong, please try again.[0]"));
+						}
 					} else {
-						$this->session->set_flashdata("notice", array("danger", "Something went wrong, please try again.[0]"));
+						$this->session->set_flashdata("notice", array("danger", $p_details['name'] ." does not have enough stock. [Available: ". $p_details['qty'] ."]"));
 					}
 				} else {
 					$this->session->set_flashdata("notice", array("danger", "Something went wrong, please try again.[1]"));

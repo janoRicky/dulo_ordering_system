@@ -10,15 +10,15 @@ $template_header;
 			<div class="row my-4 justify-content-center">
 				<div class="col-12 col-sm-10 col-md-4 col-lg-5 col-xl-6">
 					<div id="test1" class="carousel slide" data-bs-ride="carousel">
-						<div class="carousel-inner" style="max-height: 500px; border-radius: 2rem;">
+						<div class="carousel-inner" style="max-height: 425px; border-radius: 2rem;">
 							<div class="carousel-item active">
 								<img src="<?=base_url('assets/img/test-1.jpg')?>" class="d-block w-100">
 							</div>
 							<div class="carousel-item">
-								<img src="<?=base_url('assets/img/test-1.jpg')?>" class="d-block w-100">
+								<img src="<?=base_url('assets/img/test-2.jpg')?>" class="d-block w-100">
 							</div>
 							<div class="carousel-item">
-								<img src="<?=base_url('assets/img/test-1.jpg')?>" class="d-block w-100">
+								<img src="<?=base_url('assets/img/test-3.jpg')?>" class="d-block w-100">
 							</div>
 						</div>
 						

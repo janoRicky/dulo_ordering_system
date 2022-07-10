@@ -69,6 +69,12 @@ $template_header;
 									<div class="col-12 col-md-8">
 										PHP <?=$row_info["price"]?>
 									</div>
+									<div class="col-12 col-md-4">
+										<label>Qty:</label>
+									</div>
+									<div class="col-12 col-md-8">
+										<?=$row_info["qty"]?>
+									</div>
 								</div>
 							</div>
 						</div>

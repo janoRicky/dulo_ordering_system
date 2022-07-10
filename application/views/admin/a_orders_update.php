@@ -59,6 +59,7 @@ $template_header;
 											<thead>
 												<tr>
 													<th>Item</th>
+													<th>Qty Available</th>
 													<th>Qty.</th>
 													<th>Price</th>
 													<th>Action</th>
@@ -75,7 +76,10 @@ $template_header;
 															<?=$product["name"]?>
 														</td>
 														<td>
-															<input class="item_qty" type="number" name="item_<?=$key + 1?>_qty" min="1" value="<?=$row["qty"]?>">
+															<?=$product["qty"]?>
+														</td>
+														<td>
+															<input class="item_qty" type="number" name="item_<?=$key + 1?>_qty" min="0" value="<?=$row["qty"]?>">
 														</td>
 														<td class="item_price">
 															<input type="hidden" name="item_<?=$key + 1?>_price" value="<?=$row["price"]?>">
@@ -88,6 +92,7 @@ $template_header;
 												<?php endforeach; ?>
 												<tr id="total_info">
 													<td>Total</td>
+													<td></td>
 													<td id="total_qty">0</td>
 													<td id="total_price">0.00</td>
 													<td>
@@ -105,6 +110,7 @@ $template_header;
 													<th>Name</th>
 													<th>Image</th>
 													<th>Type</th>
+													<th>Qty</th>
 													<th>Price</th>
 													<th>Action</th>
 												</tr>
@@ -132,6 +138,9 @@ $template_header;
 																echo "Deleted Type (Edit Required)";
 															}
 															?>
+														</td>
+														<td class="qty">
+															<?=$row["qty"]?>
 														</td>
 														<td class="price">
 															<?=$row["price"]?>
@@ -174,12 +183,13 @@ $template_header;
 					name: "item_" + ctr + "_id",
 					value: $.trim(p_id)
 				})).append($product.children(".name").html());
+				var $qty_available = $("<td>").html($product.children(".qty").html());
 				var $qty = $("<td>").append($("<input>").attr({
 					class: "item_qty",
 					type: "number",
 					name: "item_" + ctr + "_qty",
-					min: "1",
-					value: "1"
+					min: "0",
+					value: "0"
 				}));
 				var $price = $("<td>").append($("<input>").attr({
 					type: "hidden",
@@ -193,6 +203,7 @@ $template_header;
 
 				$("#total_info").before($("<tr>")
 					.append($description)
+					.append($qty_available)
 					.append($qty)
 					.append($price)
 					.append($action).attr({
