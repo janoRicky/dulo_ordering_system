@@ -77,10 +77,6 @@ $(document).ready(function () {
 			alert("Password must have atleast 1 uppercase (A-Z) characters.");
 			e.preventDefault();
 		}
-
-
-
-		e.preventDefault();
 	});
 
 });
