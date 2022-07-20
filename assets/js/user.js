@@ -47,7 +47,7 @@ $(document).ready(function () {
 		var email = $(this).find("[name='inp_email']").val();
 		var password = $(this).find("[name='inp_password']").val();
 
-		if (!contact_num.startsWith("09")) {
+		if (!contact_num.startsWith("09") && contact_num.length > 0) {
 			alert("Contact number must start with (09).");
 			e.preventDefault();
 		}
