@@ -114,7 +114,7 @@
 				"name" => $name,
 				"img" => $img,
 				"description" => $description,
-				"price_range" => $price_range,
+				// "price_range" => $price_range,
 				"featured" => "0",
 				"status" => "1"
 			);
@@ -428,7 +428,7 @@
 
 		$password = $this->input->post("inp_password");
 
-		if ($name_last == NULL || $name_first == NULL || $gender == NULL || $contact_num == NULL) {
+		if ($name_last == NULL || $name_first == NULL || $gender == NULL) {
 			$this->session->set_flashdata("alert", array("warning", "One or more inputs are empty."));
 		} else {
 			if ($email == NULL || $password == NULL) {

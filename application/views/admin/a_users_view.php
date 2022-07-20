@@ -66,7 +66,6 @@ $template_header;
 												<tr>
 													<th>ID</th>
 													<th>Date / Time</th>
-													<th>Order Type</th>
 													<th>Ordered Qty.</th>
 													<th>Ordered Price</th>
 													<th>State</th>
@@ -94,9 +93,6 @@ $template_header;
 														</td>
 														<td>
 															<?=date("Y-m-d / h:i:s A", strtotime($row["date_time"]))?>
-														</td>
-														<td>
-															<?=$order_type?>
 														</td>
 														<td class="qty">
 															<?php if ($order_type == "NORMAL"): ?>

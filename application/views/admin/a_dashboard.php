@@ -95,6 +95,71 @@ $template_header;
 									</a>
 								</div>
 							</div>
+
+
+							<hr class="my-3">
+							<?php
+							$from = $this->input->get("from") ? $this->input->get("from") : date('Y-m-01');
+							$to = $this->input->get("to") ? $this->input->get("to") : date('Y-m-t');
+
+
+
+							$best_selling = $this->Model_read->get_best_selling_products($from,$to);
+
+							// print_r($best_selling->result_array());
+
+
+							?>
+							<div class="col-12 col-md-8 mx-auto" style="margin-top: 60px; margin-bottom: 300px;">
+								<div class="row">
+									<div class="col-12">
+										<?=form_open(base_url() . "admin/dashboard", "method='GET'"); ?>
+											<h4 class="fw-bold">
+												<i class="fa fa-bar-chart" aria-hidden="true"></i> 
+												Best Selling Products From 
+												<small><input class="text-center" type="date" name="from" value="<?=$from?>"></small>
+												 To 
+												<small><input class="text-center" type="date" name="to" value="<?=$to?>"></small>
+												<button class="btn btn-primary btn-sm" type="submit" value=""> View</button>
+											</h4>
+										<?=form_close(); ?>
+									</div>
+									<div class="col-12 mx-auto">
+										<div class="table-responsive table-striped table-hover table-bordered">
+											<table id="table_main" class="table table-hover table-responsive-md">
+												<tbody>
+													<?php foreach ($best_selling->result_array() as $key => $row):
+														$product = $this->Model_read->get_product_wid($row["product_id"]);
+														if ($product->num_rows() > 0):
+															$product_info = $product->row_array(); ?>
+															<tr class="text-center align-middle">
+																<td class="text-center">
+																	<h3 class="fw-bold">
+																		#<?=$key+1?>
+																	</h3>
+																</td>
+																<td>
+																	<img class="img-responsive img_row img_zoomable" src="<?php
+																	if (!empty($product_info["img"])) {
+																		echo base_url(). 'uploads/products/product_'. $product_info["product_id"] .'/'. $product_info["img"];
+																	} else {
+																		echo base_url(). "assets/img/no_img.png";
+																	}
+																	?>">
+																</td>
+																<td>
+																	<h5 class="fw-bold"><?=$product_info["name"]?></h5>
+																	<h4 class="fw-bold"><?=$row["tot_qty"]?> <small>Sold</small></h4>
+																</td>
+															</tr>
+													<?php endif;
+													endforeach; ?>
+												</tbody>
+											</table>
+										</div>
+									</div>
+								</div>
+							</div>
 						</div>
 					</div>
 				</div>

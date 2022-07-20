@@ -2,7 +2,7 @@
 <div id="modal_sign_up" class="modal">
 	<div class="modal-dialog modal-lg">
 		<div class="modal-content text-light" style="background-color: #000;">
-			<?=form_open(base_url() . "register_account", "method='POST'")?>
+			<?=form_open(base_url() . "register_account", "id='form_register_account' method='POST'")?>
 				<div class="modal-body">
 					<div class="row justify-content-end pe-3 pt-2">
 						<button type="button" class="btn-close btn-close-white rounded-circle" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -20,18 +20,18 @@
 						<div class="col-12 px-3">
 							<div class="row mt-2">
 								<div class="col-12">
-									<h6 class="fw-bold">Last Name: </h6>
-								</div>
-								<div class="col-12">
-									<input class="form-control bg-dark text-light border-dark" type="text" name="inp_name_last" placeholder="*Last Name" autocomplete="off" required="">
-								</div>
-							</div>
-							<div class="row mt-2">
-								<div class="col-12">
 									<h6 class="fw-bold">First Name: </h6>
 								</div>
 								<div class="col-12">
 									<input class="form-control bg-dark text-light border-dark" type="text" name="inp_name_first" placeholder="*First Name" autocomplete="off" required="">
+								</div>
+							</div>
+							<div class="row mt-2">
+								<div class="col-12">
+									<h6 class="fw-bold">Last Name: </h6>
+								</div>
+								<div class="col-12">
+									<input class="form-control bg-dark text-light border-dark" type="text" name="inp_name_last" placeholder="*Last Name" autocomplete="off" required="">
 								</div>
 							</div>
 							<div class="row mt-2">
@@ -102,10 +102,10 @@
 						<div class="col-12 px-3">
 							<div class="row mt-2">
 								<div class="col-12">
-									<h6 class="fw-bold">Contact Num: </h6>
+									<h6 class="fw-bold">Contact Num: <small class="text-secondary">(09## #### ###)</small></h6>
 								</div>
 								<div class="col-12">
-									<input class="form-control bg-dark text-light border-dark" type="text" name="inp_contact_num" placeholder="Contact #" autocomplete="off">
+									<input class="form-control bg-dark text-light border-dark" type="text" pattern="\d*" name="inp_contact_num" placeholder="09#########" maxlength="11" minlength="11" autocomplete="off">
 								</div>
 							</div>
 						</div>

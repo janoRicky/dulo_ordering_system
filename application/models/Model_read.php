@@ -309,4 +309,38 @@ class Model_read extends CI_Model {
 		$query = "SELECT date_time FROM orders AS o WHERE status = '1' $where_state AND EXISTS(SELECT * FROM orders_items AS oi WHERE o.order_id = oi.order_id AND type = 'PICKUP') AND date_time BETWEEN '$date_from' AND '$date_to'";
 		return $this->db->query($query);
 	}
+
+
+
+
+
+
+
+
+
+
+
+	// BEST SELLING PRODUCTS
+
+
+	public function get_best_selling_products($from,$to) {
+		$date_from = date("Y-m-d H:i:s", strtotime($from));
+		$date_to = date("Y-m-d H:i:s", strtotime($to));
+
+		$query = "
+			SELECT *, SUM(qty) as tot_qty 
+			FROM orders_items AS oi 
+			WHERE EXISTS(
+				SELECT order_id 
+				FROM orders AS o 
+				WHERE 
+					o.status = 1 AND 
+					o.state = 2 AND 
+					o.order_id = oi.order_id AND
+					date_time BETWEEN '$date_from' AND '$date_to'
+			)
+			GROUP BY product_id 
+			ORDER BY qty DESC";
+		return $this->db->query($query);
+	}
 }

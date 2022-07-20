@@ -203,7 +203,7 @@
 				"name" => $name,
 				"img" => $img,
 				"description" => $description,
-				"price_range" => $price_range
+				// "price_range" => $price_range
 			);
 			if ($this->Model_update->update_type($type_id, $data)) {
 				$this->session->set_flashdata("alert", array("success", "Type info is successfully updated."));
